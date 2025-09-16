@@ -22,7 +22,7 @@ public class toki_GameMNG : MonoBehaviour
             if (!timestop)
             {
                 Debug.Log("再開");
-                // 時間が再開したので、全ブロックに「ReleaseStoredForce」させる
+
                 foreach (toki_Block b in FindObjectsOfType<toki_Block>())
                 {
                     Debug.Log("移動");

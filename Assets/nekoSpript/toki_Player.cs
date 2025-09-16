@@ -35,5 +35,16 @@ public class toki_Player : MonoBehaviour
 
        
     }
-    
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Block"))
+        {
+            if (collision.rigidbody.isKinematic == false)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
 }
