@@ -150,4 +150,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_fDestroyTime: 5
-  m_sTargetTag: Enemy
+  m_sTargetTag: Respawn

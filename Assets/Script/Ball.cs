@@ -7,7 +7,7 @@ public class Ball : MonoBehaviour
     public float m_fDestroyTime = 10.0f;
 
     [Header("弾を当てる対象のタグ")]
-    public string m_sTargetTag = string.Empty;
+    public string m_sTargetTag = string.Empty;  // 9/16:敵のタグを一時的に"Respawn"にしているので競合解決後"Enemy"を追加し直すこと
 
     private float m_fTimeCount = 0.0f;
 
