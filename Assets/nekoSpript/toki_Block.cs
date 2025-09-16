@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 
@@ -21,7 +22,8 @@ public class toki_Block : MonoBehaviour
         bPos = transform.position;
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
-        Move=false;
+        pushDir=Vector3.zero;
+        Move =false;
 
     }
 
@@ -35,7 +37,16 @@ public class toki_Block : MonoBehaviour
             {
                 // プレイヤー → ブロック の方向ベクトル
                 pushDir = (bPos - pPos);
-                pushDir.y = 0;
+                pushDir.y = 0.0f;
+                if(Mathf.Abs(pushDir.x)>= Mathf.Abs(pushDir.z))
+                {
+                    pushDir.z = 0.0f;
+                }
+                else 
+                { 
+                    pushDir.x = 0.0f; 
+                }
+
                 pushDir=pushDir.normalized;
                 Debug.Log("殴った");
             }
@@ -58,8 +69,13 @@ public class toki_Block : MonoBehaviour
             hit = true;
             // プレイヤーの位置を保存
             pPos = collision.transform.position;
-            Debug.Log("当たった");
+            Debug.Log("プレイヤーに当たった");
+        }
 
+        if (collision.gameObject.CompareTag("Object"))
+        {
+            Move = false;           
+            Debug.Log("壁に当たった");
         }
     }
 
@@ -80,9 +96,6 @@ public class toki_Block : MonoBehaviour
             rb.isKinematic = false;
             Move = true;
             //rb.AddForce(pushDir, ForceMode.VelocityChange);
-
-
-            //pushDir = Vector3.zero; // 一度使ったらリセット
         }
     }
 }
