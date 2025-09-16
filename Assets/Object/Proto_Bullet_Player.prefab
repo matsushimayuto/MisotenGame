@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 3990504558909057035}
   - component: {fileID: 2642385517628524497}
   - component: {fileID: -221537661049096676}
-  - component: {fileID: 1004114803591725837}
+  - component: {fileID: 1421573773726641561}
   m_Layer: 0
-  m_Name: Proto_Bullet
+  m_Name: Proto_Bullet_Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 01891e131aef7fb4882347a60c20308f, type: 2}
+  - {fileID: 2100000, guid: 36ac0710550e0e04f8c30815d4fbbe01, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -137,7 +137,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1004114803591725837
+--- !u!114 &1421573773726641561
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,4 +150,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_fDestroyTime: 5
-  m_sTargetTag: Player
+  m_sTargetTag: Respawn
