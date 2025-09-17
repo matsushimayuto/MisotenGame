@@ -852,6 +852,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb091838d578b84995106507c864a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointA: {x: -16, y: 1.2, z: 3}
+  pointB: {x: -16, y: 1.2, z: -14.5}
+  speed: 3
+  GameMNG: {fileID: 407886747}
 --- !u!135 &719502700
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -935,7 +939,7 @@ Transform:
   m_GameObject: {fileID: 719502698}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.06, y: 1.2, z: 7.83}
+  m_LocalPosition: {x: -16.06, y: 1.2, z: -14.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1081,6 +1085,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb091838d578b84995106507c864a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointA: {x: 7.2, y: 1.2, z: 14}
+  pointB: {x: -9.5, y: 1.2, z: 14}
+  speed: 2
+  GameMNG: {fileID: 407886747}
 --- !u!135 &1186290944
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1164,7 +1172,7 @@ Transform:
   m_GameObject: {fileID: 1186290942}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.01, y: 1.2, z: 13.7}
+  m_LocalPosition: {x: -9.3, y: 1.2, z: 13.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
