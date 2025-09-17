@@ -56,11 +56,11 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.Title:
-                AudioManager.Instance.PlayBGM("TitleBGM", 1f);
+                // AudioManager.Instance.PlayBGM("TitleBGM", 1f);
                 break;
             case GameState.Playing:
                 Time.timeScale = 1f;
-                AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
+                // AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
                 break;
             case GameState.Paused:
                 Time.timeScale = 0f;
