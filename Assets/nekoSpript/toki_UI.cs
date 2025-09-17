@@ -1,0 +1,32 @@
+using UnityEngine;
+
+public class toki_UI : MonoBehaviour
+{
+    public GameObject[] UiObjects;
+    private int num = 2;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        foreach (GameObject obj in UiObjects)
+        {
+            obj.SetActive(false);
+        }
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+    public void Show()
+    {
+        foreach (GameObject obj in UiObjects) { obj.SetActive(true); }
+    }
+
+    public void Hide()
+    {
+        UiObjects[num].SetActive(false);
+        if (num < 0) { return; }
+        num --;
+        
+    }
+}
