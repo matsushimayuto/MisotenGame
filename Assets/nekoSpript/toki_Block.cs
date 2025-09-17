@@ -7,7 +7,7 @@ public class toki_Block : MonoBehaviour
 {
     [Header("ステータス")]
     [SerializeField, Tooltip("GameMNG")] private toki_GameMNG GameMNG; // gameMng
-    [SerializeField, Tooltip("GameMNG")] private float moveForce = 5.0f;//移動速度
+    [SerializeField, Tooltip("移動速度")] private float moveForce = 5.0f;//移動速度
     private bool hit;
     private bool Move;
     private int Movenum;
