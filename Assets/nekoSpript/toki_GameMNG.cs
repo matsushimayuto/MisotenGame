@@ -5,6 +5,7 @@ public class toki_GameMNG : MonoBehaviour
 {
     public bool timestop;
     [SerializeField, Tooltip("ブロック移動回数")] public int num=3;//ブロック移動回数
+    public toki_UI UI;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,7 +20,7 @@ public class toki_GameMNG : MonoBehaviour
         {
             timestop = !timestop;
             Debug.Log("時間止めた");
-            
+
             if (!timestop)
             {
                 Debug.Log("再開");
@@ -30,6 +31,7 @@ public class toki_GameMNG : MonoBehaviour
                     b.ReleaseStoredForce(0);
                 }
             }
+            else { UI.Show(); }
             
         }
     }
@@ -52,6 +54,7 @@ public class toki_GameMNG : MonoBehaviour
             {
                 b.addMovenum();
             }
+            UI.Hide();
         }
     }
 }
