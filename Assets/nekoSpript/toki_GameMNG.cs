@@ -4,6 +4,7 @@ using UnityEngine;
 public class toki_GameMNG : MonoBehaviour
 {
     public bool timestop;
+    [SerializeField, Tooltip("ブロック移動回数")] public int num=3;//ブロック移動回数
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -26,10 +27,31 @@ public class toki_GameMNG : MonoBehaviour
                 foreach (toki_Block b in FindObjectsOfType<toki_Block>())
                 {
                     Debug.Log("移動");
-                    b.ReleaseStoredForce();
+                    b.ReleaseStoredForce(0);
                 }
             }
             
+        }
+    }
+
+    public void Check()
+    {
+        bool _check = true;
+        foreach (toki_Block b in FindObjectsOfType<toki_Block>())
+        {
+            Debug.Log("移動");
+            if(b.CheckMove())
+            {
+                _check = false;
+            }
+        }
+
+        if(_check)
+        {
+            foreach (toki_Block b in FindObjectsOfType<toki_Block>())
+            {
+                b.addMovenum();
+            }
         }
     }
 }
