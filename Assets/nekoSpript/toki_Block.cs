@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
@@ -9,11 +10,12 @@ public class toki_Block : MonoBehaviour
     [SerializeField, Tooltip("GameMNG")] private float moveForce = 5.0f;//移動速度
     private bool hit;
     private bool Move;
+    private int Movenum;
     private Vector3 pPos;   //プレイヤーの位置
     private Vector3 bPos;   //自身の位置
-    private Rigidbody rb;   
-    private Vector3 pushDir;    //進行方向（配列化予定）
-    
+    private Rigidbody rb;
+    private Vector3[] pushDir;    //進行方向（配列化予定）
+    private HashSet<GameObject> collidedObjects = new HashSet<GameObject>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,8 +24,11 @@ public class toki_Block : MonoBehaviour
         bPos = transform.position;
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
-        pushDir=Vector3.zero;
+        pushDir = new Vector3[GameMNG.num];
+        for (int i = 0; i < GameMNG.num; i++) { pushDir[i]= Vector3.zero; }
+        
         Move =false;
+        Movenum = 0;
 
     }
 
@@ -36,19 +41,23 @@ public class toki_Block : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.P))
             {
                 // プレイヤー → ブロック の方向ベクトル
-                pushDir = (bPos - pPos);
-                pushDir.y = 0.0f;
-                if(Mathf.Abs(pushDir.x)>= Mathf.Abs(pushDir.z))
+                pushDir[Movenum] = (bPos - pPos);
+                pushDir[Movenum].y = 0.0f;
+                if (Mathf.Abs(pushDir[Movenum].x)>= Mathf.Abs(pushDir[Movenum].z))
                 {
-                    pushDir.z = 0.0f;
+                    pushDir[Movenum].z = 0.0f;
                 }
                 else 
-                { 
-                    pushDir.x = 0.0f; 
+                {
+                    pushDir[Movenum].x = 0.0f; 
                 }
 
-                pushDir=pushDir.normalized;
+                pushDir[Movenum] = pushDir[Movenum].normalized;
                 Debug.Log("殴った");
+
+                Movenum++;
+                if (Movenum > 2) { Movenum=2; }
+               
             }
         }
     }
@@ -56,7 +65,7 @@ public class toki_Block : MonoBehaviour
     {
         if(Move)
         {
-            Vector3 move = pushDir * moveForce * Time.fixedDeltaTime;
+            Vector3 move = pushDir[Movenum] * moveForce * Time.fixedDeltaTime;
             rb.MovePosition(rb.position + move);
         }
     }
@@ -74,8 +83,18 @@ public class toki_Block : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Object"))
         {
-            Move = false;           
-            Debug.Log("壁に当たった");
+            if (!collidedObjects.Contains(collision.gameObject))
+            {
+                Debug.Log("初めて当たった相手: " + collision.gameObject.name);
+                collidedObjects.Add(collision.gameObject);
+                Move = false;           //更新終了
+                rb.isKinematic = true;  //動かないように
+                Debug.Log("壁に当たった");
+
+                //gameMNGの関数呼び出し
+                GameMNG.Check();
+            }
+            
         }
     }
 
@@ -87,15 +106,33 @@ public class toki_Block : MonoBehaviour
             hit = false;
             Debug.Log("離れた");
         }
+        Debug.Log("離れた");
+        // 衝突が終わったらリストから削除
+        //collidedObjects.Remove(collision.gameObject);
     }
 
-    public void ReleaseStoredForce()
+    public void ReleaseStoredForce(int i)
     {
-        if (pushDir != Vector3.zero)
+        if (pushDir[i] != Vector3.zero)
         {
             rb.isKinematic = false;
             Move = true;
+            Movenum = i;
+            Debug.Log(pushDir[i]);
             //rb.AddForce(pushDir, ForceMode.VelocityChange);
         }
     }
+
+    public bool CheckMove()
+    {
+        if (Move) { return true; }
+        return false;
+    }
+    public void addMovenum()
+    {
+        Movenum++;
+        if(Movenum > 2) { return; }
+        ReleaseStoredForce(Movenum);
+    }
+
 }
