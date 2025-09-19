@@ -30,13 +30,15 @@ public class UIManager : MonoBehaviour
     {
         // 保存したゲーム状態ごとのUIをイベント関数にて呼び出し、読み込み
         GameManager.Instance.OnStateChanged += HandleStateChanged;
-        HandleStateChanged(GameManager.Instance.CuurentState);  // 初期状態を反映
-    }
+        Debug.Log("UI表示");
+        HandleStateChanged(GameManager.Instance.CuurentState);  // ゲーム開始時のUIを表示
+    } 
 
     // HandleStateChanged関数 : 引数:GameState(読み込みたいゲーム状態を入力)、戻り値:なし
-    // GameManagerからCuurentStateを読み込むために使う関数(今のところは・・・)
+    // GameManagerからCuurentStateを受け取り、設定してあるUIを表示する関数
     public void HandleStateChanged(GameState state)
     {
+        
         // 読み込んだ状態に当てはまるUIを読み込み、設定
         foreach (var set in uiSets)
         {

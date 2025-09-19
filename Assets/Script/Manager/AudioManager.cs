@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    [Header("AudioMixerの設定")] // 今はまだ使わない
+    [Header("AudioMixerの設定")] 
     public AudioMixer mixer;
     public AudioMixerGroup bgmGroup;
     public AudioMixerGroup seGroup;
@@ -24,8 +24,8 @@ public class AudioManager : MonoBehaviour
     private Dictionary<string, AudioClip> bgmDict = new();
     private Dictionary<string, AudioClip> seDict = new();
     private Dictionary<string, AudioClip> envDict = new();
-    private Dictionary<string, bool> loopDict = new();
-    private Dictionary<string, float> volumeDict = new();
+    private Dictionary<string, bool>      loopDict = new();
+    private Dictionary<string, float>     volumeDict = new();
  
     [Tooltip("クロスフェード用変数")]
     private AudioSource bgmSourceA;
@@ -40,7 +40,7 @@ public class AudioManager : MonoBehaviour
     //ーーーーーーーーーーーーーーーーーーーーーーーーー
     // 以下に関数記述
 
-    // Singletonやクロスフェードの初期化を行う関数
+    // SingletonやAudioMixerなどの初期化を行う関数
     private void Awake()
     {
         // AudioManagerの初期化
@@ -134,7 +134,7 @@ public class AudioManager : MonoBehaviour
     // クロスフェード用コルーチン
     private IEnumerator CrossFade(AudioSource from, AudioSource to, float time, float targetVal)
     {
-        // フェード用の変数を初期化、BGMを再生
+        // フェード用の変数を初期化
         float t = 0.0f;
         to.volume = 0f;
 
