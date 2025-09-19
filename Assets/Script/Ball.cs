@@ -1,3 +1,5 @@
+// プレイヤーの弾の動き関連
+
 using Unity.VisualScripting;
 using UnityEngine;
 

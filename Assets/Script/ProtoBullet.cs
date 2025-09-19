@@ -1,3 +1,5 @@
+// “G‚Ì’e‚Ì“®‚«ŠÖ˜A
+
 using UnityEngine;
 
 public class ProtoBullet : MonoBehaviour
@@ -33,6 +35,7 @@ public class ProtoBullet : MonoBehaviour
         time += Time.deltaTime;
     }
 
+    // ’e‚Ì¶¬‚Æ”­Ë
     void Shoot()
     {
         if (target != null)

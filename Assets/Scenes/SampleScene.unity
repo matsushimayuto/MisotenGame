@@ -674,7 +674,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1541309368594835671, guid: 46bae615ae5c31046b692565d6b69012, type: 3}
       propertyPath: m_TagString
-      value: Respawn
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 1694974994646306202, guid: 46bae615ae5c31046b692565d6b69012, type: 3}
       propertyPath: m_LocalPosition.x
@@ -882,7 +882,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1541309368594835671, guid: 46bae615ae5c31046b692565d6b69012, type: 3}
       propertyPath: m_TagString
-      value: Respawn
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 1694974994646306202, guid: 46bae615ae5c31046b692565d6b69012, type: 3}
       propertyPath: m_LocalPosition.x
