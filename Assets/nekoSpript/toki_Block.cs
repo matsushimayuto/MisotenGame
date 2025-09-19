@@ -15,7 +15,7 @@ public class toki_Block : MonoBehaviour
     private Vector3 bPos;   //自身の位置
     private Rigidbody rb;
     private Vector3[] pushDir;    //進行方向（配列化予定）
-    private HashSet<GameObject> collidedObjects = new HashSet<GameObject>();
+    //private HashSet<GameObject> collidedObjects = new HashSet<GameObject>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -78,7 +78,6 @@ public class toki_Block : MonoBehaviour
             hit = true;
             // プレイヤーの位置を保存
             pPos = collision.transform.position;
-            Debug.Log("プレイヤーに当たった");
         }
 
         //if (collision.gameObject.CompareTag("Object"))
@@ -96,7 +95,7 @@ public class toki_Block : MonoBehaviour
         //    }
         //}
 
-        if (collision.gameObject.CompareTag("Object"))
+        if (collision.gameObject.CompareTag("Object") || collision.gameObject.CompareTag("Block"))
         {
             // 接触点の法線
             Vector3 contactNormal = collision.contacts[0].normal;
@@ -126,9 +125,8 @@ public class toki_Block : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             hit = false;
-            Debug.Log("離れた");
+            
         }
-        Debug.Log("離れた");
         // 衝突が終わったらリストから削除
         //collidedObjects.Remove(collision.gameObject);
     }
@@ -141,7 +139,6 @@ public class toki_Block : MonoBehaviour
             rb.isKinematic = false;
             Move = true;
             Movenum = i;
-            Debug.Log(pushDir[i]);
             //rb.AddForce(pushDir, ForceMode.VelocityChange);
         }
     }
