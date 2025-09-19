@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 public class toki_Block : MonoBehaviour
 {
@@ -15,8 +12,7 @@ public class toki_Block : MonoBehaviour
     private Vector3 bPos;   //自身の位置
     private Rigidbody rb;
     private Vector3[] pushDir;    //進行方向（配列化予定）
-    //private HashSet<GameObject> collidedObjects = new HashSet<GameObject>();
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         hit = false;
@@ -32,7 +28,6 @@ public class toki_Block : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         bool stop = GameMNG.timestop;
@@ -43,6 +38,8 @@ public class toki_Block : MonoBehaviour
                 // プレイヤー → ブロック の方向ベクトル
                 pushDir[Movenum] = (bPos - pPos);
                 pushDir[Movenum].y = 0.0f;
+
+                //ブロックが斜めに行かないように値が大きい方に飛ばす
                 if (Mathf.Abs(pushDir[Movenum].x) >= Mathf.Abs(pushDir[Movenum].z))
                 {
                     pushDir[Movenum].z = 0.0f;
@@ -52,12 +49,12 @@ public class toki_Block : MonoBehaviour
                     pushDir[Movenum].x = 0.0f;
                 }
 
+                //正規化
                 pushDir[Movenum] = pushDir[Movenum].normalized;
                 Debug.Log("殴った");
 
                 Movenum++;
                 if (Movenum > 2) { Movenum = 2; }
-
             }
         }
     }
@@ -73,27 +70,13 @@ public class toki_Block : MonoBehaviour
     //プレイヤーが当たっているとき
     void OnCollisionEnter(Collision collision)
     {
+        //プレイヤーがブロックと当たっているか
         if (collision.gameObject.CompareTag("Player"))
         {
             hit = true;
             // プレイヤーの位置を保存
             pPos = collision.transform.position;
         }
-
-        //if (collision.gameObject.CompareTag("Object"))
-        //{
-        //    if (!collidedObjects.Contains(collision.gameObject))
-        //    {
-        //        Debug.Log("初めて当たった相手: " + collision.gameObject.name);
-        //        collidedObjects.Add(collision.gameObject);
-        //        Move = false;           //更新終了
-        //        rb.isKinematic = true;  //動かないように
-        //        Debug.Log("壁に当たった");
-
-        //        //gameMNGの関数呼び出し
-        //        GameMNG.Check();
-        //    }
-        //}
 
         if (collision.gameObject.CompareTag("Object") || collision.gameObject.CompareTag("Block"))
         {
@@ -107,7 +90,7 @@ public class toki_Block : MonoBehaviour
             {
                 Debug.Log("正面から壁に当たった: " + collision.gameObject.name);
                 Move = false;
-                rb.isKinematic = true;
+                rb.isKinematic = true;//ブロック固定
 
                 // GameMNGに通知
                 GameMNG.Check();
@@ -127,27 +110,27 @@ public class toki_Block : MonoBehaviour
             hit = false;
             
         }
-        // 衝突が終わったらリストから削除
-        //collidedObjects.Remove(collision.gameObject);
     }
 
+    //このフェーズ中のこのブロックの動き
     public void ReleaseStoredForce(int i)
     {
         if (pushDir[i] != Vector3.zero)
         {
-
-            rb.isKinematic = false;
+            rb.isKinematic = false; //固定化解除
             Move = true;
-            Movenum = i;
-            //rb.AddForce(pushDir, ForceMode.VelocityChange);
+            Movenum = i;    //初回用必須
         }
     }
 
+    //このブロックが動いているかチェック
     public bool CheckMove()
     {
         if (Move) { return true; }
         return false;
     }
+
+    //フェーズ進行用
     public void addMovenum()
     {
         Movenum++;

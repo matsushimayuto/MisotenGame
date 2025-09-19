@@ -12,8 +12,6 @@ public class toki_GameMNG : MonoBehaviour
         timestop = false;
     }
 
-    // Update is called once per frame
-
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.T))
@@ -36,6 +34,7 @@ public class toki_GameMNG : MonoBehaviour
         }
     }
 
+    //全ブロック停止中か判定
     public void Check()
     {
         bool _check = true;
@@ -44,17 +43,19 @@ public class toki_GameMNG : MonoBehaviour
             Debug.Log("移動");
             if (b.CheckMove())
             {
+                //1つ以上動いている
                 _check = false;
             }
         }
 
         if (_check)
         {
+            //全てのブロックが止まっているので次のふぇーずへ移行
             foreach (toki_Block b in FindObjectsOfType<toki_Block>())
             {
                 b.addMovenum();
             }
-            UI.Hide();
+            UI.Hide();//フェーズUI（仮）減らす処理
         }
     }
 }

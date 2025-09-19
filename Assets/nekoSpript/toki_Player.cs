@@ -36,13 +36,14 @@ public class toki_Player : MonoBehaviour
        
     }
 
+    //プレイヤーとブロックの当たり判定
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Block"))
         {
-            if (collision.rigidbody.isKinematic == false)
+            if (collision.rigidbody.isKinematic == false)//ブロックが動いているとき
             {
-                Destroy(gameObject);
+                Destroy(gameObject);    //破壊
             }
         }
     }
