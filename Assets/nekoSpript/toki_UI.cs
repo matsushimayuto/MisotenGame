@@ -12,11 +12,6 @@ public class toki_UI : MonoBehaviour
             obj.SetActive(false);
         }
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void Show()
     {
         foreach (GameObject obj in UiObjects) { obj.SetActive(true); }
