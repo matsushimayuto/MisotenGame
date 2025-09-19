@@ -1,3 +1,5 @@
+// フィールドの動き関連
+
 using UnityEngine;
 
 public class ProtoField : MonoBehaviour

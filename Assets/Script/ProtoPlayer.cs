@@ -1,3 +1,5 @@
+// プレイヤーの挙動
+
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -67,6 +69,7 @@ public class ProtoPlayer : MonoBehaviour
         }
     }
 
+    // 弾の生成と発射
     void Shoot()
     {
         // オブジェクトの位置と向きで弾を生成
