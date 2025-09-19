@@ -49,18 +49,18 @@ public class GameManager : MonoBehaviour
     // ※ゲーム中にポーズ画面を出したい場合は、ChangeState(GameState.Paused)で可能！
     public void ChangeState(GameState newState)
     {
-        CuurentState = newState;
         SetState(newState); // 読み込むシーンに応じてUIをセット
+        //CuurentState = newState;
 
         // 状態遷移時の共通処理を以下に記述
         switch (newState)
         {
             case GameState.Title:
-                AudioManager.Instance.PlayBGM("TitleBGM", 1f);
+                // AudioManager.Instance.PlayBGM("TitleBGM", 1f);
                 break;
             case GameState.Playing:
                 Time.timeScale = 1f;
-                AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
+                // AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
                 break;
             case GameState.Paused:
                 Time.timeScale = 0f;
@@ -101,7 +101,8 @@ public class GameManager : MonoBehaviour
     // ChangedStateで呼び出すためこの関数は基本的に使用しない
     public void SetState(GameState newstate)
     {
-        if(CuurentState == newstate) { return; }
+        if (CuurentState == newstate) { return; }
+        Debug.Log("SetUI");
         CuurentState = newstate;
         OnStateChanged?.Invoke(newstate);
     }
