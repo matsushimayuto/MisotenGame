@@ -1,11 +1,11 @@
 using UnityEngine;
 
 
-public class toki_GameMNG : MonoBehaviour
+public class GameMNG : MonoBehaviour
 {
     public bool timestop;
     [SerializeField, Tooltip("ブロック移動回数")] public int num = 3;//ブロック移動回数
-    public toki_UI UI;
+    public UI UI;
 
     void Start()
     {
@@ -23,7 +23,7 @@ public class toki_GameMNG : MonoBehaviour
             {
                 Debug.Log("再開");
 
-                foreach (toki_Block b in FindObjectsOfType<toki_Block>())
+                foreach (Block b in FindObjectsOfType<Block>())
                 {
                     Debug.Log("移動");
                     b.ReleaseStoredForce(0);
@@ -38,7 +38,7 @@ public class toki_GameMNG : MonoBehaviour
     public void Check()
     {
         bool _check = true;
-        foreach (toki_Block b in FindObjectsOfType<toki_Block>())
+        foreach (Block b in FindObjectsOfType<Block>())
         {
             Debug.Log("移動");
             if (b.CheckMove())
@@ -51,7 +51,7 @@ public class toki_GameMNG : MonoBehaviour
         if (_check)
         {
             //全てのブロックが止まっているので次のふぇーずへ移行
-            foreach (toki_Block b in FindObjectsOfType<toki_Block>())
+            foreach (Block b in FindObjectsOfType<Block>())
             {
                 b.addMovenum();
             }
