@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class toki_Player : MonoBehaviour
+public class Player : MonoBehaviour
 {
     [Header("ステータス")]
     [SerializeField, Tooltip("移動速度")] private float moveSpeed = 5.0f; // 移動速度

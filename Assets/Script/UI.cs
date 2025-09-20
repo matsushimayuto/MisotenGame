@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class toki_UI : MonoBehaviour
+public class UI : MonoBehaviour
 {
     public GameObject[] UiObjects;
     private int num = 2;

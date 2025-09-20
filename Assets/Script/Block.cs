@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class toki_Block : MonoBehaviour
+public class Block : MonoBehaviour
 {
     [Header("ステータス")]
-    [SerializeField, Tooltip("GameMNG")] private toki_GameMNG GameMNG; // gameMng
+    [SerializeField, Tooltip("GameMNG")] private GameMNG GameMNG; // gameMng
     [SerializeField, Tooltip("移動速度")] private float moveForce = 5.0f;//移動速度
     private bool hit;
     private bool Move;
