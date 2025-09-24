@@ -7,11 +7,14 @@ public class Block : MonoBehaviour
     [SerializeField, Tooltip("移動速度")] private float moveForce = 5.0f;//移動速度
     private bool hit;
     private bool Move;
+    private bool hitObjectFront;
     private int Movenum;
     private Vector3 pPos;   //プレイヤーの位置
     private Vector3 bPos;   //自身の位置
     private Rigidbody rb;
     private Vector3[] pushDir;    //進行方向（配列化予定）
+    private float hitFrontTimer = 0f;
+    private float hitFrontDuration = 0.1f; // true を維持する時間（秒）
 
     void Start()
     {
@@ -26,10 +29,20 @@ public class Block : MonoBehaviour
         Move = false;
         Movenum = 0;
 
+        hitObjectFront = false;
     }
 
     void Update()
     {
+        if (hitFrontTimer > 0f)
+        {
+            hitFrontTimer -= Time.deltaTime;
+            if (hitFrontTimer <= 0f)
+            {
+                hitObjectFront = false;
+            }
+        }
+
         bool stop = GameMNG.timestop;
         if (hit && stop)
         {
@@ -92,6 +105,9 @@ public class Block : MonoBehaviour
                 Move = false;
                 rb.isKinematic = true;//ブロック固定
 
+                hitObjectFront = true;
+                hitFrontTimer = hitFrontDuration;
+
                 // GameMNGに通知
                 GameMNG.Check();
             }
@@ -120,6 +136,7 @@ public class Block : MonoBehaviour
             rb.isKinematic = false; //固定化解除
             Move = true;
             Movenum = i;    //初回用必須
+            //hitObjectFront = false;
         }
     }
 
@@ -138,4 +155,17 @@ public class Block : MonoBehaviour
         ReleaseStoredForce(Movenum);
     }
 
+    // 正面衝突して Object に当たったかどうか
+    public bool GetHitObjectFront()
+    {
+        return hitObjectFront; 
+    }
+
+    // 現在の移動方向を取得
+    public Vector3 GetMoveVector()
+    {
+        if (Movenum < 0 || Movenum >= pushDir.Length)
+            return Vector3.zero;
+        return pushDir[Movenum];
+    }
 }
