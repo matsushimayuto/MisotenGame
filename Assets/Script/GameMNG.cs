@@ -1,11 +1,16 @@
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 
 public class GameMNG : MonoBehaviour
 {
     public bool timestop;
+    public Timer timer;
     [SerializeField, Tooltip("ブロック移動回数")] public int num = 3;//ブロック移動回数
-    public UI UI;
+    [SerializeField, Tooltip("時間停止(秒)")] private float stopDuration = 10.0f;
+    private int a=0;
+   public UI UI;
+
 
     void Start()
     {
@@ -17,20 +22,48 @@ public class GameMNG : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.T))
         {
             timestop = !timestop;
-            Debug.Log("時間止めた");
 
-            if (!timestop)
+            if (timestop)
             {
-                Debug.Log("再開");
-
-                foreach (Block b in FindObjectsOfType<Block>())
-                {
-                    Debug.Log("移動");
-                    b.ReleaseStoredForce(0);
-                }
+                timer.StartTimer(stopDuration, EndTimeStop);
+                Debug.Log("時間止めた");
+                UI.Show();
             }
-            else { UI.Show(); }
+            else
+            {
+                a = 3;
+                EndTimeStop();
+                
+            }
+            
+        }
+    }
 
+    public void EndTimeStop()
+    {
+        // タイマーが走っていたら止める
+        timer.StopTimer();
+        a++;
+        if (a < num)
+        {
+            Debug.Log("フェーズ"+a+"終了");
+            foreach (Block b in FindObjectsByType<Block>(FindObjectsSortMode.None))
+            {
+                b.addMovenum(timestop);
+            }
+            timer.StartTimer(stopDuration, EndTimeStop);
+        }
+        else
+        {
+            timestop=false;
+            Debug.Log("時間停止終了");
+
+            // ブロック移動開始処理
+            foreach (Block b in FindObjectsByType<Block>(FindObjectsSortMode.None))
+            {
+                Debug.Log("移動");
+                b.ReleaseStoredForce(0);
+            }
         }
     }
 
@@ -53,7 +86,7 @@ public class GameMNG : MonoBehaviour
             //全てのブロックが止まっているので次のふぇーずへ移行
             foreach (Block b in FindObjectsOfType<Block>())
             {
-                b.addMovenum();
+                b.addMovenum(timestop);
             }
             UI.Hide();//フェーズUI（仮）減らす処理
         }

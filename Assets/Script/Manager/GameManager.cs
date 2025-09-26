@@ -1,10 +1,8 @@
 /*
  *GameManager.cs
- *ゲームの状態・更新やシーンを管理・実行するためのスクリプト
+ *ゲームの状態・更新を管理・実行するためのスクリプト
  */
-using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 // ゲーム状態管理用データ     ーーー他に追加したい状態があればここに記入
 public enum GameState
@@ -26,8 +24,12 @@ public class GameManager : MonoBehaviour
     [Tooltip("現在・前の状態を取得・設定する用の変数")]
     public GameState CuurentState { get; private set; }
 
-    [Tooltip("ゲームの状態を変更したときに実行する関数を格納するイベント用変数")]
+    [Tooltip("ゲームの状態を変更したときに実行するイベントを格納する変数")]
     public event System.Action<GameState> OnStateChanged;
+
+    [SerializeField]
+    public GameState StateNo = 0;
+
     //ーーーーーーーーーーーーーーーーーーーーーーーーーーー
     // 以下に関数を記述
 
@@ -47,6 +49,7 @@ public class GameManager : MonoBehaviour
     // ChangeState関数 : 引数:GameState(移行させたい状態を記入)、戻り値:なし
     // 現在のゲーム状態を変えるときに使用する関数
     // ※ゲーム中にポーズ画面を出したい場合は、ChangeState(GameState.Paused)で可能！
+    // 基本的にはUIの表示切替等で扱う予定
     public void ChangeState(GameState newState)
     {
         SetState(newState); // 読み込むシーンに応じてUIをセット
@@ -74,26 +77,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // LoadScene関数 : 引数:string(遷移したいシーン名を記入),GameState(移行する状態を記入)、戻り値:なし
-    // シーン遷移時に使用する関数　※遷移処理を一つにまとめたいのでこれを使用してください
-    // 使用例：GameManager.Instance.LoadScene("Title", GameState.Title)
-    public void LoadScene(string sceneName, GameState nextState = GameState.Playing)
+    // SetStateByScene関数 : 引数:SceneName(呼び出したいシーン名)、戻り値:なし
+    // SceneLoaderからの呼び出しに応じて、対応したシーンに遷移後にゲーム状態をシーンに合わせる
+    // 特定のシーンで遷移後に行いたい処理をここに追加することも可能
+    // この関数はSceneLoadeで扱うので、基本的には他スクリプトで使用しない
+    public void SetStateByScene(SceneName newScene)
     {
-        StartCoroutine(LoadSceneRoutine(sceneName, nextState));
-    }
-    private IEnumerator LoadSceneRoutine(string sceneName, GameState nextState)
-    {
-        // シーン移行するごとにロードシーンを挿む場合はこれを使用
-        //ChangeState(GameState.Loading);
-
-        AsyncOperation async = SceneManager.LoadSceneAsync(sceneName);
-        while (!async.isDone)
+        switch(newScene)
         {
-            yield return null;
+            case SceneName.Title:
+                ChangeState(GameState.Title);
+                break;
+            case SceneName.Stage:
+                ChangeState(GameState.Playing);
+                break;
+            case SceneName.GameOver:
+                ChangeState(GameState.GameOver);
+                break;
         }
-
-        // シーン遷移終了後に状態を遷移
-        ChangeState(nextState);
     }
 
     // SetState関数 : 引数:GameState(変更したいゲーム状態を入れる)、戻り値:なし
