@@ -66,8 +66,6 @@ public class Block : MonoBehaviour
                 pushDir[Movenum] = pushDir[Movenum].normalized;
                 Debug.Log("殴った");
 
-                Movenum++;
-                if (Movenum > 2) { Movenum = 2; }
             }
         }
     }
@@ -80,7 +78,7 @@ public class Block : MonoBehaviour
         }
     }
 
-    //プレイヤーが当たっているとき
+    //当たっているとき
     void OnCollisionEnter(Collision collision)
     {
         //プレイヤーがブロックと当たっているか
@@ -93,6 +91,7 @@ public class Block : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Object") || collision.gameObject.CompareTag("Block"))
         {
+            Debug.Log("当たり判定"+Movenum);
             // 接触点の法線
             Vector3 contactNormal = collision.contacts[0].normal;
             // 自分の進行方向（直前の pushDir）
@@ -131,11 +130,12 @@ public class Block : MonoBehaviour
     //このフェーズ中のこのブロックの動き
     public void ReleaseStoredForce(int i)
     {
+        Movenum = i;    //初回用必須
         if (pushDir[i] != Vector3.zero)
         {
             rb.isKinematic = false; //固定化解除
             Move = true;
-            Movenum = i;    //初回用必須
+            //Movenum = i;    //初回用必須
             //hitObjectFront = false;
         }
     }
@@ -148,10 +148,12 @@ public class Block : MonoBehaviour
     }
 
     //フェーズ進行用
-    public void addMovenum()
+    public void addMovenum(bool _TimeStop)
     {
+
         Movenum++;
-        if (Movenum > 2) { return; }
+        Debug.Log("加算時" + Movenum);
+        if (Movenum > 2|| _TimeStop) { return; }
         ReleaseStoredForce(Movenum);
     }
 
