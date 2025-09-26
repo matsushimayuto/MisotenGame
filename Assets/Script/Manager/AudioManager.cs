@@ -68,7 +68,7 @@ public class AudioManager : MonoBehaviour
 
 
         // ------最初に開始したい状態を選んで書いてください------
-        GameManager.Instance.ChangeState(GameState.Title);
+        //GameManager.Instance.ChangeState(GameState.Title);
     }
 
     // PlayBGM : 引数:string(再生するBGMの名前), float(フェードにかける時間), 戻り値:なし 
