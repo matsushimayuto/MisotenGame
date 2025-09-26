@@ -150,10 +150,13 @@ public class Block : MonoBehaviour
     //フェーズ進行用
     public void addMovenum(bool _TimeStop)
     {
-
         Movenum++;
+        if (Movenum > 2)
+        {
+            Movenum = 2;
+        }
         Debug.Log("加算時" + Movenum);
-        if (Movenum > 2|| _TimeStop) { return; }
+        if (_TimeStop) { return; }
         ReleaseStoredForce(Movenum);
     }
 
