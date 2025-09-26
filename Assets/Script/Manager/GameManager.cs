@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     [Tooltip("現在・前の状態を取得・設定する用の変数")]
     public GameState CuurentState { get; private set; }
 
-    [Tooltip("ゲームの状態を変更したときに実行する関数を格納するイベント用変数")]
+    [Tooltip("ゲームの状態を変更したときに実行するイベントを格納する変数")]
     public event System.Action<GameState> OnStateChanged;
 
     [SerializeField]
@@ -77,7 +77,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // SetStateByScene関数 : 引数:SceneName
+    // SetStateByScene関数 : 引数:SceneName(呼び出したいシーン名)、戻り値:なし
+    // SceneLoaderからの呼び出しに応じて、対応したシーンに遷移後にゲーム状態をシーンに合わせる
+    // 特定のシーンで遷移後に行いたい処理をここに追加することも可能
+    // この関数はSceneLoadeで扱うので、基本的には他スクリプトで使用しない
     public void SetStateByScene(SceneName newScene)
     {
         switch(newScene)

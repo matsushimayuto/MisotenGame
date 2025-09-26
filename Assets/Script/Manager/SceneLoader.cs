@@ -53,7 +53,7 @@ public class SceneLoader : MonoBehaviour
         if (useTransition)
             StartCoroutine(LoadSceneWithFade(scene));
         else
-            LoadScene(scene);
+            Load(scene);
     }
 
     private void Load(SceneName scene)
@@ -67,7 +67,7 @@ public class SceneLoader : MonoBehaviour
         // フェードアウト演出
         yield return new WaitForSeconds(0.5f);
 
-        LoadScene(scene);
+        Load(scene);
 
         // フェードイン演出
         yield return null;

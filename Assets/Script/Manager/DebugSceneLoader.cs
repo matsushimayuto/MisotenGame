@@ -7,7 +7,7 @@ public class DebugSceneLoader : MonoBehaviour
 
     private void Start()
     {
-        if(FindObjectOfType<GameManager>() == null)
+        if(Object.FindFirstObjectByType<GameManager>() == null)
         {
             new GameObject("GameManager").AddComponent<GameManager>();
             new GameObject("SceneLoader").AddComponent<SceneLoader>();
