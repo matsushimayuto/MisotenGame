@@ -1,0 +1,52 @@
+using UnityEngine;
+
+public class Arrow : MonoBehaviour
+{
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        transform.rotation = Quaternion.Euler(90.0f, 0.0f, 0.0f);
+        transform.gameObject.SetActive(false);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    // ñÓàÛÇÃï`âÊ
+    public void Draw(Vector3 _pushDir, Vector3 _blockPos, Vector3 _blockScale)
+    {
+        transform.gameObject.SetActive(true);
+        if (_pushDir.x != 0)
+        {
+            if(_pushDir.x > 0.0f)   // âE
+            {
+                transform.position = new Vector3(_blockPos.x + _blockScale.x * 0.5f, 4.6f, _blockPos.z);
+                Debug.Log("âE");
+            }
+            else                    // ç∂
+            {
+                transform.position = new Vector3(_blockPos.x - _blockScale.x * 0.5f, 4.6f, _blockPos.z);
+                transform.Rotate(0.0f, 0.0f, 180.0f);
+                Debug.Log("ç∂");
+            }
+        }
+        else
+        {
+            if (_pushDir.z > 0.0f)  // è„
+            {
+                transform.position = new Vector3(_blockPos.x, 4.6f, _blockPos.z + _blockScale.z * 0.5f);
+                transform.Rotate(0.0f, 0.0f, 90.0f);
+                Debug.Log("è„");
+            }
+            else                    // â∫
+            {
+                transform.position = new Vector3(_blockPos.x, 4.6f, _blockPos.z - _blockScale.z * 0.5f);
+                transform.Rotate(0.0f, 0.0f, -90.0f);
+                Debug.Log("â∫");
+            }
+        }
+    }
+}
