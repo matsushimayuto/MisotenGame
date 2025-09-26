@@ -46,6 +46,11 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Start()
+    {
+        ChangeState(StateNo);
+    }
+
     // ChangeState関数 : 引数:GameState(移行させたい状態を記入)、戻り値:なし
     // 現在のゲーム状態を変えるときに使用する関数
     // ※ゲーム中にポーズ画面を出したい場合は、ChangeState(GameState.Paused)で可能！
@@ -53,17 +58,17 @@ public class GameManager : MonoBehaviour
     public void ChangeState(GameState newState)
     {
         SetState(newState); // 読み込むシーンに応じてUIをセット
-        //CuurentState = newState;
 
+        Debug.Log(newState);
         // 状態遷移時の共通処理を以下に記述
         switch (newState)
         {
             case GameState.Title:
-                // AudioManager.Instance.PlayBGM("TitleBGM", 1f);
+                AudioManager.Instance.PlayBGM("TitleBGM", 1f);
                 break;
             case GameState.Playing:
                 Time.timeScale = 1f;
-                // AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
+                AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
                 break;
             case GameState.Paused:
                 Time.timeScale = 0f;
@@ -88,11 +93,11 @@ public class GameManager : MonoBehaviour
             case SceneName.Title:
                 ChangeState(GameState.Title);
                 break;
-            case SceneName.Stage:
+            case SceneName.Nekogami:
                 ChangeState(GameState.Playing);
                 break;
-            case SceneName.GameOver:
-                ChangeState(GameState.GameOver);
+            case SceneName.Result:
+                ChangeState(GameState.Result);
                 break;
         }
     }
@@ -107,6 +112,5 @@ public class GameManager : MonoBehaviour
         CuurentState = newstate;
         OnStateChanged?.Invoke(newstate);
     }
-
 
 }

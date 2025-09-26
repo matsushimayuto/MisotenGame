@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 public enum SceneName
 {
     Title, 
-    Stage,
-    GameOver,
+    Nekogami,
+    Result,
 }
 
 
@@ -68,6 +68,7 @@ public class SceneLoader : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         Load(scene);
+        Debug.Log(scene);
 
         // フェードイン演出
         yield return null;

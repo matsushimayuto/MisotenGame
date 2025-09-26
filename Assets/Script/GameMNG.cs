@@ -37,6 +37,13 @@ public class GameMNG : MonoBehaviour
             }
             
         }
+
+        // デバッグ用シーン遷移
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneLoader.Instance.LoadScene(SceneName.Result, false);
+        }
+
     }
 
     public void EndTimeStop()

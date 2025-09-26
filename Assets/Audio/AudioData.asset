@@ -13,10 +13,14 @@ MonoBehaviour:
   m_Name: AudioData
   m_EditorClassIdentifier: 
   bgmClips:
-  - name: 
-    clip: {fileID: 0}
-    loop: 0
-    volume: 0
+  - name: TitleBGM
+    clip: {fileID: 8300000, guid: 243cdd5c105f66642875c01d0f86cf78, type: 3}
+    loop: 1
+    volume: 1
+  - name: StageBGM
+    clip: {fileID: 8300000, guid: 30d9db2f8a0df774eac76020d458a82e, type: 3}
+    loop: 1
+    volume: 1
   seClips:
   - name: 
     clip: {fileID: 0}
