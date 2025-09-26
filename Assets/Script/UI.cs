@@ -19,9 +19,8 @@ public class UI : MonoBehaviour
 
     public void Hide()
     {
-        UiObjects[num].SetActive(false);
         if (num < 0) { return; }
+        UiObjects[num].SetActive(false);
         num --;
-        
     }
 }
