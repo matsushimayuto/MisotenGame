@@ -70,6 +70,7 @@ public class GameMNG : MonoBehaviour
             {
                 Debug.Log("ˆÚ“®");
                 b.ReleaseStoredForce(0);
+                b.DestroyArrow();
             }
         }
     }
