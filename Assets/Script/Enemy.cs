@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     [SerializeField, Tooltip("GameMNG")] private GameMNG GameMNG; // gameMng
     private Vector3 target;    // 現在の目標地点
     private Block attachedBlock = null;
-    private Vector3 blockNormal = Vector3.zero; // Block 衝突時の法線
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -24,26 +24,7 @@ public class Enemy : MonoBehaviour
 
         if (attachedBlock != null)
         {
-            // Block に押されているとき
-            Vector3 move = attachedBlock.GetMoveVector() * Time.deltaTime;
-            transform.position += move;
 
-            // Block に埋まらないように前回衝突法線方向に少し補正
-            transform.position += blockNormal * 0.05f;
-
-            // 正面判定で Object に当たったら Destroy
-            if (attachedBlock.GetHitObjectFront())
-            {
-                Debug.Log("Enemy破壊");
-                Destroy(gameObject);
-            }
-
-            // 進行方向に回転
-            if (move.sqrMagnitude > 0.001f)
-            {
-                Quaternion targetRot = Quaternion.LookRotation(move, Vector3.up);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
-            }
         }
         else
         {
@@ -75,6 +56,30 @@ public class Enemy : MonoBehaviour
                 if (block != null && block.CheckMove())
                 {
                     AttachToBlock(block);
+
+                    // ここで一度だけBlockの表面に位置を補正
+                    ContactPoint contact = collision.contacts[0];
+                    transform.position = contact.point + contact.normal * 1.0f; // 少しだけ押し出す
+                }
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (attachedBlock != null)
+        {
+            // Enemy がくっついた Block によって移動中
+            if (other.CompareTag("Object"))
+            {
+                // Block の進行方向に対して正面衝突かチェック
+                Vector3 moveDir = attachedBlock.GetDeltaMove().normalized;
+                Vector3 contactDir = (other.ClosestPoint(transform.position) - transform.position).normalized;
+
+                if (Vector3.Dot(moveDir, contactDir) > 0.5f) // 正面衝突
+                {
+                    Debug.Log("EnemyがBlockにくっついた状態でObjectに正面衝突");
+                    Destroy(gameObject);
                 }
             }
         }
