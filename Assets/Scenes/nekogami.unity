@@ -213,6 +213,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameMNG: {fileID: 407886747}
   moveForce: 5
+  arrowPrefab: {fileID: 5526087056217657225, guid: 5f44831710371f44d81b0437bef873ec, type: 3}
 --- !u!65 &83776237
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1421,6 +1422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameMNG: {fileID: 407886747}
   moveForce: 5
+  arrowPrefab: {fileID: 5526087056217657225, guid: 5f44831710371f44d81b0437bef873ec, type: 3}
 --- !u!65 &917043885
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1799,6 +1801,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameMNG: {fileID: 407886747}
   moveForce: 5
+  arrowPrefab: {fileID: 5526087056217657225, guid: 5f44831710371f44d81b0437bef873ec, type: 3}
 --- !u!65 &1318203479
 BoxCollider:
   m_ObjectHideFlags: 0

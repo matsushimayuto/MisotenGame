@@ -11,16 +11,23 @@ public class Block : MonoBehaviour
     private int Movenum;
     private Vector3 pPos;   //プレイヤーの位置
     private Vector3 bPos;   //自身の位置
+    private Vector3 bScale; // 自身のサイズ
     private Rigidbody rb;
     private Vector3[] pushDir;    //進行方向（配列化予定）
     private float hitFrontTimer = 0f;
     private float hitFrontDuration = 0.1f; // true を維持する時間（秒）
+
+    [Header("矢印")]
+    [SerializeField, Tooltip("プレハブ")] public GameObject arrowPrefab;    // 矢印のプレハブ
+    private GameObject[] arrowInstance = new GameObject[3];
+    private Arrow[] arrow = new Arrow[3];
 
     void Start()
     {
         hit = false;
         // ブロックの位置
         bPos = transform.position;
+        bScale = transform.localScale;
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
         pushDir = new Vector3[GameMNG.num];
@@ -30,6 +37,13 @@ public class Block : MonoBehaviour
         Movenum = 0;
 
         hitObjectFront = false;
+
+        // 矢印
+        for (int i = 0; i < GameMNG.num; i++)
+        {
+            arrowInstance[i] = Instantiate(arrowPrefab, bPos, Quaternion.identity);
+            arrow[i] = arrowInstance[i].GetComponent<Arrow>();
+        }
     }
 
     void Update()
@@ -66,6 +80,9 @@ public class Block : MonoBehaviour
                 pushDir[Movenum] = pushDir[Movenum].normalized;
                 Debug.Log("殴った");
 
+                // 矢印の描画
+                Debug.Log(Movenum);
+                arrow[Movenum].Draw(pushDir[Movenum], bPos, bScale);
             }
         }
     }
@@ -172,5 +189,14 @@ public class Block : MonoBehaviour
         if (Movenum < 0 || Movenum >= pushDir.Length)
             return Vector3.zero;
         return pushDir[Movenum];
+    }
+
+    // 矢印削除
+    public void DestroyArrow()
+    {
+        for (int i = 0; i < GameMNG.num; i++)
+        {
+            Destroy(arrowInstance[i]);
+        }
     }
 }
