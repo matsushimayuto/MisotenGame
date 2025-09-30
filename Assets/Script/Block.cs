@@ -7,15 +7,13 @@ public class Block : MonoBehaviour
     [SerializeField, Tooltip("移動速度")] private float moveForce = 5.0f;//移動速度
     private bool hit;
     private bool Move;
-    private bool hitObjectFront;
     private int Movenum;
     private Vector3 pPos;   //プレイヤーの位置
     private Vector3 bPos;   //自身の位置
     private Vector3 bScale; // 自身のサイズ
     private Rigidbody rb;
     private Vector3[] pushDir;    //進行方向（配列化予定）
-    private float hitFrontTimer = 0f;
-    private float hitFrontDuration = 0.1f; // true を維持する時間（秒）
+    private Vector3 deltaMove; // 直近の移動量
 
     [Header("矢印")]
     [SerializeField, Tooltip("プレハブ")] public GameObject arrowPrefab;    // 矢印のプレハブ
@@ -36,8 +34,6 @@ public class Block : MonoBehaviour
         Move = false;
         Movenum = 0;
 
-        hitObjectFront = false;
-
         // 矢印
         for (int i = 0; i < GameMNG.num; i++)
         {
@@ -48,14 +44,6 @@ public class Block : MonoBehaviour
 
     void Update()
     {
-        if (hitFrontTimer > 0f)
-        {
-            hitFrontTimer -= Time.deltaTime;
-            if (hitFrontTimer <= 0f)
-            {
-                hitObjectFront = false;
-            }
-        }
 
         bool stop = GameMNG.timestop;
         if (hit && stop)
@@ -92,6 +80,11 @@ public class Block : MonoBehaviour
         {
             Vector3 move = pushDir[Movenum] * moveForce * Time.fixedDeltaTime;
             rb.MovePosition(rb.position + move);
+            deltaMove = move; // 移動量を保存
+        }
+        else
+        {
+            deltaMove = Vector3.zero;
         }
     }
 
@@ -120,9 +113,6 @@ public class Block : MonoBehaviour
                 Debug.Log("正面から壁に当たった: " + collision.gameObject.name);
                 Move = false;
                 rb.isKinematic = true;//ブロック固定
-
-                hitObjectFront = true;
-                hitFrontTimer = hitFrontDuration;
 
                 // GameMNGに通知
                 GameMNG.Check();
@@ -153,7 +143,6 @@ public class Block : MonoBehaviour
             rb.isKinematic = false; //固定化解除
             Move = true;
             //Movenum = i;    //初回用必須
-            //hitObjectFront = false;
         }
     }
 
@@ -177,18 +166,10 @@ public class Block : MonoBehaviour
         ReleaseStoredForce(Movenum);
     }
 
-    // 正面衝突して Object に当たったかどうか
-    public bool GetHitObjectFront()
+    // 直前の移動量を取得
+    public Vector3 GetDeltaMove()
     {
-        return hitObjectFront; 
-    }
-
-    // 現在の移動方向を取得
-    public Vector3 GetMoveVector()
-    {
-        if (Movenum < 0 || Movenum >= pushDir.Length)
-            return Vector3.zero;
-        return pushDir[Movenum];
+        return deltaMove;
     }
 
     // 矢印削除
