@@ -1024,6 +1024,9 @@ MonoBehaviour:
   pointB: {x: 7.3, y: 1.2, z: 16}
   speed: 3
   GameMNG: {fileID: 407886747}
+  viewAngle: 90
+  viewDistance: 10
+  target: {fileID: 1464352725}
 --- !u!135 &719502700
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1557,6 +1560,9 @@ MonoBehaviour:
   pointB: {x: 17.1, y: 1.2, z: 7}
   speed: 2
   GameMNG: {fileID: 407886747}
+  viewAngle: 90
+  viewDistance: 10
+  target: {fileID: 1464352725}
 --- !u!135 &1186290944
 SphereCollider:
   m_ObjectHideFlags: 0

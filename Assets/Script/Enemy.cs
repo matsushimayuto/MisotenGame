@@ -8,13 +8,19 @@ public class Enemy : MonoBehaviour
     [SerializeField, Tooltip("目的地の位置")] private Vector3 pointB;   // パトロール終了地点
     [SerializeField, Tooltip("移動速度")] private float speed = 2.0f;   // 移動速度
     [SerializeField, Tooltip("GameMNG")] private GameMNG GameMNG; // gameMng
-    private Vector3 target;    // 現在の目標地点
+    [Header("視界設定")]
+    [SerializeField, Tooltip("視野角")] private float viewAngle = 90.0f;               // 視野角
+    [SerializeField, Tooltip("視認距離")] private float viewDistance = 10.0f;          // 視認距離
+    //[SerializeField, Tooltip("障害物レイヤー")] private LayerMask obstacleMask;      // 障害物レイヤー
+    [SerializeField, Tooltip("探す対象（プレイヤー）")] private Transform target;    // プレイヤー
+
+    private Vector3 PosTarget;    // 現在の目標地点
     private Block attachedBlock = null;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        target = pointB;
+        PosTarget = pointB;
     }
 
     // Update is called once per frame
@@ -22,26 +28,54 @@ public class Enemy : MonoBehaviour
     {
         if (GameMNG.timestop) { return; }
 
-        if (attachedBlock != null)
+        if (attachedBlock != null) { return; }
+            
+        Move();//移動関数
+        if (CanSeeTarget()) //索敵範囲内かのチェック
         {
-
+            Debug.Log("プレイヤー発見！ → ゲームオーバー処理へ");
         }
-        else
+
+
+    }
+
+    //移動関数
+    private void Move()
+    {
+        // 通常パトロール
+        transform.position = Vector3.MoveTowards(transform.position, PosTarget, speed * Time.deltaTime);
+        Vector3 dir = (PosTarget - transform.position).normalized;
+        if (dir.sqrMagnitude > 0.001f)
         {
-            // 通常パトロール
-            transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-            Vector3 dir = (target - transform.position).normalized;
-            if (dir.sqrMagnitude > 0.001f)
-            {
-                Quaternion targetRot = Quaternion.LookRotation(dir, Vector3.up);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
-            }
-
-            if (Vector3.Distance(transform.position, target) < 0.05f)
-            {
-                target = (target == pointA) ? pointB : pointA;
-            }
+            Quaternion targetRot = Quaternion.LookRotation(dir, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
         }
+
+        if (Vector3.Distance(transform.position, PosTarget) < 0.05f)
+        {
+            PosTarget = (PosTarget == pointA) ? pointB : pointA;
+        }
+    }
+
+    private bool CanSeeTarget()
+    {
+        Vector3 dirToTarget = (target.position - transform.position).normalized;
+        float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+        // 1. 距離チェック
+        if (distanceToTarget > viewDistance) return false;
+
+        // 2. 扇形（視野角チェック）
+        float angle = Vector3.Angle(transform.forward, dirToTarget);
+        if (angle > viewAngle * 0.5f) return false;
+
+        // 3. Raycastで障害物チェック
+        if (Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, viewDistance))
+        {
+            if (hit.transform == target) return true;
+        }
+
+        return false;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -94,4 +128,18 @@ public class Enemy : MonoBehaviour
         Collider col = GetComponent<Collider>();
         if (col != null) col.isTrigger = true; // 衝突判定を停止
     }
+
+    // Sceneビューで扇形を可視化
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, viewDistance);
+
+        Vector3 leftBoundary = Quaternion.Euler(0, -viewAngle / 2, 0) * transform.forward;
+        Vector3 rightBoundary = Quaternion.Euler(0, viewAngle / 2, 0) * transform.forward;
+
+        Gizmos.DrawLine(transform.position, transform.position + leftBoundary * viewDistance);
+        Gizmos.DrawLine(transform.position, transform.position + rightBoundary * viewDistance);
+    }
+
 }
