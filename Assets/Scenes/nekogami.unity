@@ -1027,6 +1027,7 @@ MonoBehaviour:
   viewAngle: 90
   viewDistance: 10
   target: {fileID: 1464352725}
+  detectionMat: {fileID: 2100000, guid: ea3781bb63bd6ab4589d414670b6675e, type: 2}
 --- !u!135 &719502700
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1563,6 +1564,7 @@ MonoBehaviour:
   viewAngle: 90
   viewDistance: 10
   target: {fileID: 1464352725}
+  detectionMat: {fileID: 2100000, guid: ea3781bb63bd6ab4589d414670b6675e, type: 2}
 --- !u!135 &1186290944
 SphereCollider:
   m_ObjectHideFlags: 0
