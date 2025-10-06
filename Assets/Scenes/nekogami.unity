@@ -1150,6 +1150,8 @@ MonoBehaviour:
   gridSize: 8
   cellSize: 4.6
   lineColor: {r: 0, g: 0, b: 0, a: 1}
+  IsDrawnRuntimeGrid: 1
+  IsOnDrawGizmos: 1
 --- !u!120 &729361790
 LineRenderer:
   serializedVersion: 2
