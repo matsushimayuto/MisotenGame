@@ -1,6 +1,7 @@
 using UnityEngine;
 
 // 3Dスペースに線を描画するためのコンポーネント
+[ExecuteAlways]
 [RequireComponent(typeof(LineRenderer))]
 public class GridDraw : MonoBehaviour
 {
@@ -9,14 +10,52 @@ public class GridDraw : MonoBehaviour
     public float cellSize = 1f;        // 1マスの大きさ
     public Color lineColor = Color.black;   // グリッド線の色
 
+    public bool IsDrawnRuntimeGrid = true;
+    public bool IsOnDrawGizmos = true;
+
     void Start()
     {
-        DrawGrid();
+        if (Application.isPlaying)
+        {
+            DrawRuntimeGrid();
+        }
     }
 
-    void DrawGrid()
+    // シーンビューではGizmosで描画
+    void OnDrawGizmos()
     {
-        // グリッド全体の半分を原点からマイナスにずらす
+        if (!IsOnDrawGizmos) { return; }
+        Gizmos.color = lineColor;
+
+        float halfSize = gridSize * cellSize * 0.5f;
+
+        for (int x = 0; x <= gridSize; x++)
+        {
+            float xPos = x * cellSize - halfSize;
+            Vector3 start = new Vector3(xPos, 0.01f, -halfSize);
+            Vector3 end = new Vector3(xPos, 0.01f, halfSize);
+            start.y += 0.015f;
+            end.y += 0.015f;
+            Gizmos.DrawLine(start, end);
+        }
+
+        for (int z = 0; z <= gridSize; z++)
+        {
+            float zPos = z * cellSize - halfSize;
+            Vector3 start = new Vector3(-halfSize, 0.01f, zPos);
+            Vector3 end = new Vector3(halfSize, 0.01f, zPos);
+            start.y += 0.015f;
+            end.y += 0.015f;
+            Gizmos.DrawLine(start, end);
+        }
+    }
+
+    // ゲーム実行時：LineRendererを使って描画
+    void DrawRuntimeGrid()
+    {
+        if (!IsDrawnRuntimeGrid) return;
+        IsDrawnRuntimeGrid = true;
+
         float halfSize = gridSize * cellSize * 0.5f;
 
         // 縦線
@@ -24,8 +63,8 @@ public class GridDraw : MonoBehaviour
         {
             float xPos = x * cellSize - halfSize;
             CreateLine(
-                new Vector3(xPos, 0, -halfSize),
-                new Vector3(xPos, 0, halfSize)
+                new Vector3(xPos, 0.01f, -halfSize),
+                new Vector3(xPos, 0.01f, halfSize)
             );
         }
 
@@ -34,8 +73,8 @@ public class GridDraw : MonoBehaviour
         {
             float zPos = z * cellSize - halfSize;
             CreateLine(
-                new Vector3(-halfSize, 0, zPos),
-                new Vector3(halfSize, 0, zPos)
+                new Vector3(-halfSize, 0.01f, zPos),
+                new Vector3(halfSize, 0.01f, zPos)
             );
         }
     }
@@ -43,7 +82,7 @@ public class GridDraw : MonoBehaviour
     void CreateLine(Vector3 start, Vector3 end)
     {
         start.y += 0.015f;
-        end.y   += 0.015f;
+        end.y += 0.015f;
         GameObject lineObj = new GameObject("GridLine");
         lineObj.transform.parent = this.transform;
 
@@ -56,5 +95,19 @@ public class GridDraw : MonoBehaviour
         lr.endWidth = 0.1f;
         lr.material = new Material(Shader.Find("Sprites/Default"));
         lr.startColor = lr.endColor = lineColor;
+    }
+
+    // シーン内で値変更時に自動リフレッシュ
+    void OnValidate()
+    {
+        if (!Application.isPlaying)
+        {
+            // エディタで再生前にオブジェクトをクリーンに
+            foreach (Transform child in transform)
+            {
+                if (child.name.Contains("GridLine"))
+                    DestroyImmediate(child.gameObject);
+            }
+        }
     }
 }
