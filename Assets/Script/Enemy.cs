@@ -17,10 +17,33 @@ public class Enemy : MonoBehaviour
     private Vector3 PosTarget;    // 現在の目標地点
     private Block attachedBlock = null;
 
+    [Header("索敵範囲可視化")]
+    [SerializeField] private Material detectionMat;  // 半透明表示用マテリアル
+    private Mesh detectionMesh;
+    private GameObject detectionObj;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         PosTarget = pointB;
+
+        // 索敵範囲の子オブジェクトを作成
+        detectionObj = new GameObject("DetectionRange");
+        detectionObj.transform.parent = transform;
+        detectionObj.transform.localPosition = Vector3.zero;
+
+        // マテリアル設定（指定がなければ Unlit を使用）
+        MeshFilter mf = detectionObj.AddComponent<MeshFilter>();
+        MeshRenderer mr = detectionObj.AddComponent<MeshRenderer>();
+        mr.material = detectionMat != null
+            ? detectionMat
+            : new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+
+        detectionMesh = new Mesh();
+        mf.mesh = detectionMesh;
+
+        // メッシュを初期生成
+        UpdateDetectionMesh();
     }
 
     // Update is called once per frame
@@ -142,4 +165,39 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + rightBoundary * viewDistance);
     }
 
+    //索敵範囲（扇形メッシュ）の生成処理
+    private void UpdateDetectionMesh()
+    {
+        int segments = 50; // 分割数
+        int vertexCount = segments + 2;
+        Vector3[] vertices = new Vector3[vertexCount];
+        int[] triangles = new int[segments * 3];
+
+        // 中心
+        vertices[0] = Vector3.zero;
+
+        float angleStep = viewAngle / segments;
+        float halfAngle = viewAngle * 0.5f;
+        float startAngle = -halfAngle;
+
+        for (int i = 0; i <= segments; i++)
+        {
+            float currentAngle = startAngle + angleStep * i;
+            float rad = Mathf.Deg2Rad * currentAngle;
+            vertices[i + 1] = new Vector3(Mathf.Sin(rad), 0, Mathf.Cos(rad)) * viewDistance;
+        }
+
+        // 三角形を設定
+        for (int i = 0; i < segments; i++)
+        {
+            triangles[i * 3] = 0;
+            triangles[i * 3 + 1] = i + 1;
+            triangles[i * 3 + 2] = i + 2;
+        }
+
+        detectionMesh.Clear();
+        detectionMesh.vertices = vertices;
+        detectionMesh.triangles = triangles;
+        detectionMesh.RecalculateNormals();
+    }
 }
