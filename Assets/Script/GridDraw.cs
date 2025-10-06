@@ -32,8 +32,8 @@ public class GridDraw : MonoBehaviour
         for (int x = 0; x <= gridSize; x++)
         {
             float xPos = x * cellSize - halfSize;
-            Vector3 start = new Vector3(xPos, 0.01f, -halfSize);
-            Vector3 end = new Vector3(xPos, 0.01f, halfSize);
+            Vector3 start = new Vector3(xPos, 0, -halfSize);
+            Vector3 end = new Vector3(xPos, 0f, halfSize);
             start.y += 0.015f;
             end.y += 0.015f;
             Gizmos.DrawLine(start, end);
@@ -42,8 +42,8 @@ public class GridDraw : MonoBehaviour
         for (int z = 0; z <= gridSize; z++)
         {
             float zPos = z * cellSize - halfSize;
-            Vector3 start = new Vector3(-halfSize, 0.01f, zPos);
-            Vector3 end = new Vector3(halfSize, 0.01f, zPos);
+            Vector3 start = new Vector3(-halfSize, 0, zPos);
+            Vector3 end = new Vector3(halfSize, 0, zPos);
             start.y += 0.015f;
             end.y += 0.015f;
             Gizmos.DrawLine(start, end);
@@ -63,8 +63,8 @@ public class GridDraw : MonoBehaviour
         {
             float xPos = x * cellSize - halfSize;
             CreateLine(
-                new Vector3(xPos, 0.01f, -halfSize),
-                new Vector3(xPos, 0.01f, halfSize)
+                new Vector3(xPos, 0, -halfSize),
+                new Vector3(xPos, 0, halfSize)
             );
         }
 
@@ -73,8 +73,8 @@ public class GridDraw : MonoBehaviour
         {
             float zPos = z * cellSize - halfSize;
             CreateLine(
-                new Vector3(-halfSize, 0.01f, zPos),
-                new Vector3(halfSize, 0.01f, zPos)
+                new Vector3(-halfSize, 0, zPos),
+                new Vector3(halfSize, 0, zPos)
             );
         }
     }
@@ -82,7 +82,7 @@ public class GridDraw : MonoBehaviour
     void CreateLine(Vector3 start, Vector3 end)
     {
         start.y += 0.015f;
-        end.y += 0.015f;
+        end.y   += 0.015f;
         GameObject lineObj = new GameObject("GridLine");
         lineObj.transform.parent = this.transform;
 
