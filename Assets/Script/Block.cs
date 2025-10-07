@@ -70,7 +70,7 @@ public class Block : MonoBehaviour
 
                 // –îˆó‚Ì•`‰æ
                 Debug.Log(Movenum);
-                arrow[Movenum].Draw(pushDir[Movenum], bPos, bScale);
+                arrow[Movenum].Draw(pushDir[Movenum], bPos, bScale, Movenum);
             }
         }
     }

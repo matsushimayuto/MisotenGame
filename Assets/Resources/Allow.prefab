@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 345650436272937283}
   - component: {fileID: 5093014684201081348}
   - component: {fileID: 7223971639575472874}
+  - component: {fileID: 8217258299899046413}
   m_Layer: 0
   m_Name: Allow
   m_TagString: Untagged
@@ -100,3 +101,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6fd3745d304e3f4fb880a88fcb8d935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!111 &8217258299899046413
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5526087056217657225}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 7400000, guid: e97322b573db68f479fb30d6d7c90402, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: e97322b573db68f479fb30d6d7c90402, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
