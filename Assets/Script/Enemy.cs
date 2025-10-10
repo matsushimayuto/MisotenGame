@@ -59,6 +59,15 @@ public class Enemy : MonoBehaviour
             Debug.Log("プレイヤー発見！ → ゲームオーバー処理へ");
         }
 
+        bool detected = CanSeeTarget();
+
+    // 発見したら視界色を変える
+    detectionObj.GetComponent<MeshRenderer>().material.color = 
+        detected ? new Color(1, 0, 0, 0.3f) : new Color(1, 1, 0, 0.2f);
+
+    // 毎フレーム視界更新
+    UpdateDetectionMesh();
+
 
     }
 
@@ -168,26 +177,35 @@ public class Enemy : MonoBehaviour
     //索敵範囲（扇形メッシュ）の生成処理
     private void UpdateDetectionMesh()
     {
-        int segments = 50; // 分割数
+        int segments = 100; // 扇形を細かくするほど滑らか
         int vertexCount = segments + 2;
         Vector3[] vertices = new Vector3[vertexCount];
         int[] triangles = new int[segments * 3];
 
-        // 中心
-        vertices[0] = Vector3.zero;
+        vertices[0] = Vector3.zero; // 中心点（敵位置）
 
-        float angleStep = viewAngle / segments;
         float halfAngle = viewAngle * 0.5f;
         float startAngle = -halfAngle;
+        float angleStep = viewAngle / segments;
 
+        // 視界メッシュをRaycastで補正
         for (int i = 0; i <= segments; i++)
         {
             float currentAngle = startAngle + angleStep * i;
-            float rad = Mathf.Deg2Rad * currentAngle;
-            vertices[i + 1] = new Vector3(Mathf.Sin(rad), 0, Mathf.Cos(rad)) * viewDistance;
+            Quaternion rot = Quaternion.Euler(0, currentAngle, 0);
+            Vector3 dir = rot * Vector3.forward;
+            // Raycastで障害物に当たったらその地点まで
+            Vector3 rayOrigin = transform.position + Vector3.up * 0.01f; // 少し上から打つ
+            if (Physics.Raycast(rayOrigin, transform.rotation * dir, out RaycastHit hit, viewDistance))
+            {
+                vertices[i + 1] = detectionObj.transform.InverseTransformPoint(hit.point);
+            }
+            else
+            {
+                vertices[i + 1] = Quaternion.Euler(0, currentAngle, 0) * Vector3.forward * viewDistance;
+            }
         }
 
-        // 三角形を設定
         for (int i = 0; i < segments; i++)
         {
             triangles[i * 3] = 0;
@@ -200,4 +218,5 @@ public class Enemy : MonoBehaviour
         detectionMesh.triangles = triangles;
         detectionMesh.RecalculateNormals();
     }
+
 }
