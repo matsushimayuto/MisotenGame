@@ -987,7 +987,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dbe5e17e1fab2a4aa611ff00c451546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StateNo: 0
 --- !u!4 &2009374847
 Transform:
   m_ObjectHideFlags: 0
@@ -1109,6 +1108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d404b776dd32bd46bde13ab512a50d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saveload: {fileID: 1593552786592349124, guid: 2c419192d618dc843816b3992e72a16f, type: 3}
 --- !u!114 &2024888901
 MonoBehaviour:
   m_ObjectHideFlags: 0
