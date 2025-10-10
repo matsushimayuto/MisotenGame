@@ -27,8 +27,8 @@ public class GameManager : MonoBehaviour
     [Tooltip("ゲームの状態を変更したときに実行するイベントを格納する変数")]
     public event System.Action<GameState> OnStateChanged;
 
-    [SerializeField]
-    public GameState StateNo = 0;
+    //[SerializeField]
+    //public GameState StateNo = 0;
 
     //ーーーーーーーーーーーーーーーーーーーーーーーーーーー
     // 以下に関数を記述
@@ -48,7 +48,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        ChangeState(StateNo);
     }
 
     // ChangeState関数 : 引数:GameState(移行させたい状態を記入)、戻り値:なし

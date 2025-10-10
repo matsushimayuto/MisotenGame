@@ -66,9 +66,6 @@ public class AudioManager : MonoBehaviour
         foreach (var n in audioData.seClips)  { seDict[n.name]  = n.clip; loopDict[n.name] = n.loop; volumeDict[n.name] = n.volume; }
         foreach (var n in audioData.envClips) { envDict[n.name] = n.clip; loopDict[n.name] = n.loop; volumeDict[n.name] = n.volume; }
 
-
-        // ------最初に開始したい状態を選んで書いてください------
-        //GameManager.Instance.ChangeState(GameState.Title);
     }
 
     // PlayBGM : 引数:string(再生するBGMの名前), float(フェードにかける時間), 戻り値:なし 
