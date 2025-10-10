@@ -39,7 +39,7 @@ public class GameMNG : MonoBehaviour
         }
 
         // デバッグ用シーン遷移
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Decide"))
         {
             SceneLoader.Instance.LoadScene(SceneName.Result, false);
         }

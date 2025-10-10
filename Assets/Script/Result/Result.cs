@@ -11,7 +11,7 @@ public class Result : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return))
+        if(Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Decide"))
         {
             SceneLoader.Instance.LoadScene(SceneName.Title, false);
         }
