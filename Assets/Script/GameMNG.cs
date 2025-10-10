@@ -19,7 +19,7 @@ public class GameMNG : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.T))
+        if (Input.GetKeyUp(KeyCode.T) || Input.GetButtonDown("TimeStop"))
         {
             timestop = !timestop;
 
