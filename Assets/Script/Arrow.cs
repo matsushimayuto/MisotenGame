@@ -4,7 +4,7 @@ public class Arrow : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
 
-    const float shiftWidth = 2.0f;  // ブロックの中心からどれだけずらして表示するか
+    const float shiftWidth = 1.0f;  // ブロックの中心からどれだけずらして表示するか
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
