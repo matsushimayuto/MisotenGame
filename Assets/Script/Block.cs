@@ -48,7 +48,7 @@ public class Block : MonoBehaviour
         bool stop = GameMNG.timestop;
         if (hit && stop)
         {
-            if (Input.GetKeyUp(KeyCode.P))
+            if (Input.GetKeyUp(KeyCode.P) || Input.GetButtonDown("Specific"))   // キーボード(P) or パッド(Y)
             {
                 // プレイヤー → ブロック の方向ベクトル
                 pushDir[Movenum] = (bPos - pPos);
