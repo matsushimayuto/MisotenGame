@@ -1,10 +1,13 @@
 using UnityEngine;
+using System.Collections;
 
 public class Block : MonoBehaviour
 {
     [Header("ステータス")]
     [SerializeField, Tooltip("GameMNG")] private GameMNG GameMNG; // gameMng
     [SerializeField, Tooltip("移動速度")] private float moveForce = 5.0f;//移動速度
+    private float hitStopTime; // ヒットストップ時間
+    private bool isHitStopping; // 現在ヒットストップ中かどうか
     private bool hit;
     private bool Move;
     private int Movenum;
@@ -30,6 +33,9 @@ public class Block : MonoBehaviour
         rb.isKinematic = true;
         pushDir = new Vector3[GameMNG.num];
         for (int i = 0; i < GameMNG.num; i++) { pushDir[i] = Vector3.zero; }
+
+        hitStopTime = 0.05f;
+        isHitStopping = false;
 
         Move = false;
         Movenum = 0;
@@ -76,7 +82,7 @@ public class Block : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (Move)
+        if (Move && !isHitStopping)
         {
             Vector3 move = pushDir[Movenum] * moveForce * Time.fixedDeltaTime;
             rb.MovePosition(rb.position + move);
@@ -97,6 +103,12 @@ public class Block : MonoBehaviour
             hit = true;
             // プレイヤーの位置を保存
             pPos = collision.transform.position;
+        }
+
+        // Enemyに当たった場合のヒットストップ
+        if (collision.gameObject.CompareTag("Enemy") && !isHitStopping)
+        {
+            StartCoroutine(HitStopCoroutine());
         }
 
         if (collision.gameObject.CompareTag("Object") || collision.gameObject.CompareTag("Block"))
@@ -177,5 +189,20 @@ public class Block : MonoBehaviour
         {
             Destroy(arrowInstance[i]);
         }
+    }
+
+    // ヒットストップ用コルーチン
+    private IEnumerator HitStopCoroutine()
+    {
+        isHitStopping = true;
+
+        // 一時停止
+        rb.isKinematic = true;
+
+        yield return new WaitForSeconds(hitStopTime);
+
+        // 再開
+        rb.isKinematic = false;
+        isHitStopping = false;
     }
 }
