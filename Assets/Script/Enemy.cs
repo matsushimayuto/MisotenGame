@@ -49,8 +49,6 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameMNG.timestop) { return; }
-
         if (attachedBlock != null) { return; }
             
         Move();//移動関数
@@ -67,8 +65,6 @@ public class Enemy : MonoBehaviour
 
     // 毎フレーム視界更新
     UpdateDetectionMesh();
-
-
     }
 
     //移動関数
@@ -218,5 +214,4 @@ public class Enemy : MonoBehaviour
         detectionMesh.triangles = triangles;
         detectionMesh.RecalculateNormals();
     }
-
 }

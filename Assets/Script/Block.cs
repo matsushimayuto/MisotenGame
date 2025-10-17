@@ -44,9 +44,7 @@ public class Block : MonoBehaviour
 
     void Update()
     {
-
-        bool stop = GameMNG.timestop;
-        if (hit && stop)
+        if (hit)
         {
             if (Input.GetKeyUp(KeyCode.P) || Input.GetButtonDown("Specific"))   // キーボード(P) or パッド(Y)
             {
@@ -71,6 +69,8 @@ public class Block : MonoBehaviour
                 // 矢印の描画
                 Debug.Log(Movenum);
                 arrow[Movenum].Draw(pushDir[Movenum], bPos, bScale, Movenum);
+
+                addMovenum(false);
             }
         }
     }
@@ -135,15 +135,16 @@ public class Block : MonoBehaviour
     }
 
     //このフェーズ中のこのブロックの動き
-    public void ReleaseStoredForce(int i)
+    public bool ReleaseStoredForce(int i)
     {
         Movenum = i;    //初回用必須
         if (pushDir[i] != Vector3.zero)
         {
             rb.isKinematic = false; //固定化解除
             Move = true;
-            //Movenum = i;    //初回用必須
+            return true;
         }
+        return false;
     }
 
     //このブロックが動いているかチェック
@@ -154,16 +155,13 @@ public class Block : MonoBehaviour
     }
 
     //フェーズ進行用
-    public void addMovenum(bool _TimeStop)
+    public void addMovenum(bool _move)
     {
         Movenum++;
-        if (Movenum > 2)
-        {
-            Movenum = 2;
-        }
-        Debug.Log("加算時" + Movenum);
-        if (_TimeStop) { return; }
-        ReleaseStoredForce(Movenum);
+        if (Movenum > 2) Movenum = 2;
+        if (_move) ReleaseStoredForce(Movenum);
+
+
     }
 
     // 直前の移動量を取得
