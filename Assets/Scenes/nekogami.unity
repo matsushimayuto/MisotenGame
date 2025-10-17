@@ -304,11 +304,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c92e043942f908d41aedb8461b78ea35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timestop: 0
-  timer: {fileID: 1566130413}
   num: 3
   stopDuration: 5
-  UI: {fileID: 4496221}
 --- !u!4 &407886748
 Transform:
   m_ObjectHideFlags: 0
@@ -726,7 +723,7 @@ GameObject:
   - component: {fileID: 719502699}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1189,7 +1186,7 @@ GameObject:
   - component: {fileID: 1186290943}
   m_Layer: 0
   m_Name: Enemy (1)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1521,6 +1518,10 @@ PrefabInstance:
       propertyPath: GameMNG
       value: 
       objectReference: {fileID: 407886747}
+    - target: {fileID: 2194702909872538288, guid: a2158b263ee389b4fac174d6609140dd, type: 3}
+      propertyPath: moveForce
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7739215550424581357, guid: a2158b263ee389b4fac174d6609140dd, type: 3}
       propertyPath: m_Name
       value: Move1(1)
