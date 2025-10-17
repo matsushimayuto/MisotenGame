@@ -19,7 +19,7 @@ public class GameMNG : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.T) || Input.GetButtonDown("TimeStop"))
+        if (Input.GetKeyUp(KeyCode.T) || Input.GetButtonDown("Decide"))
         {
             timestop = !timestop;
 
@@ -39,7 +39,7 @@ public class GameMNG : MonoBehaviour
         }
 
         // デバッグ用シーン遷移
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Decide"))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             SceneLoader.Instance.LoadScene(SceneName.Result, false);
         }
