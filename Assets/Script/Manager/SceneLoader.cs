@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,6 +15,9 @@ public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader Instance{  get; private set; }
     public SceneName CuurentScene {  get; private set; }
+
+    [SerializeField]
+    private GameObject uiManaegrPrefab;
 
     private void Awake()
     {
@@ -62,16 +66,34 @@ public class SceneLoader : MonoBehaviour
         GameManager.Instance?.SetStateByScene(scene);
     }
 
-    IEnumerator LoadSceneWithFade(SceneName scene)
+    private IEnumerator LoadSceneWithFade(SceneName scene)
     {
+        // ステート変更
+        GameManager.Instance.ChangeState(GameState.Loading);
+
+
         // フェードアウト演出
-        yield return new WaitForSeconds(0.5f);
+        UIManager.Instance.FadeOut(0.8f);
+        yield return new WaitForSeconds(0.8f);
 
-        Load(scene);
-        Debug.Log(scene);
+        AsyncOperation async = SceneManager.LoadSceneAsync(scene.ToString());
+        async.allowSceneActivation = false;
 
-        // フェードイン演出
+        while (async.progress < 0.9f)
+            yield return null;
+
+        async.allowSceneActivation = true;
         yield return null;
+
+        // フェードイン
+
+        yield return new WaitForSeconds(2f);
+        UIManager.Instance.FadeIn(0.8f);
+        yield return new WaitForSeconds(0.8f);
+
+        // 移行先のシーンの共通処理を呼び出し
+        GameManager.Instance?.SetStateByScene(scene);
+
     }
 
 }

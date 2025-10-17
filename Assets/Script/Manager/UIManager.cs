@@ -2,8 +2,10 @@
  *UIManager.cs
  *ゲームの状態に応じてUIのUI切り替えを管理するスクリプト
  */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -18,6 +20,13 @@ public class UIManager : MonoBehaviour
 
     public static UIManager Instance {  get; private set; }
     [SerializeField] private List<UISet> uiSets;
+
+    [Tooltip("UIPanel")]
+    [SerializeField]private Image fadePanel; // フェード用パネル
+
+
+
+    private Coroutine fadeCoroutine;
 
     // UIManagerのSingletonを初期化
     private void Awake()
@@ -45,4 +54,53 @@ public class UIManager : MonoBehaviour
             set.uiRoot.SetActive(set.state == state);
         }
     }
+
+    //======================================
+    //  ロードUI制御
+    //======================================
+
+
+
+
+    //======================================
+    //  フェードUI制御
+    //======================================
+    public void FadeIn(float duration = 1f)
+    {
+        if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
+        fadeCoroutine = StartCoroutine(FadeRoutine(1f, 0f, duration));
+    }
+
+    public void FadeOut(float duration = 1f)
+    {
+        if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
+        fadeCoroutine = StartCoroutine(FadeRoutine(0f, 1f, duration));
+    }
+
+    private IEnumerator FadeRoutine(float start, float end, float duration)
+    {
+        if (fadePanel == null) yield return null;
+
+        fadePanel.gameObject.SetActive(true);
+        Color color = fadePanel.color;
+        float t = 0f;
+
+        while (t < duration)
+        {
+            t += Time.unscaledDeltaTime;
+            float a = Mathf.Lerp(start, end, t / duration);
+            color.a = a;
+            fadePanel.color = color;
+            yield return null;
+        }
+
+        color.a = end;
+        fadePanel.color = color;
+
+        // 完全に透明になったら非表示
+        if (end == 0f)
+            fadePanel.gameObject.SetActive(false);
+
+    }
+
 }

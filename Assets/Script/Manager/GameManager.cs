@@ -67,7 +67,6 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Playing:
                 Time.timeScale = 1f;
-                AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
                 break;
             case GameState.Paused:
                 Time.timeScale = 0f;
@@ -94,6 +93,7 @@ public class GameManager : MonoBehaviour
                 break;
             case SceneName.Nekogami:
                 ChangeState(GameState.Playing);
+                AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
                 break;
             case SceneName.Result:
                 ChangeState(GameState.Result);
