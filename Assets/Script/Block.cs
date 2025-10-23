@@ -9,7 +9,7 @@ public class Block : MonoBehaviour
     private float hitStopTime; // ヒットストップ時間
     private bool isHitStopping; // 現在ヒットストップ中かどうか
     private bool hit;
-    private bool Move;
+    private bool bMove;
     private int Movenum;
     private Vector3 pPos;   //プレイヤーの位置
     private Vector3 bPos;   //自身の位置
@@ -37,7 +37,7 @@ public class Block : MonoBehaviour
         hitStopTime = 0.05f;
         isHitStopping = false;
 
-        Move = false;
+        bMove = false;
         Movenum = 0;
 
         // 矢印
@@ -82,7 +82,7 @@ public class Block : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (Move && !isHitStopping)
+        if (bMove && !isHitStopping)
         {
             Vector3 move = pushDir[Movenum] * moveForce * Time.fixedDeltaTime;
             rb.MovePosition(rb.position + move);
@@ -123,11 +123,7 @@ public class Block : MonoBehaviour
             if (Vector3.Dot(moveDir, -contactNormal) > 0.5f)
             {
                 Debug.Log("正面から壁に当たった: " + collision.gameObject.name);
-                Move = false;
-                rb.isKinematic = true;//ブロック固定
-
-                // GameMNGに通知
-                GameMNG.Check();
+                StopMove();
             }
             else
             {
@@ -153,7 +149,7 @@ public class Block : MonoBehaviour
         if (pushDir[i] != Vector3.zero)
         {
             rb.isKinematic = false; //固定化解除
-            Move = true;
+            bMove = true;
             return true;
         }
         return false;
@@ -162,8 +158,17 @@ public class Block : MonoBehaviour
     //このブロックが動いているかチェック
     public bool CheckMove()
     {
-        if (Move) { return true; }
+        if (bMove) { return true; }
         return false;
+    }
+
+    public void StopMove()
+    {
+        bMove = false;
+        rb.isKinematic = true;//ブロック固定
+        Debug.Log("とまった");
+        // GameMNGに通知
+        GameMNG.Check();
     }
 
     //フェーズ進行用
