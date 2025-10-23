@@ -205,4 +205,18 @@ public class Block : MonoBehaviour
         rb.isKinematic = false;
         isHitStopping = false;
     }
+
+    // 現在のフェーズ取得
+    public int GetPhase()
+    {
+        return Movenum;
+    }
+
+    // ブロックに動きが予約されているか
+    // 予約されている:true されていない:false
+    public bool CheckReserve(int i)
+    {
+        if (pushDir[i] != Vector3.zero) { return true; }
+        else { return false; }
+    }
 }
