@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms;
 
 
@@ -55,10 +56,35 @@ public class GameMNG : MonoBehaviour
 
         if (_check)
         {
+            // 敵がすべて倒されていたらシーン遷移
+            if (Object.FindFirstObjectByType<Enemy>() == null)
+            {
+                SceneLoader.Instance.LoadScene(SceneName.Result, false);
+            }
+
+            bool _bGameOver = true; // ゲームオーバーフラグ
             //全てのブロックが止まっているので次のふぇーずへ移行
             foreach (Block b in FindObjectsOfType<Block>())
-            {
+            { 
+                // フェーズ3までに倒しきれなかったらゲームオーバー
+                if (b.GetPhase() == 2)
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                }
+
+                // 次のフェーズで1つ以上ブロックが動くか
+                if (b.CheckReserve(b.GetPhase() + 1))
+                {
+                    _bGameOver = false; // 最低でもどれか1つは動くのでゲームオーバーではない
+                }                
+
                 b.addMovenum(true);
+            }
+
+            // 1つもブロックが動かないならゲームオーバー
+            if (_bGameOver)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }
     }
