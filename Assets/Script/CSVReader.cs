@@ -4,11 +4,16 @@ public class StageLoader2D : MonoBehaviour
 {
     public GameObject PlayerPrefab;
     public GameObject EnemyPrefab;
+    public GameObject MoveBlockPrefab;
     public GameObject BlockPrefab;
+    public GameObject WallPrefab;
+
+
+    [SerializeField] private float cellSize = 1f; // 1マスのサイズ（任意で調整可能）
 
     void Start()
     {
-        LoadStage("csvName"); // ここに読み込むcsvデータの名前を入れる
+        LoadStage("test"); // 読み込むCSVファイル名（拡張子なし）
     }
 
     void LoadStage(string stageName)
@@ -22,21 +27,32 @@ public class StageLoader2D : MonoBehaviour
 
         string[] lines = csvFile.text.Split('\n');
 
-        // 上から下に読み込む（行）
-        for (int y = 0; y < lines.Length; y++)
+        int height = lines.Length;
+        int width = lines[0].Split(',').Length;
+
+        // ステージを中央に配置するためのオフセット
+        float offsetX = -(width - 1) * cellSize / 2f;
+        float offsetZ = -(height - 1) * cellSize / 2f;
+
+        // 上から下、左から右に配置
+        for (int y = 0; y < height; y++)
         {
             if (string.IsNullOrWhiteSpace(lines[y])) continue;
 
             string[] values = lines[y].Split(',');
 
-            // 左から右に読み込む（列）
             for (int x = 0; x < values.Length; x++)
             {
-                int cell;
-                if (!int.TryParse(values[x], out cell)) continue;
+                if (!int.TryParse(values[x], out int cell)) continue;
 
-                Vector3 pos = new Vector3(x, -y, 0);
-                // -y にしてるのは、CSV上の上の行をUnity上で上に表示するため
+                // Z軸を使って「上から下」方向に並べる
+                Vector3 pos = new Vector3(
+                    offsetX + x * cellSize,
+                    0f, // 高さ（固定）
+                    offsetZ + (height - 1 - y) * cellSize // CSVの上の行を奥(Z+)に配置
+                );
+
+                GameObject prefab = null;
 
                 switch (cell)
                 {
@@ -44,15 +60,26 @@ public class StageLoader2D : MonoBehaviour
                         Instantiate(PlayerPrefab, pos, Quaternion.identity);
                         break;
 
-                    case 2: // エネミー
+                    case 2: // 敵
                         Instantiate(EnemyPrefab, pos, Quaternion.identity);
                         break;
 
-                    case 3: // ブロック
+                    case 3: // 外壁
+                        Instantiate(WallPrefab, pos, Quaternion.identity);
+                        break;
+
+                    case 4: // 動かないブロック
                         Instantiate(BlockPrefab, pos, Quaternion.identity);
                         break;
 
-                        // case 3: 敵, case 4: アイテム… なども追加可能
+                    case 5: // 動くブロック(3×1)
+                        Instantiate(MoveBlockPrefab, pos, Quaternion.identity);
+                        break;
+                }
+
+                if (prefab != null)
+                {
+                    Instantiate(prefab, pos, Quaternion.identity);
                 }
             }
         }
