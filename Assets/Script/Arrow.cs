@@ -37,7 +37,7 @@ public class Arrow : MonoBehaviour
 
         // Œü‚«‚ð•Ï‚¦‚Ä•\Ž¦
         transform.gameObject.SetActive(true);   // •\Ž¦
-        Debug.Log(_pushDir);
+        //Debug.Log(_pushDir);
         if (_pushDir.x != 0)
         {
             if(_pushDir.x > 0.0f)   // ‰E
