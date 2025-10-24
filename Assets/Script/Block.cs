@@ -233,7 +233,14 @@ public class Block : MonoBehaviour
     // —\–ñ‚³‚ê‚Ä‚¢‚é:true ‚³‚ê‚Ä‚¢‚È‚¢:false
     public bool CheckReserve(int i)
     {
-        if (pushDir[i] != Vector3.zero) { return true; }
-        else { return false; }
+        if(i < 3)
+        {
+            if (pushDir[i] != Vector3.zero) { return true; }
+            else { return false; }
+        }
+        else
+        {
+            return false;
+        }
     }
 }
