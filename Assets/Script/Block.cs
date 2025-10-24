@@ -55,10 +55,12 @@ public class Block : MonoBehaviour
                 //ブロックが斜めに行かないように値が大きい方に飛ばす
                 if (Mathf.Abs(pushDir[Movenum].x) >= Mathf.Abs(pushDir[Movenum].z))
                 {
+                    Debug.Log(pushDir[Movenum]);
                     pushDir[Movenum].z = 0.0f;
                 }
                 else
                 {
+                    Debug.Log(pushDir[Movenum]);
                     pushDir[Movenum].x = 0.0f;
                 }
 

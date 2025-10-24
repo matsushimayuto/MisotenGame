@@ -17,33 +17,10 @@ public class Enemy : MonoBehaviour
     private Vector3 PosTarget;    // 現在の目標地点
     private Block attachedBlock = null;
 
-    [Header("索敵範囲可視化")]
-    [SerializeField] private Material detectionMat;  // 半透明表示用マテリアル
-    private Mesh detectionMesh;
-    private GameObject detectionObj;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         PosTarget = pointB;
-
-        // 索敵範囲の子オブジェクトを作成
-        detectionObj = new GameObject("DetectionRange");
-        detectionObj.transform.parent = transform;
-        detectionObj.transform.localPosition = Vector3.zero;
-
-        // マテリアル設定（指定がなければ Unlit を使用）
-        MeshFilter mf = detectionObj.AddComponent<MeshFilter>();
-        MeshRenderer mr = detectionObj.AddComponent<MeshRenderer>();
-        mr.material = detectionMat != null
-            ? detectionMat
-            : new Material(Shader.Find("Universal Render Pipeline/Unlit"));
-
-        detectionMesh = new Mesh();
-        mf.mesh = detectionMesh;
-
-        // メッシュを初期生成
-        UpdateDetectionMesh();
     }
 
     // Update is called once per frame
@@ -57,14 +34,8 @@ public class Enemy : MonoBehaviour
             Debug.Log("プレイヤー発見！ → ゲームオーバー処理へ");
         }
 
-        bool detected = CanSeeTarget();
-
-    // 発見したら視界色を変える
-    detectionObj.GetComponent<MeshRenderer>().material.color = 
-        detected ? new Color(1, 0, 0, 0.3f) : new Color(1, 1, 0, 0.2f);
-
-    // 毎フレーム視界更新
-    UpdateDetectionMesh();
+        DetectionMesh detectionMesh = transform.GetComponent<DetectionMesh>();
+        detectionMesh.detected = CanSeeTarget();
     }
 
     //移動関数
@@ -155,63 +126,5 @@ public class Enemy : MonoBehaviour
         if (rb != null) rb.isKinematic = true; // 物理干渉を停止
         Collider col = GetComponent<Collider>();
         if (col != null) col.isTrigger = true; // 衝突判定を停止
-    }
-
-    // Sceneビューで扇形を可視化
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, viewDistance);
-
-        Vector3 leftBoundary = Quaternion.Euler(0, -viewAngle / 2, 0) * transform.forward;
-        Vector3 rightBoundary = Quaternion.Euler(0, viewAngle / 2, 0) * transform.forward;
-
-        Gizmos.DrawLine(transform.position, transform.position + leftBoundary * viewDistance);
-        Gizmos.DrawLine(transform.position, transform.position + rightBoundary * viewDistance);
-    }
-
-    //索敵範囲（扇形メッシュ）の生成処理
-    private void UpdateDetectionMesh()
-    {
-        int segments = 100; // 扇形を細かくするほど滑らか
-        int vertexCount = segments + 2;
-        Vector3[] vertices = new Vector3[vertexCount];
-        int[] triangles = new int[segments * 3];
-
-        vertices[0] = Vector3.zero; // 中心点（敵位置）
-
-        float halfAngle = viewAngle * 0.5f;
-        float startAngle = -halfAngle;
-        float angleStep = viewAngle / segments;
-
-        // 視界メッシュをRaycastで補正
-        for (int i = 0; i <= segments; i++)
-        {
-            float currentAngle = startAngle + angleStep * i;
-            Quaternion rot = Quaternion.Euler(0, currentAngle, 0);
-            Vector3 dir = rot * Vector3.forward;
-            // Raycastで障害物に当たったらその地点まで
-            Vector3 rayOrigin = transform.position + Vector3.up * 0.01f; // 少し上から打つ
-            if (Physics.Raycast(rayOrigin, transform.rotation * dir, out RaycastHit hit, viewDistance))
-            {
-                vertices[i + 1] = detectionObj.transform.InverseTransformPoint(hit.point);
-            }
-            else
-            {
-                vertices[i + 1] = Quaternion.Euler(0, currentAngle, 0) * Vector3.forward * viewDistance;
-            }
-        }
-
-        for (int i = 0; i < segments; i++)
-        {
-            triangles[i * 3] = 0;
-            triangles[i * 3 + 1] = i + 1;
-            triangles[i * 3 + 2] = i + 2;
-        }
-
-        detectionMesh.Clear();
-        detectionMesh.vertices = vertices;
-        detectionMesh.triangles = triangles;
-        detectionMesh.RecalculateNormals();
     }
 }
