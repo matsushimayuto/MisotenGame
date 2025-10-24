@@ -1,3 +1,4 @@
+using UnityEditor.ShaderGraph.Drawing.Inspector.PropertyDrawers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms;
@@ -10,7 +11,8 @@ public class GameMNG : MonoBehaviour
     [SerializeField, Tooltip("時間停止(秒)")] private float stopDuration = 10.0f;
    
     bool check=true;
-
+    bool bFlagCollect = false;  // ゲームオーバーフラグを回収したか
+    bool bGameOver = false;     // ゲームオーバーフラグ
     void Start()
     { 
 
@@ -63,31 +65,30 @@ public class GameMNG : MonoBehaviour
                 SceneLoader.Instance.LoadScene(SceneName.Result, false);
             }
 
-            bool _bGameOver = true; // ゲームオーバーフラグ
+            bool _bMoveReserve = false; // ゲームオーバーフラグ
             //全てのブロックが止まっているので次のふぇーずへ移行
             foreach (Block b in FindObjectsOfType<Block>())
             { 
                 // フェーズ3までに倒しきれなかったらゲームオーバー
-                if (b.GetPhase() == 2)
-                {
-                    // GameManager.Instance.ChangeState(GameState.GameOver);
-                    SceneLoader.Instance.LoadScene(SceneName.Nekogami, true, 2.0f);
-                }
+                if (b.GetPhase() == 2) { bGameOver = true; }
 
                 // 次のフェーズで1つ以上ブロックが動くか
                 if (b.CheckReserve(b.GetPhase() + 1))
                 {
-                    _bGameOver = false; // 最低でもどれか1つは動くのでゲームオーバーではない
-                }                
+                    _bMoveReserve = true; // 最低でもどれか1つは動くのでゲームオーバーではない
+                }
 
                 b.addMovenum(true);
             }
 
             // 1つもブロックが動かないならゲームオーバー
-            if (_bGameOver)
+            if (!_bMoveReserve) { bGameOver = true; }
+
+            if(bGameOver && !bFlagCollect)
             {
                 // GameManager.Instance.ChangeState(GameState.GameOver);
                 SceneLoader.Instance.LoadScene(SceneName.Nekogami, true, 2.0f);
+                bFlagCollect = true;
             }
         }
     }
