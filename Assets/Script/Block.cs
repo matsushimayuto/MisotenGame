@@ -134,13 +134,23 @@ public class Block : MonoBehaviour
         }
     }
 
+    // 当たり続けている時
+    private void OnCollisionStay(Collision collision)
+    {
+        //プレイヤーがブロックと当たっているか
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // プレイヤーの位置を更新
+            pPos = collision.transform.position;
+        }
+    }
+
     //プレイヤーが離れたとき
     void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             hit = false;
-            
         }
     }
 
