@@ -25,13 +25,17 @@ public class UIManager : MonoBehaviour
     [SerializeField]private Image fadePanel; // フェード用パネル
 
 
-
     private Coroutine fadeCoroutine;
 
     // UIManagerのSingletonを初期化
     private void Awake()
     {
-        if (Instance == null) { Instance = this; DontDestroyOnLoad(gameObject); }
+        if (Instance == null) 
+        { 
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
         else { Destroy(gameObject); };
     }
 

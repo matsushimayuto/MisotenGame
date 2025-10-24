@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms;
+using UnityEngine.XR;
 
 
 public class GameMNG : MonoBehaviour
@@ -69,7 +70,8 @@ public class GameMNG : MonoBehaviour
                 // フェーズ3までに倒しきれなかったらゲームオーバー
                 if (b.GetPhase() == 2)
                 {
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                    // GameManager.Instance.ChangeState(GameState.GameOver);
+                    SceneLoader.Instance.LoadScene(SceneName.Nekogami, true, 2.0f);
                 }
 
                 // 次のフェーズで1つ以上ブロックが動くか
@@ -84,7 +86,8 @@ public class GameMNG : MonoBehaviour
             // 1つもブロックが動かないならゲームオーバー
             if (_bGameOver)
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                // GameManager.Instance.ChangeState(GameState.GameOver);
+                SceneLoader.Instance.LoadScene(SceneName.Nekogami, true, 2.0f);
             }
         }
     }

@@ -13,7 +13,7 @@ public class Title : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Decide"))
         {
-            SceneLoader.Instance.LoadScene(SceneName.Nekogami, false);
+            SceneLoader.Instance.LoadScene(SceneName.Nekogami, true, 2f);
         }
 
     }
