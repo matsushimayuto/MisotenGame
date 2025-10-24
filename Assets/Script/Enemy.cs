@@ -83,16 +83,26 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.CompareTag("Block"))
         {
             Block block = collision.gameObject.GetComponent<Block>();
-            if (block != null)
+
+            // すでに他のBlockにくっついている場合は、衝突したBlockで押しつぶされたとみなしてDestroy
+            if (attachedBlock != null && block != attachedBlock)
             {
-                attachedBlock = block;
-                if (block != null && block.CheckMove())
+                Debug.Log("Enemyが他のBlockに押しつぶされた！");
+                Destroy(gameObject);
+                return;
+            }
+
+            // まだくっついていない場合だけ、Attach処理を実行
+            if (attachedBlock == null && block != null)
+            {
+                if (block.CheckMove())
                 {
+                    attachedBlock = block;
                     AttachToBlock(block);
 
-                    // ここで一度だけBlockの表面に位置を補正
+                    // Blockの表面位置に少しだけ補正
                     ContactPoint contact = collision.contacts[0];
-                    transform.position = contact.point + contact.normal * 1.0f; // 少しだけ押し出す
+                    transform.position = contact.point + contact.normal * 1.0f;
                 }
             }
         }
@@ -103,7 +113,7 @@ public class Enemy : MonoBehaviour
         if (attachedBlock != null)
         {
             // Enemy がくっついた Block によって移動中
-            if (other.CompareTag("Object"))
+            if (other.CompareTag("Object") || other.CompareTag("Block"))
             {
                 // Block の進行方向に対して正面衝突かチェック
                 Vector3 moveDir = attachedBlock.GetDeltaMove().normalized;
