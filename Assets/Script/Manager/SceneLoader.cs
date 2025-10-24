@@ -33,29 +33,11 @@ public class SceneLoader : MonoBehaviour
     // LoadScene関数 : 引数:string(遷移したいシーン名を記入),GameState(移行する状態を記入)、戻り値:なし
     // シーン遷移時に使用する関数　※遷移処理を一つにまとめたいのでこれを使用してください
     // 使用例：GameManager.Instance.LoadScene("Title", GameState.Title)
-    //public void LoadScene(SceneName scene, GameState nextState = GameState.Playing)
-    //{
-    //    StartCoroutine(LoadSceneRoutine(scene, nextState));
-    //}
-    //private IEnumerator LoadSceneRoutine(SceneName scene, GameState nextState)
-    //{
-    //    // シーン移行するごとにロードシーンを挿む場合はこれを使用
-    //    //ChangeState(GameState.Loading);
 
-    //    AsyncOperation async = SceneManager.LoadSceneAsync(scene.ToString());
-    //    while (!async.isDone)
-    //    {
-    //        yield return null;
-    //    }
-
-    //    // シーン遷移終了後に状態を遷移
-    //    GameManager.Instance.ChangeState(nextState);
-    //}
-
-    public void LoadScene(SceneName scene, bool useTransition = false)
+    public void LoadScene(SceneName scene, bool useTransition = false, float fadeinTime = 0.8f)
     {
         if (useTransition)
-            StartCoroutine(LoadSceneWithFade(scene));
+            StartCoroutine(LoadSceneWithFade(scene, fadeinTime));
         else
             Load(scene);
     }
@@ -66,7 +48,7 @@ public class SceneLoader : MonoBehaviour
         GameManager.Instance?.SetStateByScene(scene);
     }
 
-    private IEnumerator LoadSceneWithFade(SceneName scene)
+    private IEnumerator LoadSceneWithFade(SceneName scene, float fadeInTime)
     {
         // ステート変更
         GameManager.Instance.ChangeState(GameState.Loading);
@@ -87,7 +69,7 @@ public class SceneLoader : MonoBehaviour
 
         // フェードイン
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(fadeInTime);
         UIManager.Instance.FadeIn(0.8f);
         yield return new WaitForSeconds(0.8f);
 
@@ -95,5 +77,8 @@ public class SceneLoader : MonoBehaviour
         GameManager.Instance?.SetStateByScene(scene);
 
     }
+
+
+
 
 }
