@@ -22,13 +22,11 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [Tooltip("現在・前の状態を取得・設定する用の変数")]
-    public GameState CuurentState { get; private set; }
+    public GameState CurrentState { get; private set; }
 
     [Tooltip("ゲームの状態を変更したときに実行するイベントを格納する変数")]
     public event System.Action<GameState> OnStateChanged;
 
-    //[SerializeField]
-    //public GameState StateNo = 0;
 
     //ーーーーーーーーーーーーーーーーーーーーーーーーーーー
     // 以下に関数を記述
@@ -48,6 +46,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+
     }
 
     // ChangeState関数 : 引数:GameState(移行させたい状態を記入)、戻り値:なし
@@ -58,7 +57,7 @@ public class GameManager : MonoBehaviour
     {
         SetState(newState); // 読み込むシーンに応じてUIをセット
 
-        Debug.Log(newState);
+        //Debug.Log(newState);
         // 状態遷移時の共通処理を以下に記述
         switch (newState)
         {
@@ -106,9 +105,9 @@ public class GameManager : MonoBehaviour
     // ChangedStateで呼び出すためこの関数は基本的に使用しない
     public void SetState(GameState newstate)
     {
-        if (CuurentState == newstate) { return; }
-        Debug.Log("SetUI");
-        CuurentState = newstate;
+        if (CurrentState == newstate) { return; }
+        
+        CurrentState = newstate;
         OnStateChanged?.Invoke(newstate);
     }
 
