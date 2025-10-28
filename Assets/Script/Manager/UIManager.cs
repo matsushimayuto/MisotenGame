@@ -18,11 +18,11 @@ public class UIManager : MonoBehaviour
         public GameObject uiRoot;
     }
 
-    public static UIManager Instance {  get; private set; }
+    public static UIManager Instance { get; private set; }
     [SerializeField] private List<UISet> uiSets;
 
     [Tooltip("UIPanel")]
-    [SerializeField]private Image fadePanel; // フェード用パネル
+    [SerializeField] private Image fadePanel; // フェード用パネル
 
 
     private Coroutine fadeCoroutine;
@@ -30,32 +30,48 @@ public class UIManager : MonoBehaviour
     // UIManagerのSingletonを初期化
     private void Awake()
     {
-        if (Instance == null) 
-        { 
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        if (Instance == null) { Instance = this; DontDestroyOnLoad(gameObject); }
+        else { Destroy(gameObject); }
+        ;
 
-        else { Destroy(gameObject); };
+        // GameManagerが存在すれば、イベントを登録
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnStateChanged += HandleStateChanged;
+
+            // 初期状態に応じて、UIをセットして表示
+            HandleStateChanged(GameManager.Instance.CurrentState);
+        }
     }
 
     public void Start()
     {
         // 保存したゲーム状態ごとのUIをイベント関数にて呼び出し、読み込み
-        GameManager.Instance.OnStateChanged += HandleStateChanged;
-        Debug.Log("UI表示");
-        HandleStateChanged(GameManager.Instance.CuurentState);  // ゲーム開始時のUIを表示
-    } 
+        //GameManager.Instance.OnStateChanged += HandleStateChanged;
+        //HandleStateChanged(GameManager.Instance.CurrentState);  // ゲーム開始時のUIを表示
+    }
 
     // HandleStateChanged関数 : 引数:GameState(読み込みたいゲーム状態を入力)、戻り値:なし
     // GameManagerからCuurentStateを受け取り、設定してあるUIを表示する関数
     public void HandleStateChanged(GameState state)
     {
-        
+        Debug.Log($"[UIManager] HandleStateChanged called. State = {state}");
+
         // 読み込んだ状態に当てはまるUIを読み込み、設定
         foreach (var set in uiSets)
         {
-            set.uiRoot.SetActive(set.state == state);
+            bool active = (set.state == state);
+
+            if (set.uiRoot != null)
+            {
+                set.uiRoot.SetActive(active);
+                Debug.Log($"[UIManager] {set.uiRoot.name} → {(active ? "ON" : "OFF")} (Match: {set.state == state})");
+            }
+            else
+            {
+                Debug.LogWarning($"[UIManager] uiRoot is NULL for state {set.state}");
+            }
+
         }
     }
 
