@@ -1,115 +1,108 @@
 using UnityEngine;
 
-// 縦横・位置・太さを調整できるグリッド描画クラス
+// 3Dスペースに線を描画するためのコンポーネント
 [ExecuteAlways]
-public class GridDrawRect : MonoBehaviour
+[RequireComponent(typeof(LineRenderer))]
+public class GridDraw : MonoBehaviour
 {
-    [Header("グリッド設定")]
-    public int gridWidth = 15;       // 横マス数（X方向）
-    public int gridHeight = 11;      // 縦マス数（Z方向）
-    public float cellSize = 1f;      // 1マスの大きさ
-    public Vector3 gridOrigin = Vector3.zero; // グリッド中心位置
-    public Color lineColor = Color.black;
-    [Range(0.001f, 0.5f)] public float lineWidth = 0.05f; // グリッド線の太さ
 
-    [Header("描画設定")]
-    public bool drawInEditor = true;     // シーンビュー描画
-    public bool drawAtRuntime = true;    // 実行時描画
+    public int gridSize = 10;          // グリッドのマス数
+    public float cellSize = 1f;        // 1マスの大きさ
+    public Color lineColor = Color.black;   // グリッド線の色
 
-    private Material lineMat;
+    public bool IsDrawnRuntimeGrid = true;
+    public bool IsOnDrawGizmos = true;
 
     void Start()
     {
-        if (Application.isPlaying && drawAtRuntime)
+        if (Application.isPlaying)
         {
             DrawRuntimeGrid();
         }
     }
 
+    // シーンビューではGizmosで描画
     void OnDrawGizmos()
     {
-        if (!drawInEditor) return;
-
+        if (!IsOnDrawGizmos) { return; }
         Gizmos.color = lineColor;
-        float halfW = gridWidth * cellSize * 0.5f;
-        float halfH = gridHeight * cellSize * 0.5f;
 
-        // Gizmosには線の太さを直接反映できないため、近似的に描く場合はHandlesを使用する。
-#if UNITY_EDITOR
-        UnityEditor.Handles.color = lineColor;
-        for (int x = 0; x <= gridWidth; x++)
+        float halfSize = gridSize * cellSize * 0.5f;
+
+        for (int x = 0; x <= gridSize; x++)
         {
-            float xPos = gridOrigin.x + (x * cellSize - halfW);
-            Vector3 start = new Vector3(xPos, gridOrigin.y + 0.01f, gridOrigin.z - halfH);
-            Vector3 end = new Vector3(xPos, gridOrigin.y + 0.01f, gridOrigin.z + halfH);
-            UnityEditor.Handles.DrawAAPolyLine(lineWidth * 20f, start, end);
+            float xPos = x * cellSize - halfSize;
+            Vector3 start = new Vector3(xPos, 0, -halfSize);
+            Vector3 end = new Vector3(xPos, 0f, halfSize);
+            start.y += 0.015f;
+            end.y += 0.015f;
+            Gizmos.DrawLine(start, end);
         }
 
-        for (int z = 0; z <= gridHeight; z++)
+        for (int z = 0; z <= gridSize; z++)
         {
-            float zPos = gridOrigin.z + (z * cellSize - halfH);
-            Vector3 start = new Vector3(gridOrigin.x - halfW, gridOrigin.y + 0.01f, zPos);
-            Vector3 end = new Vector3(gridOrigin.x + halfW, gridOrigin.y + 0.01f, zPos);
-            UnityEditor.Handles.DrawAAPolyLine(lineWidth * 20f, start, end);
+            float zPos = z * cellSize - halfSize;
+            Vector3 start = new Vector3(-halfSize, 0, zPos);
+            Vector3 end = new Vector3(halfSize, 0, zPos);
+            start.y += 0.015f;
+            end.y += 0.015f;
+            Gizmos.DrawLine(start, end);
         }
-#endif
     }
 
+    // ゲーム実行時：LineRendererを使って描画
     void DrawRuntimeGrid()
     {
-        // 既存ライン削除
-        foreach (Transform child in transform)
-        {
-            if (child.name.Contains("GridLine"))
-                Destroy(child.gameObject);
-        }
+        if (!IsDrawnRuntimeGrid) return;
+        IsDrawnRuntimeGrid = true;
 
-        if (lineMat == null)
-            lineMat = new Material(Shader.Find("Sprites/Default"));
-
-        float halfW = gridWidth * cellSize * 0.5f;
-        float halfH = gridHeight * cellSize * 0.5f;
+        float halfSize = gridSize * cellSize * 0.5f;
 
         // 縦線
-        for (int x = 0; x <= gridWidth; x++)
+        for (int x = 0; x <= gridSize; x++)
         {
-            float xPos = gridOrigin.x + (x * cellSize - halfW);
+            float xPos = x * cellSize - halfSize;
             CreateLine(
-                new Vector3(xPos, gridOrigin.y + 0.01f, gridOrigin.z - halfH),
-                new Vector3(xPos, gridOrigin.y + 0.01f, gridOrigin.z + halfH)
+                new Vector3(xPos, 0, -halfSize),
+                new Vector3(xPos, 0, halfSize)
             );
         }
 
         // 横線
-        for (int z = 0; z <= gridHeight; z++)
+        for (int z = 0; z <= gridSize; z++)
         {
-            float zPos = gridOrigin.z + (z * cellSize - halfH);
+            float zPos = z * cellSize - halfSize;
             CreateLine(
-                new Vector3(gridOrigin.x - halfW, gridOrigin.y + 0.01f, zPos),
-                new Vector3(gridOrigin.x + halfW, gridOrigin.y + 0.01f, zPos)
+                new Vector3(-halfSize, 0, zPos),
+                new Vector3(halfSize, 0, zPos)
             );
         }
     }
 
     void CreateLine(Vector3 start, Vector3 end)
     {
+        start.y += 0.015f;
+        end.y   += 0.015f;
         GameObject lineObj = new GameObject("GridLine");
         lineObj.transform.parent = this.transform;
 
         var lr = lineObj.AddComponent<LineRenderer>();
-        lr.useWorldSpace = true;
+        lr.useWorldSpace = false;
         lr.positionCount = 2;
         lr.SetPosition(0, start);
         lr.SetPosition(1, end);
-        lr.startWidth = lr.endWidth = lineWidth;
-        lr.material = lineMat;
+        lr.startWidth = 0.1f;
+        lr.endWidth = 0.1f;
+        lr.material = new Material(Shader.Find("Sprites/Default"));
         lr.startColor = lr.endColor = lineColor;
     }
 
+    // シーン内で値変更時に自動リフレッシュ
     void OnValidate()
     {
         if (!Application.isPlaying)
         {
+            // エディタで再生前にオブジェクトをクリーンに
             foreach (Transform child in transform)
             {
                 if (child.name.Contains("GridLine"))
