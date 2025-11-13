@@ -6,6 +6,10 @@ public class Block : MonoBehaviour
     [Header("ステータス")]
     [SerializeField, Tooltip("GameMNG")] private GameMNG GameMNG; // gameMng
     [SerializeField, Tooltip("移動速度")] private float moveForce = 5.0f;//移動速度
+
+    [Header("鏡ブロック")]
+    [SerializeField, Tooltip("鏡ブロックならチェック")] private bool bMirror=false;//移動速度
+    [SerializeField, Tooltip("対となるブロック")] private Block MirrorObj;//移動速度
     private float hitStopTime; // ヒットストップ時間
     private bool isHitStopping; // 現在ヒットストップ中かどうか
     private bool hit;
@@ -39,6 +43,7 @@ public class Block : MonoBehaviour
 
         bMove = false;
         Movenum = 0;
+
 
         // 矢印
         for (int i = 0; i < GameMNG.num; i++)
@@ -77,6 +82,14 @@ public class Block : MonoBehaviour
                 // 矢印の描画
                 Debug.Log(Movenum);
                 arrow[Movenum].Draw(pushDir[Movenum], bPos, bScale, Movenum);
+
+                if(bMirror)
+                {
+                    if(MirrorObj!=null)
+                    {
+                        MirrorObj.SetPushDir(pushDir[Movenum]);
+                    }
+                }
 
                 addMovenum(false);
             }
@@ -242,5 +255,12 @@ public class Block : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void SetPushDir(Vector3 _Dir)
+    {
+        pushDir[Movenum] = -_Dir;
+        arrow[Movenum].Draw(pushDir[Movenum], bPos, bScale, Movenum);
+        addMovenum(false);
     }
 }
