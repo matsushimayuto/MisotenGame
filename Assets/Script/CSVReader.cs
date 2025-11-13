@@ -4,16 +4,15 @@ public class StageLoader2D : MonoBehaviour
 {
     public GameObject PlayerPrefab;
     public GameObject EnemyPrefab;
-    public GameObject MoveBlockPrefab;
-    public GameObject BlockPrefab;
     public GameObject WallPrefab;
-
+    public GameObject BlockPrefab;
+    public GameObject MoveBlockPrefab;
 
     [SerializeField] private float cellSize = 1f; // 1マスのサイズ（任意で調整可能）
 
     void Start()
     {
-        LoadStage("test"); // 読み込むCSVファイル名（拡張子なし）
+        LoadStage("Stage1"); // 読み込むCSVファイル名（拡張子なし）
     }
 
     void LoadStage(string stageName)
@@ -72,8 +71,8 @@ public class StageLoader2D : MonoBehaviour
                         Instantiate(BlockPrefab, pos, Quaternion.identity);
                         break;
 
-                    case 5: // 動くブロック(3×1)
-                        Instantiate(MoveBlockPrefab, pos, Quaternion.identity);
+                    case 5: // 動くブロック(3×1)縦
+                        Instantiate(MoveBlockPrefab, pos, Quaternion.Euler(0, 90, 0));
                         break;
                 }
 
