@@ -3,7 +3,7 @@ using UnityEngine.XR;
 
 public class ChangeUI : MonoBehaviour
 {
-    public SaveLoad saveload;
+    //public SaveLoad saveload;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,6 +16,7 @@ public class ChangeUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
             GameManager.Instance.ChangeState(GameState.Playing);
+        //AudioManager.Instance.PlaySE("sakibare");
         if (Input.GetKeyDown(KeyCode.W))
             GameManager.Instance.ChangeState(GameState.Title);
         if (Input.GetKeyDown(KeyCode.E))
