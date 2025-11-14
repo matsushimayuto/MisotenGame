@@ -46,10 +46,12 @@ public class TitleArrow : MonoBehaviour
             switch (choice)
             {
                 case Choice.Start:      // 最初から
-                    SceneLoader.Instance.LoadScene(SceneName.Nekogami, false);
+                    SceneLoader.Instance.LoadScene(SceneName.Select, true, 1f);
+                    AudioManager.Instance.StopBGM(1f);
                     break;
                 case Choice.Continue:   // 途中から
-                    SceneLoader.Instance.LoadScene(SceneName.Nekogami, false);  // とりあえずゲームシーンへ移行
+                    SceneLoader.Instance.LoadScene(SceneName.Select, true, 1f);  // とりあえずゲームシーンへ移行
+                    AudioManager.Instance.StopBGM(1f);
                     break;
                 case Choice.Exit:       // 終了
                     Debug.Log("ゲーム終了");

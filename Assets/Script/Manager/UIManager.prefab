@@ -120,11 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fe774f0d44e517469c948990baeede3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiSets:
-  - state: 0
-    uiRoot: {fileID: 6791902205275678629}
-  - state: 2
-    uiRoot: {fileID: 2280476172116947116}
+  uiSets: []
   fadePanel: {fileID: 4533707344338854695}
 --- !u!1001 &5287139570819645804
 PrefabInstance:
@@ -240,11 +236,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7258544564218917237, guid: e7903724624a5a143bec3a6b15012f11, type: 3}
   m_PrefabInstance: {fileID: 5287139570819645804}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6791902205275678629 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1665802444228781769, guid: e7903724624a5a143bec3a6b15012f11, type: 3}
-  m_PrefabInstance: {fileID: 5287139570819645804}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5833127760758730454
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -349,11 +340,6 @@ PrefabInstance:
 --- !u!224 &1737247913658988766 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5253623851582019080, guid: f02f224f597f7c54cb96e7f552aec130, type: 3}
-  m_PrefabInstance: {fileID: 5833127760758730454}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2280476172116947116 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5716913139316661882, guid: f02f224f597f7c54cb96e7f552aec130, type: 3}
   m_PrefabInstance: {fileID: 5833127760758730454}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6407104544423648185

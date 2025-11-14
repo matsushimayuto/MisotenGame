@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 public enum SceneName
 {
     Title, 
+    Select,
     Nekogami,
+    Stage,
     Result,
 }
 
@@ -75,7 +77,6 @@ public class SceneLoader : MonoBehaviour
 
         // 移行先のシーンの共通処理を呼び出し
         GameManager.Instance?.SetStateByScene(scene);
-
     }
 
 
