@@ -14,21 +14,14 @@ public class Enemy : MonoBehaviour
     [SerializeField, Tooltip("視認距離")] private float viewDistance = 10.0f;          // 視認距離
     //[SerializeField, Tooltip("障害物レイヤー")] private LayerMask obstacleMask;      // 障害物レイヤー
     [SerializeField, Tooltip("探す対象（プレイヤー）")] private Transform target;    // プレイヤー
-    [SerializeField, Tooltip("true→２回当たったら消える")]　private bool requireTwoHits = false; // trueなら2回目、falseなら1回目で消える
 
     private Vector3 PosTarget;    // 現在の目標地点
     private Block attachedBlock = null;
-
-    private bool hasTouchedBlockOnce = false; // 1回目に触れたかどうか
     private bool isLookingAround = false; // 首振り中か
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if ((requireTwoHits))
-        {
-            hasTouchedBlockOnce = true;
-        }
         PosTarget = pointB;
     }
 
@@ -138,27 +131,12 @@ public class Enemy : MonoBehaviour
         return false;
     }
 
-    void OnCollisionEnter(Collision collision)
+    protected virtual void OnCollisionEnter(Collision collision)
     {
         // Block に当たったとき
         if (collision.gameObject.CompareTag("Block"))
         {
             Block block = collision.gameObject.GetComponent<Block>();
-
-            // 1回目のBlock接触は記録だけして終了
-            if (!hasTouchedBlockOnce)
-            {
-                hasTouchedBlockOnce = true;
-
-                block.StopMove();  // Blockを止める
-
-                // requireTwoHitsがfalseなら1回目で消す
-                if (!requireTwoHits)
-                {
-                    Destroy(gameObject);
-                }
-                return;
-            }
 
             // すでに他のBlockにくっついている場合は、衝突したBlockで押しつぶされたとみなしてDestroy
             if (attachedBlock != null && block != attachedBlock)
