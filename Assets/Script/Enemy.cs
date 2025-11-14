@@ -19,12 +19,13 @@ public class Enemy : MonoBehaviour
     private Vector3 PosTarget;    // 現在の目標地点
     private Block attachedBlock = null;
 
-    private bool hasTouchedBlockOnce = false; // 1回目に触れたかどうか
+    private bool hasTouchedBlockOnce = true; // 1回目に触れたかどうか
     private bool isLookingAround = false; // 首振り中か
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        GameMNG = FindFirstObjectByType<GameMNG>();
         PosTarget = pointB;
     }
 

@@ -121,5 +121,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5123affe878f73b4798fa1dd30cb8420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportExit: {fileID: 0}
+  teleportExit: {fileID: 7352013557472369626, guid: d753980e864d6f94b8a1fda0859b6376, type: 3}
   offsetDistance: 0
