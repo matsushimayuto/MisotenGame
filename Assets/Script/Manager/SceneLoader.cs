@@ -7,6 +7,7 @@ public enum SceneName
 {
     Title, 
     Nekogami,
+    Tutorial,
     Result,
 }
 

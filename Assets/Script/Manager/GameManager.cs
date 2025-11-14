@@ -8,6 +8,7 @@ using UnityEngine;
 public enum GameState
 {
     Title,
+    Tutorial,
     Loading,
     Playing,
     Paused,
@@ -76,6 +77,10 @@ public class GameManager : MonoBehaviour
             case GameState.GameOver:
                 // ゲームオーバー演出を再生など
                 break;
+
+            case GameState.Tutorial:
+                // チュートリアル遷移時の処理
+                break;
         }
     }
 
@@ -96,6 +101,9 @@ public class GameManager : MonoBehaviour
                 break;
             case SceneName.Result:
                 ChangeState(GameState.Result);
+                break;
+            case SceneName.Tutorial:
+                ChangeState(GameState.Tutorial);
                 break;
         }
     }
