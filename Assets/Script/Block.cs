@@ -29,6 +29,8 @@ public class Block : MonoBehaviour
 
     void Start()
     {
+        GameMNG = FindFirstObjectByType<GameMNG>();
+
         hit = false;
         // ブロックの位置
         bPos = transform.position;

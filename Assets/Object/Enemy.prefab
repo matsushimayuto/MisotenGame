@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -1043913598327623570}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -129,6 +129,7 @@ MonoBehaviour:
   viewAngle: 90
   viewDistance: 10
   target: {fileID: 6911293092922356346, guid: 1b9f571b91c483a4ba06108c4fda170a, type: 3}
+  requireTwoHits: 0
 --- !u!114 &-1043913598327623570
 MonoBehaviour:
   m_ObjectHideFlags: 0
