@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEditor.ShaderGraph.Drawing.Inspector.PropertyDrawers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -63,6 +64,7 @@ public class GameMNG : MonoBehaviour
             if (Object.FindFirstObjectByType<Enemy>() == null)
             {
                 SceneLoader.Instance.LoadScene(SceneName.Result, false);
+                return;
             }
 
             bool _bMoveReserve = false; // ゲームオーバーフラグ

@@ -8,6 +8,7 @@ using UnityEngine;
 public enum GameState
 {
     Title,
+    Select,
     Loading,
     Playing,
     Paused,
@@ -92,7 +93,7 @@ public class GameManager : MonoBehaviour
                 break;
             case SceneName.Nekogami:
                 ChangeState(GameState.Playing);
-                AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
+                //AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
                 break;
             case SceneName.Result:
                 ChangeState(GameState.Result);

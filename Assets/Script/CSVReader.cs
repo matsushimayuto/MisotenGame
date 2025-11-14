@@ -15,7 +15,7 @@ public class StageLoader2D : MonoBehaviour
         LoadStage("Stage1"); // 読み込むCSVファイル名（拡張子なし）
     }
 
-    void LoadStage(string stageName)
+    public void LoadStage(string stageName)
     {
         TextAsset csvFile = Resources.Load<TextAsset>(stageName);
         if (csvFile == null)
