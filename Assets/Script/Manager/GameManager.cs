@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
             case SceneName.Title:
                 ChangeState(GameState.Title);
                 break;
-            case SceneName.Nekogami:
+            case SceneName.Game:
                 ChangeState(GameState.Playing);
                 //AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
                 break;

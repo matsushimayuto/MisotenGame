@@ -89,7 +89,7 @@ public class GameMNG : MonoBehaviour
             if(bGameOver && !bFlagCollect)
             {
                 // GameManager.Instance.ChangeState(GameState.GameOver);
-                SceneLoader.Instance.LoadScene(SceneName.Nekogami, true, 2.0f);
+                SceneLoader.Instance.LoadScene(SceneName.Game, true, 2.0f);
                 bFlagCollect = true;
             }
         }
