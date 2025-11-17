@@ -7,7 +7,7 @@ public enum SceneName
 {
     Title, 
     Select,
-    Nekogami,
+    Game,
     Stage,
     Result,
 }
