@@ -1001,11 +1001,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7db452f45a5e234fb762d32dc150bf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: 8
+  gridWidth: 15
+  gridHeight: 11
   cellSize: 4.6
+  gridOrigin: {x: 0, y: 0, z: 0}
   lineColor: {r: 0, g: 0, b: 0, a: 1}
-  IsDrawnRuntimeGrid: 1
-  IsOnDrawGizmos: 1
+  lineWidth: 0.05
+  drawInEditor: 1
+  drawAtRuntime: 1
 --- !u!120 &729361790
 LineRenderer:
   serializedVersion: 2
@@ -1308,6 +1311,10 @@ PrefabInstance:
       propertyPath: MirrorObj
       value: 
       objectReference: {fileID: 1791785200}
+    - target: {fileID: 2194702909872538288, guid: a2158b263ee389b4fac174d6609140dd, type: 3}
+      propertyPath: stopEffectPrefab
+      value: 
+      objectReference: {fileID: 440553042098200902, guid: d78e07a139749814d941e6d20c05c508, type: 3}
     - target: {fileID: 7739215550424581357, guid: a2158b263ee389b4fac174d6609140dd, type: 3}
       propertyPath: m_Name
       value: Move1(2)
@@ -1822,6 +1829,10 @@ PrefabInstance:
       propertyPath: moveForce
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2194702909872538288, guid: a2158b263ee389b4fac174d6609140dd, type: 3}
+      propertyPath: stopEffectPrefab
+      value: 
+      objectReference: {fileID: 440553042098200902, guid: d78e07a139749814d941e6d20c05c508, type: 3}
     - target: {fileID: 7739215550424581357, guid: a2158b263ee389b4fac174d6609140dd, type: 3}
       propertyPath: m_Name
       value: Move1(1)
@@ -2750,6 +2761,10 @@ PrefabInstance:
       propertyPath: GameMNG
       value: 
       objectReference: {fileID: 407886747}
+    - target: {fileID: 2194702909872538288, guid: a2158b263ee389b4fac174d6609140dd, type: 3}
+      propertyPath: stopEffectPrefab
+      value: 
+      objectReference: {fileID: 440553042098200902, guid: d78e07a139749814d941e6d20c05c508, type: 3}
     - target: {fileID: 7739215550424581357, guid: a2158b263ee389b4fac174d6609140dd, type: 3}
       propertyPath: m_Name
       value: Move1
