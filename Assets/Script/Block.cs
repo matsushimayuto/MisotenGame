@@ -27,6 +27,9 @@ public class Block : MonoBehaviour
     private GameObject[] arrowInstance = new GameObject[3];
     private Arrow[] arrow = new Arrow[3];
 
+    [Header("エフェクト")]
+    [SerializeField] private GameObject stopEffectPrefab;  // エフェクトのプレハブ
+
     void Start()
     {
         GameMNG = FindFirstObjectByType<GameMNG>();
@@ -177,6 +180,10 @@ public class Block : MonoBehaviour
         {
             rb.isKinematic = false; //固定化解除
             bMove = true;
+
+            // 動き出す瞬間のエフェクト
+            SpawnStopEffect();
+
             return true;
         }
         return false;
@@ -194,6 +201,7 @@ public class Block : MonoBehaviour
         bMove = false;
         rb.isKinematic = true;//ブロック固定
         Debug.Log("とまった");
+
         // GameMNGに通知
         GameMNG.Check();
     }
@@ -265,4 +273,37 @@ public class Block : MonoBehaviour
         arrow[Movenum].Draw(pushDir[Movenum], bPos, bScale, Movenum);
         addMovenum(false);
     }
+
+    private void SpawnStopEffect()
+    {
+        // 今回の進行方向
+        Vector3 dir = pushDir[Movenum];
+
+        // 無効なら何もしない
+        if (dir == Vector3.zero || stopEffectPrefab == null) return;
+
+        // 反対方向
+        Vector3 backDir = -dir;
+
+        // ----------- ブロックの半径を計算 -----------
+        Vector3 scale = transform.localScale;
+        float radius;
+
+        // X方向が強い → X側面
+        if (Mathf.Abs(dir.x) >= Mathf.Abs(dir.z))
+        {
+            radius = scale.x * 0.5f;
+        }
+        else // Z方向が強い → Z側面
+        {
+            radius = scale.z * 0.5f;
+        }
+
+        // 側面へ少しずらす
+        Vector3 spawnPos = transform.position + backDir * radius;
+
+        // エフェクト生成
+        Instantiate(stopEffectPrefab, spawnPos, Quaternion.LookRotation(backDir));
+    }
+
 }
