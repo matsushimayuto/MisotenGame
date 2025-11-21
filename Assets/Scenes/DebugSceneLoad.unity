@@ -408,7 +408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startscene: 0
   AudioManager: {fileID: 4937154202235016986, guid: fb6a9987304643c41ba3f844820d0326, type: 3}
-  UIManager: {fileID: 8130059394108812973, guid: 798cf2fd741e4b840934baf6637f543e, type: 3}
+  UIManager: {fileID: 8778347783636371982, guid: 7f79f7d39356ec447b6571923b86d58e, type: 3}
 --- !u!4 &1992206754
 Transform:
   m_ObjectHideFlags: 0
