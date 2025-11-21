@@ -114,20 +114,23 @@ public class Enemy : MonoBehaviour
 
     private bool CanSeeTarget()
     {
-        Vector3 dirToTarget = (target.position - transform.position).normalized;
-        float distanceToTarget = Vector3.Distance(transform.position, target.position);
-
-        // 1. 距離チェック
-        if (distanceToTarget > viewDistance) return false;
-
-        // 2. 扇形（視野角チェック）
-        float angle = Vector3.Angle(transform.forward, dirToTarget);
-        if (angle > viewAngle * 0.5f) return false;
-
-        // 3. Raycastで障害物チェック
-        if (Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, viewDistance))
+        if (target)
         {
-            if (hit.transform == target) return true;
+            Vector3 dirToTarget = (target.position - transform.position).normalized;
+            float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+            // 1. 距離チェック
+            if (distanceToTarget > viewDistance) return false;
+
+            // 2. 扇形（視野角チェック）
+            float angle = Vector3.Angle(transform.forward, dirToTarget);
+            if (angle > viewAngle * 0.5f) return false;
+
+            // 3. Raycastで障害物チェック
+            if (Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, viewDistance))
+            {
+                if (hit.transform == target) return true;
+            }
         }
 
         return false;
