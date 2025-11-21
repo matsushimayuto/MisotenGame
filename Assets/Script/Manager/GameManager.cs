@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        
     }
 
     // ChangeState関数 : 引数:GameState(移行させたい状態を記入)、戻り値:なし

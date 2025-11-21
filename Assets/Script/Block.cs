@@ -30,6 +30,13 @@ public class Block : MonoBehaviour
     [Header("エフェクト")]
     [SerializeField] private GameObject stopEffectPrefab;  // エフェクトのプレハブ
 
+    // 執事(仮) ※後々削除予定
+    [Header("執事")]
+    [SerializeField] private GameObject butlerPrefab;   // 執事(仮)のプレハブ
+
+    const float destroyTime = 1.0f;
+    private float timeCount = 0.0f;
+
     void Start()
     {
         GameMNG = FindFirstObjectByType<GameMNG>();
@@ -56,6 +63,9 @@ public class Block : MonoBehaviour
             arrowInstance[i] = Instantiate(arrowPrefab, bPos, Quaternion.identity);
             arrow[i] = arrowInstance[i].GetComponent<Arrow>();
         }
+
+        // 執事(仮)
+        butlerPrefab = Instantiate(butlerPrefab, new Vector3(999.0f, 999.0f, 999.0f), Quaternion.identity);
     }
 
     void Update()
@@ -107,10 +117,22 @@ public class Block : MonoBehaviour
             Vector3 move = pushDir[Movenum] * moveForce * Time.fixedDeltaTime;
             rb.MovePosition(rb.position + move);
             deltaMove = move; // 移動量を保存
+            bPos = transform.position;
         }
         else
         {
             deltaMove = Vector3.zero;
+        }
+
+        // 執事(仮)
+        if(butlerPrefab.transform.position.x != 999.0f)
+        {
+            timeCount += Time.deltaTime;
+            if (timeCount > destroyTime)
+            {
+                butlerPrefab.transform.position = new Vector3(999.0f, 999.0f, 999.0f);
+                timeCount = 0.0f;
+            }            
         }
     }
 
@@ -304,6 +326,35 @@ public class Block : MonoBehaviour
 
         // エフェクト生成
         Instantiate(stopEffectPrefab, spawnPos, Quaternion.LookRotation(backDir));
+    }
+
+    // 執事(仮)出現用関数(後々エフェクトに置き換わるため削除予定)
+    public void AppearButler()
+    {
+        if (pushDir[GetPhase() + 1].x != 0)
+        {
+            if (pushDir[GetPhase() + 1].x > 0.0f)   // 右
+            {
+                butlerPrefab.transform.position = new Vector3(bPos.x - bScale.x * 1.0f, 1.5f, bPos.z);
+            }
+            else                    // 左
+            {
+                butlerPrefab.transform.position = new Vector3(bPos.x + bScale.x * 1.0f, 1.5f, bPos.z);
+            }
+        }
+        else
+        {
+            if (pushDir[GetPhase() + 1].z > 0.0f)  // 上
+            {
+                butlerPrefab.transform.position = new Vector3(bPos.x, 1.5f, bPos.z - bScale.z * 1.0f);
+                Debug.Log(bPos);
+            }
+            else                    // 下
+            {
+                butlerPrefab.transform.position = new Vector3(bPos.x, 1.5f, bPos.z + bScale.z * 1.0f);
+            }
+        }
+        Debug.Log(butlerPrefab.transform.position);
     }
 
 }

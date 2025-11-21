@@ -1,9 +1,4 @@
-using Unity.VisualScripting;
-using UnityEditor.ShaderGraph.Drawing.Inspector.PropertyDrawers;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms;
-using UnityEngine.XR;
 
 
 public class GameMNG : MonoBehaviour
@@ -77,6 +72,7 @@ public class GameMNG : MonoBehaviour
                 // 次のフェーズで1つ以上ブロックが動くか
                 if (b.CheckReserve(b.GetPhase() + 1))
                 {
+                    b.AppearButler();
                     _bMoveReserve = true; // 最低でもどれか1つは動くのでゲームオーバーではない
                 }
 

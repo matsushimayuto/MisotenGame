@@ -1312,6 +1312,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1791785200}
     - target: {fileID: 2194702909872538288, guid: a2158b263ee389b4fac174d6609140dd, type: 3}
+      propertyPath: butlerPrefab
+      value: 
+      objectReference: {fileID: 6187430223996502943, guid: 2217beb529ff11d4ba48e99aaea17b50, type: 3}
+    - target: {fileID: 2194702909872538288, guid: a2158b263ee389b4fac174d6609140dd, type: 3}
       propertyPath: stopEffectPrefab
       value: 
       objectReference: {fileID: 440553042098200902, guid: d78e07a139749814d941e6d20c05c508, type: 3}
@@ -1829,6 +1833,10 @@ PrefabInstance:
       propertyPath: moveForce
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2194702909872538288, guid: a2158b263ee389b4fac174d6609140dd, type: 3}
+      propertyPath: butlerPrefab
+      value: 
+      objectReference: {fileID: 6187430223996502943, guid: 2217beb529ff11d4ba48e99aaea17b50, type: 3}
     - target: {fileID: 2194702909872538288, guid: a2158b263ee389b4fac174d6609140dd, type: 3}
       propertyPath: stopEffectPrefab
       value: 
@@ -2761,6 +2769,10 @@ PrefabInstance:
       propertyPath: GameMNG
       value: 
       objectReference: {fileID: 407886747}
+    - target: {fileID: 2194702909872538288, guid: a2158b263ee389b4fac174d6609140dd, type: 3}
+      propertyPath: butlerPrefab
+      value: 
+      objectReference: {fileID: 6187430223996502943, guid: 2217beb529ff11d4ba48e99aaea17b50, type: 3}
     - target: {fileID: 2194702909872538288, guid: a2158b263ee389b4fac174d6609140dd, type: 3}
       propertyPath: stopEffectPrefab
       value: 

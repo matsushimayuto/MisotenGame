@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,9 +16,6 @@ public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader Instance{  get; private set; }
     public SceneName CuurentScene {  get; private set; }
-
-    [SerializeField]
-    private GameObject uiManaegrPrefab;
 
     private void Awake()
     {
