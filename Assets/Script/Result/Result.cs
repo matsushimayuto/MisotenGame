@@ -13,7 +13,7 @@ public class Result : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Decide"))
         {
-            SceneLoader.Instance.LoadScene(SceneName.Title, false);
+            SceneLoader.Instance.LoadScene(SceneName.Title, true, 1.0f);
         }
 
     }
