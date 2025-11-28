@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     //[SerializeField, Tooltip("障害物レイヤー")] private LayerMask obstacleMask;      // 障害物レイヤー
     [SerializeField, Tooltip("探す対象（プレイヤー）")] private Transform target;    // プレイヤー
 
+    private Coroutine lookCoroutine;
     private Vector3 PosTarget;    // 現在の目標地点
     private Block attachedBlock = null;
 
@@ -29,10 +30,9 @@ public class Enemy : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        if (attachedBlock != null || isLookingAround) { return; }
-            
+    {    
         Move();//移動関数
+
         if (CanSeeTarget()) //索敵範囲内かのチェック
         {
             Debug.Log("プレイヤー発見！ → ゲームオーバー処理へ");
@@ -45,6 +45,9 @@ public class Enemy : MonoBehaviour
     //移動関数
     private void Move()
     {
+        //ブロックにあったているときor折り返し時辺り見回してるときは移動しない
+        if (attachedBlock != null || isLookingAround) { return; }
+
         // 通常パトロール
         transform.position = Vector3.MoveTowards(transform.position, PosTarget, speed * Time.deltaTime);
         Vector3 dir = (PosTarget - transform.position).normalized;
@@ -54,40 +57,60 @@ public class Enemy : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
         }
 
-        //if (Vector3.Distance(transform.position, PosTarget) < 0.05f)
-        //{
-        //    PosTarget = (PosTarget == pointA) ? pointB : pointA;
-        //}
-
         // 到達したら首振り動作へ
         if (Vector3.Distance(transform.position, PosTarget) < 0.05f)
         {
-            StartCoroutine(LookAround());
+            lookCoroutine=StartCoroutine(LookAround(false));
         }
     }
 
-    // 首を振るコルーチン
-    private IEnumerator LookAround()
+    public void StartInfiniteLook()
     {
+
+
+        // 一回 Look が動いていたら終了
+        if (lookCoroutine != null)
+            StopCoroutine(lookCoroutine);
+        LookAtPlayerInstant();
+        lookCoroutine = StartCoroutine(LookAround(true));
+    }
+    private void LookAtPlayerInstant()
+    {
+        if (target == null) return;
+
+        Vector3 dir = (target.position - transform.position).normalized;
+        if (dir.sqrMagnitude > 0.001f)
+        {
+            transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
+        }
+    }
+    // 首を振るコルーチン
+    private IEnumerator LookAround(bool _infinite)
+    {
+        
         isLookingAround = true;
 
         float angle = 45f; // 左右角度
         float waitTime = 0.2f;
 
-        bool startRight = Random.value > 0.5f;
-        float[] pattern = startRight ? new float[] { angle, -angle, angle } : new float[] { -angle, angle, -angle };
-
-        Quaternion startRot = transform.rotation; // 基準は最初の正面
-
-        foreach (float yaw in pattern)
+        do
         {
-            Quaternion targetRot = startRot * Quaternion.Euler(0, yaw, 0); // 常に正面基準
-            yield return SmoothRotateTo(targetRot, 1.2f);
-            yield return new WaitForSeconds(waitTime);
-        }
+            bool startRight = Random.value > 0.5f;
+            float[] pattern = startRight ? new float[] { angle, -angle, angle } : new float[] { -angle, angle, -angle };
 
-        // 中央に戻す
-        yield return SmoothRotateTo(startRot, 1.2f);
+            Quaternion startRot = transform.rotation; // 基準は最初の正面
+
+            foreach (float yaw in pattern)
+            {
+                Quaternion targetRot = startRot * Quaternion.Euler(0, yaw, 0); // 常に正面基準
+                yield return SmoothRotateTo(targetRot, 1.2f);
+                yield return new WaitForSeconds(waitTime);
+            }
+
+            // 中央に戻す
+            yield return SmoothRotateTo(startRot, 1.2f);
+
+        } while (_infinite);
 
         PosTarget = (PosTarget == pointA) ? pointB : pointA;
         isLookingAround = false;
@@ -114,26 +137,27 @@ public class Enemy : MonoBehaviour
 
     private bool CanSeeTarget()
     {
-        if (target)
+        //ブロックに当たっているときは索敵しないorプレイヤーが存在しない
+        if (attachedBlock != null||target==null) return false;
+
+        Vector3 dirToTarget = (target.position - transform.position).normalized;
+        float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+        // 1. 距離チェック
+        if (distanceToTarget > viewDistance) return false;
+
+        // 2. 扇形（視野角チェック）
+        float angle = Vector3.Angle(transform.forward, dirToTarget);
+        if (angle > viewAngle * 0.5f) return false;
+
+        // 3. Raycastで障害物チェック
+        if (Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, viewDistance))
         {
-            Vector3 dirToTarget = (target.position - transform.position).normalized;
-            float distanceToTarget = Vector3.Distance(transform.position, target.position);
-
-            // 1. 距離チェック
-            if (distanceToTarget > viewDistance) return false;
-
-            // 2. 扇形（視野角チェック）
-            float angle = Vector3.Angle(transform.forward, dirToTarget);
-            if (angle > viewAngle * 0.5f) return false;
-
-            // 3. Raycastで障害物チェック
-            if (Physics.Raycast(transform.position, dirToTarget, out RaycastHit hit, viewDistance))
-            {
-                if (hit.transform == target) return true;
-            }
+            if (hit.transform == target) return true;
         }
 
         return false;
+        
     }
 
     protected virtual void OnCollisionEnter(Collision collision)
@@ -196,4 +220,6 @@ public class Enemy : MonoBehaviour
         Collider col = GetComponent<Collider>();
         if (col != null) col.isTrigger = true; // 衝突判定を停止
     }
+
+   
 }
