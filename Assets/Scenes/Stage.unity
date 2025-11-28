@@ -357,18 +357,19 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 1314136703702676542, guid: 1b9f571b91c483a4ba06108c4fda170a, type: 3}
   WallPrefab: {fileID: 8679233647464738376, guid: 4fb548155ee283747ae79a48d4e98ed6, type: 3}
   EnemyPrefab: {fileID: 1440124942653354662, guid: d86bab3e4bb658f43bc285a6b5821c9e, type: 3}
-  BlockPrefab1: {fileID: 0}
-  BlockPrefab2: {fileID: 0}
-  BlockPrefab3: {fileID: 0}
-  BlockPrefab4: {fileID: 0}
-  BlockPrefab5: {fileID: 0}
-  BlockPrefab6: {fileID: 0}
-  MoveBlockPrefab1: {fileID: 7739215550424581357, guid: 1814dee028ec11a49bab5ace8e015bf7, type: 3}
-  MoveBlockPrefab2: {fileID: 7739215550424581357, guid: 1814dee028ec11a49bab5ace8e015bf7, type: 3}
-  MoveBlockPrefab3: {fileID: 0}
-  MoveBlockPrefab4: {fileID: 0}
-  MoveBlockPrefab5: {fileID: 0}
+  BlockPrefab1: {fileID: 8679233647464738376, guid: f5e3e24e22f691641b3352164151f977, type: 3}
+  BlockPrefab2: {fileID: 8679233647464738376, guid: f5e3e24e22f691641b3352164151f977, type: 3}
+  BlockPrefab3: {fileID: 8679233647464738376, guid: be0b87a37c0283a46a6de8b41e30d4a7, type: 3}
+  BlockPrefab4: {fileID: 8679233647464738376, guid: be0b87a37c0283a46a6de8b41e30d4a7, type: 3}
+  BlockPrefab5: {fileID: 8679233647464738376, guid: 8d2d89da5a2bacd4f8a29828f025f145, type: 3}
+  BlockPrefab6: {fileID: 8679233647464738376, guid: a05f77265e34b2c44a157f527c54ae87, type: 3}
+  MoveBlockPrefab1: {fileID: 1482092415023605716, guid: cf5a1c2ea3e466a4da29ef5dbc1da8d8, type: 3}
+  MoveBlockPrefab2: {fileID: 1482092415023605716, guid: cf5a1c2ea3e466a4da29ef5dbc1da8d8, type: 3}
+  MoveBlockPrefab3: {fileID: 7689065736055001702, guid: 4c2103f01bd05d248895aa4babb92d02, type: 3}
+  MoveBlockPrefab4: {fileID: 7689065736055001702, guid: 4c2103f01bd05d248895aa4babb92d02, type: 3}
+  MoveBlockPrefab5: {fileID: 2311755451410034152, guid: 0b116d2391a6e894dbbb32c44b9d1cd4, type: 3}
   cellSize: 3
+  StageCSV: {fileID: 4900000, guid: b522c6bfde7606c4d8746f01b6b92fee, type: 3}
 --- !u!4 &730625600
 Transform:
   m_ObjectHideFlags: 0
