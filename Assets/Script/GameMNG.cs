@@ -19,15 +19,20 @@ public class GameMNG : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.T) || Input.GetButtonDown("Decide"))
         {
             if (check)
-                // ブロック移動開始処理
+            { // ブロック移動開始処理
                 foreach (Block b in FindObjectsByType<Block>(FindObjectsSortMode.None))
                 {
                     Debug.Log("移動");
-                    if (b.ReleaseStoredForce(0)) 
+                    if (b.ReleaseStoredForce(0))
                     {
                         check = false;
                         b.DestroyArrow();
-                     }
+                    }
+                }
+                foreach (Enemy e in FindObjectsByType<Enemy>(FindObjectsSortMode.None))
+                {
+                    e.StartInfiniteLook();
+                }
             }
         }
 
