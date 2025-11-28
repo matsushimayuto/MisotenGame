@@ -357,9 +357,17 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 1314136703702676542, guid: 1b9f571b91c483a4ba06108c4fda170a, type: 3}
   WallPrefab: {fileID: 8679233647464738376, guid: 4fb548155ee283747ae79a48d4e98ed6, type: 3}
   EnemyPrefab: {fileID: 1440124942653354662, guid: d86bab3e4bb658f43bc285a6b5821c9e, type: 3}
-  BlockPrefab: {fileID: 0}
+  BlockPrefab1: {fileID: 0}
+  BlockPrefab2: {fileID: 0}
+  BlockPrefab3: {fileID: 0}
+  BlockPrefab4: {fileID: 0}
+  BlockPrefab5: {fileID: 0}
+  BlockPrefab6: {fileID: 0}
   MoveBlockPrefab1: {fileID: 7739215550424581357, guid: 1814dee028ec11a49bab5ace8e015bf7, type: 3}
-  MoveBlockPrefab2: {fileID: 0}
+  MoveBlockPrefab2: {fileID: 7739215550424581357, guid: 1814dee028ec11a49bab5ace8e015bf7, type: 3}
+  MoveBlockPrefab3: {fileID: 0}
+  MoveBlockPrefab4: {fileID: 0}
+  MoveBlockPrefab5: {fileID: 0}
   cellSize: 3
 --- !u!4 &730625600
 Transform:
