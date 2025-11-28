@@ -1,18 +1,20 @@
 using UnityEngine;
+using System;
 
 public class StageLoader2D : MonoBehaviour
 {
     public GameObject PlayerPrefab;
-    public GameObject EnemyPrefab;
     public GameObject WallPrefab;
+    public GameObject EnemyPrefab;
     public GameObject BlockPrefab;
-    public GameObject MoveBlockPrefab;
+    public GameObject MoveBlockPrefab1;
+    public GameObject MoveBlockPrefab2;
 
     [SerializeField] private float cellSize = 1f; // 1マスのサイズ（任意で調整可能）
 
     void Start()
     {
-        LoadStage("Stage1"); // 読み込むCSVファイル名（拡張子なし）
+        LoadStage("Stage1/Stage1-1"); // 読み込むCSVファイル名（拡張子なし）
     }
 
     void LoadStage(string stageName)
@@ -24,63 +26,56 @@ public class StageLoader2D : MonoBehaviour
             return;
         }
 
-        string[] lines = csvFile.text.Split('\n');
+        // 改行コードと空行の扱いを正しくする
+        string[] lines = csvFile.text
+            .Replace("\r", "")
+            .Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
         int height = lines.Length;
         int width = lines[0].Split(',').Length;
 
-        // ステージを中央に配置するためのオフセット
         float offsetX = -(width - 1) * cellSize / 2f;
         float offsetZ = -(height - 1) * cellSize / 2f;
 
-        // 上から下、左から右に配置
         for (int y = 0; y < height; y++)
         {
-            if (string.IsNullOrWhiteSpace(lines[y])) continue;
+            string line = lines[y].Trim();  // ← 重要
+            if (string.IsNullOrWhiteSpace(line)) continue;
 
-            string[] values = lines[y].Split(',');
+            string[] values = line.Split(',');
 
             for (int x = 0; x < values.Length; x++)
             {
                 if (!int.TryParse(values[x], out int cell)) continue;
 
-                // Z軸を使って「上から下」方向に並べる
                 Vector3 pos = new Vector3(
                     offsetX + x * cellSize,
-                    0f, // 高さ（固定）
-                    offsetZ + (height - 1 - y) * cellSize // CSVの上の行を奥(Z+)に配置
+                    0f,
+                    offsetZ + (height - 1 - y) * cellSize
                 );
-
-                GameObject prefab = null;
 
                 switch (cell)
                 {
-                    case 1: // プレイヤー
-                        Instantiate(PlayerPrefab, pos, Quaternion.identity);
-                        break;
+                    // プレイヤー
+                    case 1: Instantiate(PlayerPrefab, pos, Quaternion.identity); break;
 
-                    case 2: // 敵
-                        Instantiate(EnemyPrefab, pos, Quaternion.identity);
-                        break;
+                    // 外壁
+                    case 2: Instantiate(WallPrefab, pos, Quaternion.identity); break;
 
-                    case 3: // 外壁
-                        Instantiate(WallPrefab, pos, Quaternion.identity);
-                        break;
+                    // 敵
+                    case 100: Instantiate(EnemyPrefab, pos, Quaternion.identity); break;
 
-                    case 4: // 動かないブロック
-                        Instantiate(BlockPrefab, pos, Quaternion.identity);
-                        break;
+                    // 動かないブロック
+                    case 200: Instantiate(BlockPrefab, pos, Quaternion.identity); break;
 
-                    case 5: // 動くブロック(3×1)縦
-                        Instantiate(MoveBlockPrefab, pos, Quaternion.Euler(0, 90, 0));
-                        break;
-                }
+                    // 動くブロック（3*1）縦
+                    case 201: Instantiate(MoveBlockPrefab1, pos, Quaternion.Euler(0, 90, 0)); break;
 
-                if (prefab != null)
-                {
-                    Instantiate(prefab, pos, Quaternion.identity);
+                    // 動くブロック（3*1）横
+                    case 202: Instantiate(MoveBlockPrefab2, pos, Quaternion.Euler(0,180, 0)); break;
                 }
             }
         }
     }
+
 }
