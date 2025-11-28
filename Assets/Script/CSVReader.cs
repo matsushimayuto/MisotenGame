@@ -63,6 +63,8 @@ public class StageLoader2D : MonoBehaviour
                     offsetZ + (height - 1 - y) * cellSize
                 );
 
+                Vector3 adjust = Vector3.zero;
+
                 switch (cell)
                 {
                     // プレイヤー
@@ -75,20 +77,29 @@ public class StageLoader2D : MonoBehaviour
                     case 100: Instantiate(EnemyPrefab, pos, Quaternion.identity); break;
 
                     // 動かないブロック（3*1）縦
-                    case 200: Instantiate(BlockPrefab1, pos, Quaternion.Euler(0, 90, 0)); break;
+                    case 200: Instantiate(BlockPrefab1, pos, Quaternion.identity); break;
 
                     // 動かないブロック（3*1）横
-                    case 201: Instantiate(BlockPrefab2, pos, Quaternion.identity); break;
+                    case 201: Instantiate(BlockPrefab2, pos, Quaternion.Euler(0, 90, 0)); break;
 
                     // 動かないブロック（2*1）縦
-                    case 202: Instantiate(BlockPrefab3, pos, Quaternion.Euler(0, 90, 0)); break;
+                    case 202:
+                        adjust = new Vector3(0, 0, -cellSize * 0.5f);
+                        Instantiate(BlockPrefab3, pos + adjust, Quaternion.Euler(0, 90, 0));
+                        break;
 
                     // 動かないブロック（2*1）横
-                    case 203: Instantiate(BlockPrefab4, pos, Quaternion.identity); break;
+                    case 203:
+                        adjust = new Vector3(cellSize * 0.5f, 0, 0);
+                        Instantiate(BlockPrefab4, pos + adjust, Quaternion.identity);
+                        break;
 
                     // 動かないブロック（2*2）
-                    case 204: Instantiate(BlockPrefab5, pos, Quaternion.identity); break;
-                    
+                    case 204:
+                        adjust = new Vector3(cellSize * 0.5f, 0, -cellSize * 0.5f);
+                        Instantiate(BlockPrefab5, pos + adjust, Quaternion.identity);
+                        break;
+
                     // 動かないブロック（1*1）
                     case 205: Instantiate(BlockPrefab6, pos, Quaternion.identity); break;
 
@@ -99,11 +110,15 @@ public class StageLoader2D : MonoBehaviour
                     case 301: Instantiate(MoveBlockPrefab2, pos, Quaternion.Euler(0, 90, 0)); break;
 
                     // 動くブロック（2*1）縦
-                    case 302: Instantiate(MoveBlockPrefab3, pos, Quaternion.identity); break;
-
+                    case 302:
+                        adjust = new Vector3(0, 0, -cellSize * 0.5f);
+                        Instantiate(MoveBlockPrefab3, pos + adjust, Quaternion.identity);
+                        break;
                     // 動くブロック（2*1）横
-                    case 303: Instantiate(MoveBlockPrefab4, pos, Quaternion.Euler(0, 90, 0)); break;
-
+                    case 303:
+                        adjust = new Vector3(cellSize * 0.5f, 0, 0);
+                        Instantiate(MoveBlockPrefab4, pos + adjust, Quaternion.Euler(0, 90, 0));
+                        break;
                     // 動くブロック（1*1）横
                     case 304: Instantiate(MoveBlockPrefab5, pos, Quaternion.identity); break;
                 }
