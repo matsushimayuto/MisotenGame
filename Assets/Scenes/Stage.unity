@@ -152,7 +152,7 @@ MonoBehaviour:
   gridWidth: 15
   gridHeight: 11
   cellSize: 3
-  gridOrigin: {x: 0, y: 0, z: 3}
+  gridOrigin: {x: 0, y: 0, z: -1.5}
   lineColor: {r: 0, g: 0, b: 0, a: 1}
   lineWidth: 0.1
   drawInEditor: 1
@@ -355,10 +355,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 1314136703702676542, guid: 1b9f571b91c483a4ba06108c4fda170a, type: 3}
-  EnemyPrefab: {fileID: 1440124942653354662, guid: d86bab3e4bb658f43bc285a6b5821c9e, type: 3}
   WallPrefab: {fileID: 8679233647464738376, guid: 4fb548155ee283747ae79a48d4e98ed6, type: 3}
+  EnemyPrefab: {fileID: 1440124942653354662, guid: d86bab3e4bb658f43bc285a6b5821c9e, type: 3}
   BlockPrefab: {fileID: 0}
-  MoveBlockPrefab: {fileID: 7739215550424581357, guid: 1814dee028ec11a49bab5ace8e015bf7, type: 3}
+  MoveBlockPrefab1: {fileID: 7739215550424581357, guid: 1814dee028ec11a49bab5ace8e015bf7, type: 3}
+  MoveBlockPrefab2: {fileID: 0}
   cellSize: 3
 --- !u!4 &730625600
 Transform:
@@ -397,7 +398,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2983784288781365162, guid: 9bb8f29d6737ade47af27933d4fb196c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 2983784288781365162, guid: 9bb8f29d6737ade47af27933d4fb196c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -519,7 +520,7 @@ Transform:
   m_GameObject: {fileID: 1800654557}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5735764, y: 0, z: 0, w: 0.8191521}
-  m_LocalPosition: {x: 0, y: 30, z: -11}
+  m_LocalPosition: {x: 0, y: 30, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
