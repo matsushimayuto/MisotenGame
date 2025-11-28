@@ -6,9 +6,17 @@ public class StageLoader2D : MonoBehaviour
     public GameObject PlayerPrefab;
     public GameObject WallPrefab;
     public GameObject EnemyPrefab;
-    public GameObject BlockPrefab;
+    public GameObject BlockPrefab1;
+    public GameObject BlockPrefab2;
+    public GameObject BlockPrefab3;
+    public GameObject BlockPrefab4;
+    public GameObject BlockPrefab5;
+    public GameObject BlockPrefab6;
     public GameObject MoveBlockPrefab1;
     public GameObject MoveBlockPrefab2;
+    public GameObject MoveBlockPrefab3;
+    public GameObject MoveBlockPrefab4;
+    public GameObject MoveBlockPrefab5;
 
     [SerializeField] private float cellSize = 1f; // 1マスのサイズ（任意で調整可能）
 
@@ -65,14 +73,38 @@ public class StageLoader2D : MonoBehaviour
                     // 敵
                     case 100: Instantiate(EnemyPrefab, pos, Quaternion.identity); break;
 
-                    // 動かないブロック
-                    case 200: Instantiate(BlockPrefab, pos, Quaternion.identity); break;
+                    // 動かないブロック（3*1）縦
+                    case 200: Instantiate(BlockPrefab1, pos, Quaternion.Euler(0, 90, 0)); break;
+
+                    // 動かないブロック（3*1）横
+                    case 201: Instantiate(BlockPrefab2, pos, Quaternion.Euler(0, 180, 0)); break;
+
+                    // 動かないブロック（2*1）縦
+                    case 202: Instantiate(BlockPrefab3, pos, Quaternion.Euler(0, 90, 0)); break;
+
+                    // 動かないブロック（2*1）横
+                    case 203: Instantiate(BlockPrefab4, pos, Quaternion.Euler(0, 180, 0)); break;
+
+                    // 動かないブロック（2*2）
+                    case 204: Instantiate(BlockPrefab5, pos, Quaternion.identity); break;
+                    
+                    // 動かないブロック（1*1）
+                    case 205: Instantiate(BlockPrefab6, pos, Quaternion.identity); break;
 
                     // 動くブロック（3*1）縦
                     case 300: Instantiate(MoveBlockPrefab1, pos, Quaternion.Euler(0, 90, 0)); break;
 
                     // 動くブロック（3*1）横
                     case 301: Instantiate(MoveBlockPrefab2, pos, Quaternion.Euler(0, 180, 0)); break;
+
+                    // 動くブロック（2*1）縦
+                    case 302: Instantiate(MoveBlockPrefab3, pos, Quaternion.Euler(0, 90, 0)); break;
+
+                    // 動くブロック（2*1）横
+                    case 303: Instantiate(MoveBlockPrefab4, pos, Quaternion.Euler(0, 180, 0)); break;
+
+                    // 動くブロック（1*1）横
+                    case 304: Instantiate(MoveBlockPrefab5, pos, Quaternion.identity); break;
                 }
             }
         }
