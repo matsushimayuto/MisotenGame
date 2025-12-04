@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
     [SerializeField, Tooltip("視野角")] private float viewAngle = 90.0f;               // 視野角
     [SerializeField, Tooltip("視認距離")] private float viewDistance = 10.0f;          // 視認距離
     //[SerializeField, Tooltip("障害物レイヤー")] private LayerMask obstacleMask;      // 障害物レイヤー
-    [SerializeField, Tooltip("探す対象（プレイヤー）")] private Transform target;    // プレイヤー
+    private Transform target;    // プレイヤー
 
     private Coroutine lookCoroutine;
     private Vector3 PosTarget;    // 現在の目標地点
@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         GameMNG = FindFirstObjectByType<GameMNG>();
+        target = GameObject.FindWithTag("Player")?.transform;
         PosTarget = pointB;
     }
 

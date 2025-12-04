@@ -29,9 +29,12 @@ public class GameMNG : MonoBehaviour
                         b.DestroyArrow();
                     }
                 }
-                foreach (Enemy e in FindObjectsByType<Enemy>(FindObjectsSortMode.None))
+                if (!check)
                 {
-                    e.StartInfiniteLook();
+                    foreach (Enemy e in FindObjectsByType<Enemy>(FindObjectsSortMode.None))
+                    {
+                        e.StartInfiniteLook();
+                    }
                 }
             }
         }
