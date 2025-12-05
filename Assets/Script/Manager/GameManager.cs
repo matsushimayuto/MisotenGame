@@ -28,8 +28,6 @@ public class GameManager : MonoBehaviour
     [Tooltip("ゲームの状態を変更したときに実行するイベントを格納する変数")]
     public event System.Action<GameState> OnStateChanged;
 
-    //[SerializeField]
-    //public GameState StateNo = 0;
 
     //ーーーーーーーーーーーーーーーーーーーーーーーーーーー
     // 以下に関数を記述
@@ -93,6 +91,10 @@ public class GameManager : MonoBehaviour
                 ChangeState(GameState.Title);
                 break;
             case SceneName.Game:
+                ChangeState(GameState.Playing);
+                //AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
+                break;
+            case SceneName.Stage:
                 ChangeState(GameState.Playing);
                 //AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
                 break;

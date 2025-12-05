@@ -19,15 +19,32 @@ public class StageLoader2D : MonoBehaviour
     public GameObject MoveBlockPrefab5;
 
     [SerializeField] private float cellSize = 1f; // 1マスのサイズ（任意で調整可能）
-    [SerializeField] private TextAsset StageCSV; // 読み込むcsvファイル
+    //[SerializeField] private TextAsset StageCSV; // 読み込むcsvファイル
 
+    private const string StageRootPath = "Stages/";
 
     void Start()
     {
-        LoadStage(StageCSV); // 読み込むCSVファイル名（拡張子なし）
+        LoadStage(1, 2);
     }
 
-    void LoadStage(TextAsset csvFile)
+    // 外部から呼び出すステージロード
+    // 例: LoadStage(2, 1); // Group2 → Level1 → ステージ2-1
+    public void LoadStage(int group, int level)
+    {
+        string path = $"{StageRootPath}Stage{group}/Stage_G{group}_L{level}";
+        TextAsset csvFile = Resources.Load<TextAsset>(path);
+
+        if (csvFile == null)
+        {
+            Debug.LogError($"ステージファイル {path}.csv が見つかりません");
+            return;
+        }
+
+        LoadStageInternal(csvFile);
+    }
+
+    public void LoadStageInternal(TextAsset csvFile)
     {
         if (csvFile == null)
         {
