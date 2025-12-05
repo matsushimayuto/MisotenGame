@@ -16,9 +16,11 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        // 入力取得（WASD / 矢印キー）
-        float moveX = Input.GetAxisRaw("Horizontal"); // A,D or ←,→
-        float moveZ = Input.GetAxisRaw("Vertical");   // W,S or ↑,↓
+        // 入力取得（WASD / 矢印キー / ゲームパッド）
+        float moveX = 
+            Input.GetAxisRaw("Horizontal") + Input.GetAxis("Stick_X") + Input.GetAxis("Cross_X"); // A,D or ←,→
+        float moveZ = 
+            Input.GetAxisRaw("Vertical") + Input.GetAxis("Stick_Y") + Input.GetAxis("Cross_Y");   // W,S or ↑,↓
 
         // 移動方向
         Vector3 move = new Vector3(moveX, 0, moveZ);
@@ -33,7 +35,7 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
         }
 
-       
+        
     }
 
     //プレイヤーとブロックの当たり判定

@@ -39,8 +39,15 @@ public class GameMNG : MonoBehaviour
             }
         }
 
+        // ポーズ画面遷移
+        if(Input.GetButtonDown("Pause"))
+        {
+            /*ポーズ画面に関するコードを追加*/
+            Debug.Log("ポーズ画面遷移");
+        }
+
         // デバッグ用シーン遷移
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             SceneLoader.Instance.LoadScene(SceneName.Result, false);
         }
@@ -93,7 +100,7 @@ public class GameMNG : MonoBehaviour
             if(bGameOver && !bFlagCollect)
             {
                 // GameManager.Instance.ChangeState(GameState.GameOver);
-                SceneLoader.Instance.LoadScene(SceneName.Game, true, 2.0f);
+                SceneLoader.Instance.LoadScene(SceneName.Stage, true, 2.0f);
                 bFlagCollect = true;
             }
         }
