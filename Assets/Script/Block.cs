@@ -28,7 +28,8 @@ public class Block : MonoBehaviour
     private Arrow[] arrow = new Arrow[3];
 
     [Header("エフェクト")]
-    [SerializeField] private GameObject stopEffectPrefab;  // エフェクトのプレハブ
+    [SerializeField] private GameObject stopEffectPrefab;  // 執事の殴りエフェクト
+    [SerializeField] private GameObject SpeedEffectPrefab;  // 速度線エフェクト
 
     // 執事(仮) ※後々削除予定
     [Header("執事")]
@@ -36,6 +37,8 @@ public class Block : MonoBehaviour
 
     const float destroyTime = 1.0f;
     private float timeCount = 0.0f;
+    private GameObject effect;      // エフェクト本体
+    private FollowWorld follow;     // 速度線エフェクト用
 
     void Start()
     {
@@ -205,7 +208,7 @@ public class Block : MonoBehaviour
 
             // 動き出す瞬間のエフェクト
             SpawnStopEffect();
-
+            SpeedEffect();
             return true;
         }
         return false;
@@ -234,8 +237,6 @@ public class Block : MonoBehaviour
         Movenum++;
         if (Movenum > 2) Movenum = 2;
         if (_move) ReleaseStoredForce(Movenum);
-
-
     }
 
     // 直前の移動量を取得
@@ -328,6 +329,8 @@ public class Block : MonoBehaviour
         Instantiate(stopEffectPrefab, spawnPos, Quaternion.LookRotation(backDir));
     }
 
+    
+
     // 執事(仮)出現用関数(後々エフェクトに置き換わるため削除予定)
     public void AppearButler()
     {
@@ -357,4 +360,56 @@ public class Block : MonoBehaviour
         Debug.Log(butlerPrefab.transform.position);
     }
 
+    // 速度線エフェクト
+    private void SpeedEffect()
+    {
+        if (transform.Find("SpeedLine"))
+        {
+            Destroy(transform.Find("SpeedLine").gameObject);
+        }
+
+        // 今回の進行方向
+        Vector3 dir = pushDir[Movenum];
+
+        // 無効なら何もしない
+        if (dir == Vector3.zero || stopEffectPrefab == null) return;
+
+        // 反対方向
+        Vector3 backDir = -dir;
+
+        // ----------- ブロックの半径を計算 -----------
+        Vector3 scale = transform.localScale;
+        Debug.Log(scale);
+        float radius;
+
+        // X方向が強い → X側面
+        if (Mathf.Abs(dir.x) >= Mathf.Abs(dir.z))
+        {
+            radius = scale.x * 0.5f;
+        }
+        else // Z方向が強い → Z側面
+        {
+            radius = scale.z * 0.5f;
+        }
+
+        // 側面へ少しずらす
+        Vector3 spawnPos = transform.position + backDir * radius;
+
+        // エフェクト生成
+        if (!effect)
+        {
+            //エフェクトを生成
+            effect = Instantiate(SpeedEffectPrefab, spawnPos, Quaternion.LookRotation(backDir));
+            follow = effect.GetComponent<FollowWorld>();
+            //ターゲット情報を設定
+            follow.SetTarget(this.transform);
+            follow.SetTransform(pushDir[Movenum], transform.localScale);
+
+        }
+        else
+        {
+            // ターゲット情報を更新
+            follow.SetTransform(pushDir[Movenum], transform.localScale);
+        }
+    }
 }

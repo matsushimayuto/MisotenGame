@@ -7,6 +7,7 @@ TagManager:
   - Object
   - Block
   - Enemy
+  - SpeedEffect
   layers:
   - Default
   - TransparentFX
