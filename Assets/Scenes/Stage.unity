@@ -356,6 +356,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 1314136703702676542, guid: 1b9f571b91c483a4ba06108c4fda170a, type: 3}
   WallPrefab: {fileID: 8679233647464738376, guid: 4fb548155ee283747ae79a48d4e98ed6, type: 3}
+  WidthWallPrefab: {fileID: 8679233647464738376, guid: 21d73ae260d043049ab5dce53174d0cf, type: 3}
+  HeightWallPrefab: {fileID: 8679233647464738376, guid: 1a11620aacc7b4a4eb9d3a7171d28f29, type: 3}
+  WarpWallAPrefab: {fileID: 5788960099952203450, guid: cf4ca2d5f428c844ba00158473d35b3a, type: 3}
+  WarpWallBPrefab: {fileID: 4800944910894220363, guid: d753980e864d6f94b8a1fda0859b6376, type: 3}
   EnemyPrefab: {fileID: 1440124942653354662, guid: d86bab3e4bb658f43bc285a6b5821c9e, type: 3}
   BlockPrefab1: {fileID: 8679233647464738376, guid: f5e3e24e22f691641b3352164151f977, type: 3}
   BlockPrefab2: {fileID: 8679233647464738376, guid: f5e3e24e22f691641b3352164151f977, type: 3}
@@ -369,7 +373,6 @@ MonoBehaviour:
   MoveBlockPrefab4: {fileID: 7689065736055001702, guid: 4c2103f01bd05d248895aa4babb92d02, type: 3}
   MoveBlockPrefab5: {fileID: 2311755451410034152, guid: 0b116d2391a6e894dbbb32c44b9d1cd4, type: 3}
   cellSize: 3
-  StageCSV: {fileID: 4900000, guid: b522c6bfde7606c4d8746f01b6b92fee, type: 3}
 --- !u!4 &730625600
 Transform:
   m_ObjectHideFlags: 0
