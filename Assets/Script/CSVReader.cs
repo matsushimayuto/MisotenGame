@@ -5,6 +5,10 @@ public class StageLoader2D : MonoBehaviour
 {
     public GameObject PlayerPrefab;
     public GameObject WallPrefab;
+    public GameObject WidthWallPrefab;
+    public GameObject HeightWallPrefab;
+    public GameObject WarpWallAPrefab;
+    public GameObject WarpWallBPrefab;
     public GameObject EnemyPrefab;
     public GameObject BlockPrefab1;
     public GameObject BlockPrefab2;
@@ -25,7 +29,7 @@ public class StageLoader2D : MonoBehaviour
 
     void Start()
     {
-        LoadStage(1, 2);
+        LoadStage(1, 1);
     }
 
     // 外部から呼び出すステージロード
@@ -89,6 +93,18 @@ public class StageLoader2D : MonoBehaviour
 
                     // 外壁
                     case 2: Instantiate(WallPrefab, pos, Quaternion.identity); break;
+
+                    // 外壁(横)
+                    case 3: Instantiate(WidthWallPrefab, pos, Quaternion.identity); break;
+
+                    // 外壁(縦)
+                    case 4: Instantiate(HeightWallPrefab, pos, Quaternion.identity); break;
+
+                    // ワープ壁A
+                    case 5: Instantiate(WarpWallAPrefab, pos, Quaternion.Euler(0, 90, 0)); break;
+
+                    // ワープ壁B
+                    case 6: Instantiate(WarpWallBPrefab, pos, Quaternion.Euler(0, 270, 0)); break;
 
                     // 敵
                     case 100: Instantiate(EnemyPrefab, pos, Quaternion.identity); break;
