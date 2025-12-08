@@ -37,6 +37,13 @@ public class Block : MonoBehaviour
 
     const float destroyTime = 1.0f;
     private float timeCount = 0.0f;
+
+    // ゲームパッド関連
+    const float resetSec = 0.08f;   // ゲームパッド同時押しの対応秒数(80m秒)
+    private float lastLBDownTime = -Mathf.Infinity;     // LBを最後に押した時間
+    private float lastRBDownTime = -Mathf.Infinity;     // RB
+    private float lastYDownTime  = -Mathf.Infinity;     // Y
+
     private GameObject effect;      // エフェクト本体
     private FollowWorld follow;     // 速度線エフェクト用
 
@@ -75,6 +82,7 @@ public class Block : MonoBehaviour
     {
         if (hit)
         {
+            // 方向指定
             if (Input.GetKeyUp(KeyCode.P) || Input.GetButtonDown("Specific"))   // キーボード(P) or パッド(Y)
             {
                 // プレイヤー → ブロック の方向ベクトル
@@ -110,6 +118,30 @@ public class Block : MonoBehaviour
                 }
 
                 addMovenum(false);
+            }
+
+            // 方向リセット
+            if (Input.GetButtonDown("LB"))
+            {
+                lastLBDownTime = Time.time;
+                MoveReset();
+            }
+            if (Input.GetButtonDown("RB"))
+            {
+                lastRBDownTime = Time.time;
+                MoveReset();
+            }
+
+            // フェーズスキップ
+            if (Input.GetButtonDown("LB"))
+            {
+                lastLBDownTime = Time.time;
+                PhaseSkip();
+            }
+            if (Input.GetButtonDown("Specific"))
+            {
+                lastYDownTime = Time.time;
+                PhaseSkip();
             }
         }
     }
@@ -410,6 +442,28 @@ public class Block : MonoBehaviour
         {
             // ターゲット情報を更新
             follow.SetTransform(pushDir[Movenum], transform.localScale);
+        }
+    }
+
+    private void MoveReset()
+    {
+        if (Mathf.Abs(lastLBDownTime - lastRBDownTime) <= resetSec)
+        {
+            // 触れているブロックの動きをリセットする
+            Debug.Log("リセット");
+            // 連続でtrueを通らないようにタイムスタンプをリセット
+            lastLBDownTime = lastRBDownTime = -Mathf.Infinity;
+        }
+    }
+
+    private void PhaseSkip()
+    {
+        if (Mathf.Abs(lastLBDownTime - lastYDownTime) <= resetSec)
+        {
+            // 触れているブロックのフェーズをスキップ
+            Debug.Log("スキップ");
+            // 連続でtrueを通らないようにタイムスタンプをリセット
+            lastLBDownTime = lastYDownTime = -Mathf.Infinity;
         }
     }
 }
