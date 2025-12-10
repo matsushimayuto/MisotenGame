@@ -94,6 +94,9 @@ public class GameManager : MonoBehaviour
                 ChangeState(GameState.Playing);
                 //AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
                 break;
+            case SceneName.Select:
+                ChangeState(GameState.Select);
+                break;
             case SceneName.Stage:
                 ChangeState(GameState.Playing);
                 //AudioManager.Instance.PlayBGM("StageBGM", 1.5f);

@@ -25,7 +25,7 @@ public class StageLoader2D : MonoBehaviour
 
     void Start()
     {
-        LoadStage(1, 2);
+        LoadStage(1, 1);
     }
 
     // 外部から呼び出すステージロード
