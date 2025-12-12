@@ -358,8 +358,10 @@ MonoBehaviour:
   WallPrefab: {fileID: 8679233647464738376, guid: 4fb548155ee283747ae79a48d4e98ed6, type: 3}
   WidthWallPrefab: {fileID: 8679233647464738376, guid: 21d73ae260d043049ab5dce53174d0cf, type: 3}
   HeightWallPrefab: {fileID: 8679233647464738376, guid: 1a11620aacc7b4a4eb9d3a7171d28f29, type: 3}
-  WarpWallAPrefab: {fileID: 5788960099952203450, guid: cf4ca2d5f428c844ba00158473d35b3a, type: 3}
-  WarpWallBPrefab: {fileID: 4800944910894220363, guid: d753980e864d6f94b8a1fda0859b6376, type: 3}
+  WarpWallAPrefab1: {fileID: 5788960099952203450, guid: cf4ca2d5f428c844ba00158473d35b3a, type: 3}
+  WarpWallBPrefab1: {fileID: 4800944910894220363, guid: d753980e864d6f94b8a1fda0859b6376, type: 3}
+  WarpWallAPrefab2: {fileID: 5788960099952203450, guid: cf4ca2d5f428c844ba00158473d35b3a, type: 3}
+  WarpWallBPrefab2: {fileID: 4800944910894220363, guid: d753980e864d6f94b8a1fda0859b6376, type: 3}
   EnemyPrefab: {fileID: 1440124942653354662, guid: d86bab3e4bb658f43bc285a6b5821c9e, type: 3}
   BlockPrefab1: {fileID: 8679233647464738376, guid: f5e3e24e22f691641b3352164151f977, type: 3}
   BlockPrefab2: {fileID: 8679233647464738376, guid: f5e3e24e22f691641b3352164151f977, type: 3}
@@ -440,6 +442,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3355663218121950893, guid: 9bb8f29d6737ade47af27933d4fb196c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 228f87cf739044f4091ad077a9397dd9, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

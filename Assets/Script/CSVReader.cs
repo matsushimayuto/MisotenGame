@@ -7,8 +7,10 @@ public class StageLoader2D : MonoBehaviour
     public GameObject WallPrefab;
     public GameObject WidthWallPrefab;
     public GameObject HeightWallPrefab;
-    public GameObject WarpWallAPrefab;
-    public GameObject WarpWallBPrefab;
+    public GameObject WarpWallAPrefab1;
+    public GameObject WarpWallBPrefab1;
+    public GameObject WarpWallAPrefab2;
+    public GameObject WarpWallBPrefab2;
     public GameObject EnemyPrefab;
     public GameObject BlockPrefab1;
     public GameObject BlockPrefab2;
@@ -26,6 +28,12 @@ public class StageLoader2D : MonoBehaviour
     //[SerializeField] private TextAsset StageCSV; // 読み込むcsvファイル
 
     private const string StageRootPath = "Stages/";
+
+    // WarpA / WarpB を保持しておく変数
+    private GameObject WarpA1;
+    private GameObject WarpB1;
+    private GameObject WarpA2;
+    private GameObject WarpB2;
 
     void Start()
     {
@@ -55,6 +63,12 @@ public class StageLoader2D : MonoBehaviour
             Debug.LogError($"ステージファイル {csvFile}.csv が見つかりません");
             return;
         }
+
+        // 前回の Warp をリセット
+        WarpA1 = null;
+        WarpB1 = null;
+        WarpA2 = null;
+        WarpB2 = null;
 
         // 改行コードと空行の扱いを正しくする
         string[] lines = csvFile.text
@@ -100,11 +114,25 @@ public class StageLoader2D : MonoBehaviour
                     // 外壁(縦)
                     case 4: Instantiate(HeightWallPrefab, pos, Quaternion.identity); break;
 
-                    // ワープ壁A
-                    case 5: Instantiate(WarpWallAPrefab, pos, Quaternion.Euler(0, 90, 0)); break;
+                    // ワープ（左配置用）
+                    case 5:
+                        WarpA1 = Instantiate(WarpWallAPrefab1, pos, Quaternion.Euler(0, 90, 0));
+                        break;
 
-                    // ワープ壁B
-                    case 6: Instantiate(WarpWallBPrefab, pos, Quaternion.Euler(0, 270, 0)); break;
+                    // ワープ（右配置用）
+                    case 6:
+                        WarpB1 = Instantiate(WarpWallBPrefab1, pos, Quaternion.Euler(0, 270, 0));
+                        break;
+
+                    // ワープ（上配置用）
+                    case 7:
+                        WarpA2 = Instantiate(WarpWallAPrefab2, pos, Quaternion.Euler(0, 180, 0));
+                        break;
+
+                    // ワープ（下配置用）
+                    case 8:
+                        WarpB2 = Instantiate(WarpWallBPrefab2, pos, Quaternion.Euler(0, 0, 0));
+                        break;
 
                     // 敵
                     case 100: Instantiate(EnemyPrefab, pos, Quaternion.identity); break;
@@ -156,6 +184,33 @@ public class StageLoader2D : MonoBehaviour
                     case 304: Instantiate(MoveBlockPrefab5, pos, Quaternion.identity); break;
                 }
             }
+        }
+
+        // WarpAとWarpBの接続
+        if (WarpA1 != null && WarpB1 != null)
+        {
+            TeleportMirror tA1 = WarpA1.GetComponent<TeleportMirror>();
+            TeleportMirror tB1 = WarpB1.GetComponent<TeleportMirror>();
+
+            tA1.teleportExit = WarpB1.transform;
+            tB1.teleportExit = WarpA1.transform;
+        }
+        else
+        {
+            Debug.LogWarning("WarpA1かWarpB1がどちらか不足しています。リンクされませんでした。");
+        }
+        // WarpAとWarpBの接続
+        if (WarpA2 != null && WarpB2 != null)
+        {
+            TeleportMirror tA2 = WarpA2.GetComponent<TeleportMirror>();
+            TeleportMirror tB2 = WarpB2.GetComponent<TeleportMirror>();
+
+            tA2.teleportExit = WarpB2.transform;
+            tB2.teleportExit = WarpA2.transform;
+        }
+        else
+        {
+            Debug.LogWarning("WarpA2かWarpB2がどちらか不足しています。リンクされませんでした。");
         }
     }
 
