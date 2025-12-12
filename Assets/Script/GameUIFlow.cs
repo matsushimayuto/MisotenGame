@@ -2,17 +2,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class ClearUI : MonoBehaviour
+public class GameUIFlow : MonoBehaviour
 {
     [SerializeField] Image darkPanel;
-    [SerializeField] Image clearImage;
+    [SerializeField] Image UIimage;
 
     void Start()
     {
-        StartCoroutine(ClearAnimation());
+        StartCoroutine(UIAnimation());
     }
 
-    IEnumerator ClearAnimation()
+    IEnumerator UIAnimation()
     {
         // ˆÃ‚­‚·‚é
         float t = 0f;
@@ -24,14 +24,14 @@ public class ClearUI : MonoBehaviour
             yield return null;
         }
 
-        // CLEAR‰æ‘œ•\Ž¦
+        // ‰æ‘œ•\Ž¦
         t = 0f;
         while (t < 1f)
         {
             t += Time.unscaledDeltaTime * 3f;
-            clearImage.color =
+            UIimage.color =
                 new Color(1, 1, 1, t);
-            clearImage.transform.localScale =
+            UIimage.transform.localScale =
                 Vector3.Lerp(Vector3.one * 1.75f, Vector3.one * 0.75f, t);
             yield return null;
         }

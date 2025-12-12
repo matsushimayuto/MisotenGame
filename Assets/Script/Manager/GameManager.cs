@@ -10,6 +10,7 @@ public enum GameState
     Title,
     Select,
     Loading,
+    Start,
     Playing,
     Paused,
     Result,
@@ -63,6 +64,9 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Title:
                 AudioManager.Instance.PlayBGM("TitleBGM", 1f);
+                break;
+            case GameState.Start:
+                //Time.timeScale = 0f;
                 break;
             case GameState.Playing:
                 Time.timeScale = 1f;
