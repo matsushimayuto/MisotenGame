@@ -117,12 +117,12 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.099999994
+    globalScale: 10
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: fb7c7e2ac780f6842b770be622e84e2f, type: 3}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: cf1db1b9cba4d6e40980be1af44c6e9a, type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
