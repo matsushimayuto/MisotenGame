@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class GameMNG : MonoBehaviour
@@ -10,8 +12,18 @@ public class GameMNG : MonoBehaviour
     bool bFlagCollect = false;  // ゲームオーバーフラグを回収したか
     bool bGameOver = false;     // ゲームオーバーフラグ
     void Start()
-    { 
+    {
+        // ゲーム全体を停止
+        //Time.timeScale = 0f;
 
+        // Start表示
+        GameManager.Instance.ChangeState(GameState.Start);
+
+        // Start表示中の遅延処理
+        StartCoroutine(Delay(3f, () => {
+            // ゲームを再開
+            GameManager.Instance.ChangeState(GameState.Playing);
+        }));
     }
 
     void Update()
@@ -74,7 +86,15 @@ public class GameMNG : MonoBehaviour
             if (Object.FindFirstObjectByType<Enemy>() == null)
             {
                 GameManager.Instance.ChangeState(GameState.Result);
-                //SceneLoader.Instance.LoadScene(SceneName.Result, false);
+                // Start表示中の遅延処理
+                StartCoroutine(Delay(3f, () => {
+                    // ゲームを再開
+                    Time.timeScale = 1f;
+
+                    // シーン遷移
+                    SceneLoader.Instance.LoadScene(SceneName.Select, true);
+                }));
+
                 return;
             }
 
@@ -105,5 +125,12 @@ public class GameMNG : MonoBehaviour
                 bFlagCollect = true;
             }
         }
+    }
+
+    // 遅延関数
+    private IEnumerator Delay(float time, System.Action action)
+    {
+        yield return new WaitForSecondsRealtime(time);
+        action?.Invoke();
     }
 }
