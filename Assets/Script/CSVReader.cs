@@ -25,9 +25,11 @@ public class StageLoader2D : MonoBehaviour
     public GameObject MoveBlockPrefab5;
 
     [SerializeField] private float cellSize = 1f; // 1マスのサイズ（任意で調整可能）
-    //[SerializeField] private TextAsset StageCSV; // 読み込むcsvファイル
+    [SerializeField] private bool LoadCSV;
+    [SerializeField] private TextAsset StageCSV; // 読み込むcsvファイル
 
     private const string StageRootPath = "Stages/";
+    
 
     // WarpA / WarpB を保持しておく変数
     private GameObject WarpA1;
@@ -44,12 +46,20 @@ public class StageLoader2D : MonoBehaviour
     // 例: LoadStage(2, 1); // Group2 → Level1 → ステージ2-1
     public void LoadStage(int group, int level)
     {
-        string path = $"{StageRootPath}Stage{group}/Stage_G{group}_L{level}";
-        TextAsset csvFile = Resources.Load<TextAsset>(path);
+        TextAsset csvFile;
+        if (LoadCSV)
+        {
+            csvFile = StageCSV;
+        }
+        else
+        {
+            string path = $"{StageRootPath}Stage{group}/Stage_G{group}_L{level}";
+            csvFile = Resources.Load<TextAsset>(path);
+        }
 
         if (csvFile == null)
         {
-            Debug.LogError($"ステージファイル {path}.csv が見つかりません");
+            Debug.LogError($"ステージファイル {csvFile}.csv が見つかりません");
             return;
         }
 
