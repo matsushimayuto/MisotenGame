@@ -21,6 +21,8 @@ public class Enemy : MonoBehaviour
 
     private bool isLookingAround = false; // 首振り中か
 
+    private 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

@@ -215,7 +215,8 @@ MonoBehaviour:
   MirrorObj: {fileID: 0}
   arrowPrefab: {fileID: 5526087056217657225, guid: 5f44831710371f44d81b0437bef873ec, type: 3}
   stopEffectPrefab: {fileID: 0}
-  butlerPrefab: {fileID: 6187430223996502943, guid: 2217beb529ff11d4ba48e99aaea17b50, type: 3}
+  SpeedEffectPrefab: {fileID: 0}
+  butlerPrefab: {fileID: 4296623982462441793, guid: 877e8a21d5bd5da4fa8f1b3fab42426f, type: 3}
 --- !u!54 &3218616556849570587
 Rigidbody:
   m_ObjectHideFlags: 0
