@@ -73,7 +73,8 @@ public class GameMNG : MonoBehaviour
             // “G‚ª‚·‚×‚Ä“|‚³‚ê‚Ä‚¢‚½‚çƒV[ƒ“‘JˆÚ
             if (Object.FindFirstObjectByType<Enemy>() == null)
             {
-                SceneLoader.Instance.LoadScene(SceneName.Result, false);
+                GameManager.Instance.ChangeState(GameState.Result);
+                //SceneLoader.Instance.LoadScene(SceneName.Result, false);
                 return;
             }
 
