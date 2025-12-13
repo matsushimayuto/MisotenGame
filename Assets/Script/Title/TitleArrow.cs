@@ -9,36 +9,45 @@ public class TitleArrow : MonoBehaviour
     {
         Start,
         Continue,
+        Credit,
         Exit,
         Max,
     }
     Choice choice;
 
     // 矢印の座標データ
-    const float positionX = -161.4f;    // X軸は固定
-    float[] positionY = new float[] { 12.2f, -44.5f, -93.3f };
+    float[,] position = new float[4, 2] {
+        { 136,   96 },
+        { 136,   44 },
+        { 178,  -54 },
+        { 230, -162 }
+    };
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         choice = Choice.Start;  // 初期状態は初めから
         rectTransform = GetComponent<RectTransform>();
-        rectTransform.anchoredPosition = new Vector2(positionX, positionY[0]);
+        rectTransform.anchoredPosition = new Vector2(position[0, 0], position[0, 1]);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // 矢印 ToDo:ゲームパッド対応
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        // ゲームパッド入力取得
+        float move = Input.GetAxis("Stick_Y") + Input.GetAxis("Cross_Y");
+
+        // 矢印
+        if (Input.GetKeyDown(KeyCode.UpArrow) || move > 0.0f)   // 上
         {
             choice -= 1; if (choice < Choice.Start) { choice = Choice.Exit; }
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow) || move < 0.0f) // 下
         {
             choice += 1; if (choice > Choice.Exit) { choice = Choice.Start; }
         }
-        rectTransform.anchoredPosition = new Vector2(positionX, positionY[((int)choice)]);  // 現在選択しているところに移動
+        rectTransform.anchoredPosition =
+            new Vector2(position[(int)choice, 0], position[((int)choice), 1]);  // 現在選択しているところに移動
 
         // シーン遷移
         if (Input.GetKeyUp(KeyCode.Return) || Input.GetButtonDown("Decide"))
@@ -50,8 +59,11 @@ public class TitleArrow : MonoBehaviour
                     AudioManager.Instance.StopBGM(1f);
                     break;
                 case Choice.Continue:   // 途中から
-                    SceneLoader.Instance.LoadScene(SceneName.Select, true, 1f);  // とりあえずゲームシーンへ移行
+                    SceneLoader.Instance.LoadScene(SceneName.Select, true, 1f);
                     AudioManager.Instance.StopBGM(1f);
+                    break;
+                case Choice.Credit:     // 利用規約類
+                    Debug.Log("クレジット");
                     break;
                 case Choice.Exit:       // 終了
                     Debug.Log("ゲーム終了");
