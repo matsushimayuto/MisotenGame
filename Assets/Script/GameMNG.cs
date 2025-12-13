@@ -14,13 +14,13 @@ public class GameMNG : MonoBehaviour
     void Start()
     {
         // ƒQ[ƒ€‘S‘Ì‚ğ’â~
-        //Time.timeScale = 0f;
+        Time.timeScale = 0.0f;
 
         // Start•\¦
         GameManager.Instance.ChangeState(GameState.Start);
 
         // Start•\¦’†‚Ì’x‰„ˆ—
-        StartCoroutine(Delay(3f, () => {
+        StartCoroutine(Delay(3.0f, () => {
             // ƒQ[ƒ€‚ğÄŠJ
             GameManager.Instance.ChangeState(GameState.Playing);
         }));
@@ -85,12 +85,12 @@ public class GameMNG : MonoBehaviour
             // “G‚ª‚·‚×‚Ä“|‚³‚ê‚Ä‚¢‚½‚çƒV[ƒ“‘JˆÚ
             if (Object.FindFirstObjectByType<Enemy>() == null)
             {
+                Time.timeScale = 0.0f;
                 GameManager.Instance.ChangeState(GameState.Result);
                 // Start•\¦’†‚Ì’x‰„ˆ—
-                StartCoroutine(Delay(3f, () => {
+                StartCoroutine(Delay(3.0f, () => {
                     // ƒQ[ƒ€‚ğÄŠJ
                     Time.timeScale = 1f;
-
                     // ƒV[ƒ“‘JˆÚ
                     SceneLoader.Instance.LoadScene(SceneName.Select, true);
                 }));
@@ -120,9 +120,19 @@ public class GameMNG : MonoBehaviour
 
             if(bGameOver && !bFlagCollect)
             {
-                // GameManager.Instance.ChangeState(GameState.GameOver);
-                SceneLoader.Instance.LoadScene(SceneName.Stage, true, 2.0f);
+                Time.timeScale = 0.0f;
+                GameManager.Instance.ChangeState(GameState.GameOver);
+                // Start•\¦’†‚Ì’x‰„ˆ—
+                StartCoroutine(Delay(3.0f, () => {
+                    // ƒQ[ƒ€‚ğÄŠJ
+                    Time.timeScale = 1f;
+                    // ƒV[ƒ“‘JˆÚ
+                    SceneLoader.Instance.LoadScene(SceneName.Stage, true, 2.0f);
+                }));
                 bFlagCollect = true;
+                // GameManager.Instance.ChangeState(GameState.GameOver);
+                //SceneLoader.Instance.LoadScene(SceneName.Stage, true, 2.0f);
+
             }
         }
     }
