@@ -132,7 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointA: {x: 0, y: 0, z: 0}
   pointB: {x: 0, y: 0, z: 0}
-  speed: 3
+  speed: 0
   GameMNG: {fileID: 0}
   viewAngle: 90
   viewDistance: 10
