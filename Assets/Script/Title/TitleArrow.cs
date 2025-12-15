@@ -55,12 +55,12 @@ public class TitleArrow : MonoBehaviour
             switch (choice)
             {
                 case Choice.Start:      // 最初から
-                    SceneLoader.Instance.LoadScene(SceneName.Select, true, 1f);
-                    AudioManager.Instance.StopBGM(1f);
+                    SceneLoader.Instance.LoadScene(SceneName.Select, true, 2.0f);
+                    //AudioManager.Instance.StopBGM(1f);
                     break;
                 case Choice.Continue:   // 途中から
-                    SceneLoader.Instance.LoadScene(SceneName.Select, true, 1f);
-                    AudioManager.Instance.StopBGM(1f);
+                    SceneLoader.Instance.LoadScene(SceneName.Select, true, 2.0f);
+                    //AudioManager.Instance.StopBGM(1f);
                     break;
                 case Choice.Credit:     // 利用規約類
                     Debug.Log("クレジット");
