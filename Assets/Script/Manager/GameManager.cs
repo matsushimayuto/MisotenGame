@@ -65,6 +65,9 @@ public class GameManager : MonoBehaviour
             case GameState.Title:
                 AudioManager.Instance.PlayBGM("TitleBGM", 1f);
                 break;
+            case GameState.Select:
+                AudioManager.Instance.PlayBGM("SelectBGM", 1f);
+                break;
             case GameState.Start:
                 //Time.timeScale = 0f;
                 break;

@@ -56,7 +56,7 @@ public class SelectPlayer : MonoBehaviour
 
     private void PlayerFootStep()
     {
-        AudioManager.Instance.PlaySE("MoveSE");
+        //AudioManager.Instance.PlaySE("MoveSE");
     }
 
 }

@@ -17,6 +17,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 698b029f2d9fd5f4ca4f337068c5b82e, type: 3}
     loop: 1
     volume: 1
+  - name: SelectBGM
+    clip: {fileID: 8300000, guid: 8c3790706727a8e478e7207c2dff5df7, type: 3}
+    loop: 1
+    volume: 1
   - name: StageBGM
     clip: {fileID: 8300000, guid: b7daed7b0d2db6e47b1c03b9f6b84bb0, type: 3}
     loop: 1
