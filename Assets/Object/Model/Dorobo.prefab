@@ -136,6 +136,7 @@ MonoBehaviour:
   GameMNG: {fileID: 0}
   viewAngle: 90
   viewDistance: 10
+  hitEffect: {fileID: 1156360773984691119, guid: 151b69cdcaec40a4882246f91bab97d5, type: 3}
 --- !u!114 &1823597203375679306
 MonoBehaviour:
   m_ObjectHideFlags: 0

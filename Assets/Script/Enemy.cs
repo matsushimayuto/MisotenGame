@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     [SerializeField, Tooltip("視野角")] private float viewAngle = 90.0f;               // 視野角
     [SerializeField, Tooltip("視認距離")] private float viewDistance = 10.0f;          // 視認距離
     //[SerializeField, Tooltip("障害物レイヤー")] private LayerMask obstacleMask;      // 障害物レイヤー
+    [SerializeField, Tooltip("エフェクト")] private GameObject hitEffect;    // ヒットエフェクト
     private Transform target;    // プレイヤー
 
     private Coroutine lookCoroutine;
@@ -20,8 +21,6 @@ public class Enemy : MonoBehaviour
     private Block attachedBlock = null;
 
     private bool isLookingAround = false; // 首振り中か
-
-    private 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -208,6 +207,10 @@ public class Enemy : MonoBehaviour
                 if (Vector3.Dot(moveDir, contactDir) > 0.5f) // 正面衝突
                 {
                     Debug.Log("EnemyがBlockにくっついた状態でObjectに正面衝突");
+
+                    Vector3 EffectPos = transform.position;
+                    EffectPos.y += 2.5f; // 少し上からRayを飛ばす
+                    Instantiate(hitEffect, EffectPos, transform.rotation);    // エフェクト生成
                     Destroy(gameObject);
                 }
             }

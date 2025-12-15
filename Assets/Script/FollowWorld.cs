@@ -9,12 +9,7 @@ public class FollowWorld : MonoBehaviour
 
     private void Start()
     {
-        // 初期位置をターゲットに合わせる
-        if (target == null)
-        {
-            target = GameObject.FindWithTag("Player").transform;
-            Debug.Log("Start" + backDir);
-        }
+       
         
     }
 
@@ -57,6 +52,19 @@ public class FollowWorld : MonoBehaviour
         }
         else
         {
+            // ----- 砂煙用 -----
+            // 初期位置をターゲットに合わせる
+            if (target == null)
+            {
+                if (GameObject.Find("Player(Clone)") != null)
+                {
+                    target = GameObject.Find("Player(Clone)").transform;
+                }
+                else
+                {
+                    return;
+                }
+            }
             // プレイヤーの煙追従
             transform.position = target.position;
             transform.rotation = target.rotation;
