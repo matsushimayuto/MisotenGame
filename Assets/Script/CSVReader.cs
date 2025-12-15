@@ -39,7 +39,7 @@ public class StageLoader2D : MonoBehaviour
 
     void Start()
     {
-        LoadStage(1, 1);
+        LoadStage(StageManager.Instance.GetCurrentWorld(), StageManager.Instance.GetCurrentStage());
     }
 
     // 外部から呼び出すステージロード
