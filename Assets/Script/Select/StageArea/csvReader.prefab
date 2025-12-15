@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5723158339499978458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1257000405674519113}
+  - component: {fileID: 3240095257956735234}
+  m_Layer: 0
+  m_Name: csvReader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1257000405674519113
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5723158339499978458}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3240095257956735234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5723158339499978458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02cd275d392c7d34eab58626315509ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerPrefab: {fileID: 7296709721281461843, guid: 1eb1152447ad8ff41913680f718563c9, type: 3}
+  WallPrefab: {fileID: 8679233647464738376, guid: 4fb548155ee283747ae79a48d4e98ed6, type: 3}
+  WidthWallPrefab: {fileID: 8679233647464738376, guid: 21d73ae260d043049ab5dce53174d0cf, type: 3}
+  HeightWallPrefab: {fileID: 8679233647464738376, guid: 1a11620aacc7b4a4eb9d3a7171d28f29, type: 3}
+  WarpWallAPrefab1: {fileID: 5788960099952203450, guid: cf4ca2d5f428c844ba00158473d35b3a, type: 3}
+  WarpWallBPrefab1: {fileID: 4800944910894220363, guid: d753980e864d6f94b8a1fda0859b6376, type: 3}
+  WarpWallAPrefab2: {fileID: 5788960099952203450, guid: cf4ca2d5f428c844ba00158473d35b3a, type: 3}
+  WarpWallBPrefab2: {fileID: 4800944910894220363, guid: d753980e864d6f94b8a1fda0859b6376, type: 3}
+  EnemyPrefab: {fileID: 8849597978649132669, guid: 2c63e3cf31d93584e825bc8b668c204f, type: 3}
+  BlockPrefab1: {fileID: 8679233647464738376, guid: f5e3e24e22f691641b3352164151f977, type: 3}
+  BlockPrefab2: {fileID: 8679233647464738376, guid: f5e3e24e22f691641b3352164151f977, type: 3}
+  BlockPrefab3: {fileID: 8679233647464738376, guid: be0b87a37c0283a46a6de8b41e30d4a7, type: 3}
+  BlockPrefab4: {fileID: 8679233647464738376, guid: be0b87a37c0283a46a6de8b41e30d4a7, type: 3}
+  BlockPrefab5: {fileID: 8679233647464738376, guid: 8d2d89da5a2bacd4f8a29828f025f145, type: 3}
+  BlockPrefab6: {fileID: 8679233647464738376, guid: a05f77265e34b2c44a157f527c54ae87, type: 3}
+  MoveBlockPrefab1: {fileID: 1482092415023605716, guid: cf5a1c2ea3e466a4da29ef5dbc1da8d8, type: 3}
+  MoveBlockPrefab2: {fileID: 1482092415023605716, guid: cf5a1c2ea3e466a4da29ef5dbc1da8d8, type: 3}
+  MoveBlockPrefab3: {fileID: 7689065736055001702, guid: 4c2103f01bd05d248895aa4babb92d02, type: 3}
+  MoveBlockPrefab4: {fileID: 7689065736055001702, guid: 4c2103f01bd05d248895aa4babb92d02, type: 3}
+  MoveBlockPrefab5: {fileID: 2311755451410034152, guid: 0b116d2391a6e894dbbb32c44b9d1cd4, type: 3}
+  cellSize: 3
+  LoadCSV: 0
+  StageCSV: {fileID: 0}
