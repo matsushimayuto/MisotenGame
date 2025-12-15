@@ -9,8 +9,9 @@ public class StageEnterContoroller : MonoBehaviour
     {
         if (candidate == null) return;
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Decide"))
         {
+            AudioManager.Instance.PlaySE("EnterSE");
             TryEnter();
         }
     }

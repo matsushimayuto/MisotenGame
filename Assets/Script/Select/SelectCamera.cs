@@ -5,7 +5,7 @@ public class SelectCamera : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Transform target;   // 追従ターゲット
-    [SerializeField] private Renderer targetRender;
+    //[SerializeField] private Renderer targetRender;
     [SerializeField] private Vector3 targetOffset = new Vector3(0f, 2f, -5f);  // ターゲット相対位置
     [SerializeField] private float positionSmooth = 6f;    // 位置補間速度
     [SerializeField] private float rotationSmooth   = 6f;    // 角度補間速度
@@ -19,10 +19,10 @@ public class SelectCamera : MonoBehaviour
     {
         if (target == null) return;
 
-        bool inside = IsVisibleFrom(mainCamera, targetRender);
+        //bool inside = IsVisibleFrom(mainCamera, targetRender);
 
-        if (inside == true)
-        {
+        //if (inside == true)
+        //{
             // 位置を補間して追従
             Vector3 desiredPos = target.position + targetOffset;
 
@@ -31,7 +31,7 @@ public class SelectCamera : MonoBehaviour
                 desiredPos,
                 positionSmooth * Time.deltaTime
             );
-        }
+        //}
 
 
 
