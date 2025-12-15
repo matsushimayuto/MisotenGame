@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 
 public class GameMNG : MonoBehaviour
@@ -40,6 +39,11 @@ public class GameMNG : MonoBehaviour
                         check = false;
                         b.DestroyArrow();
                     }
+                    if(b.CheckReserve(0))
+                    {
+                        b.AppearButler(0);
+                    }
+
                 }
                 if (!check)
                 {
@@ -108,7 +112,7 @@ public class GameMNG : MonoBehaviour
                 // 次のフェーズで1つ以上ブロックが動くか
                 if (b.CheckReserve(b.GetPhase() + 1))
                 {
-                    b.AppearButler();
+                    b.AppearButler(b.GetPhase() + 1);
                     _bMoveReserve = true; // 最低でもどれか1つは動くのでゲームオーバーではない
                 }
 
