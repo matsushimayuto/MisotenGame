@@ -3,6 +3,9 @@ using UnityEngine;
 public class TitleArrow : MonoBehaviour
 {
     RectTransform rectTransform;    // Panel上の座標
+    bool isPressed = false;         // ゲームパッド入力がされているか
+    float KeepPressingTime = 0.0f;  // 一度入力してからそのまま押し続けている時間
+    const float limitTime = 0.25f;  // 一度入力してから再度入力を受け付けるまでの時間
 
     // 選択肢の一覧
     enum Choice
@@ -34,15 +37,38 @@ public class TitleArrow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 入力取得
+        float move = Input.GetAxis("Stick_Y") + Input.GetAxis("Cross_Y");
+        if (move == 0.0f) { isPressed = false; }
+
+        // 選択肢の変更
+        if (!isPressed)
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow) || move > 0.0f)   // 上
+            {
+                isPressed = true;
+                choice -= 1; if (choice < Choice.Start) { choice = Choice.Exit; }
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow) || move < 0.0f) // 下
+            {
+                isPressed = true;
+                choice += 1; if (choice > Choice.Exit) { choice = Choice.Start; }
+            }
+            KeepPressingTime = 0.0f;
+        }
+        else
+        {
+            KeepPressingTime += Time.deltaTime;
+        }
+
+        // 入力制限
+        if (KeepPressingTime > limitTime)
+        {
+            isPressed = false;
+            KeepPressingTime = 0.0f;
+        }
+
         // 矢印
-        if (Input.GetKeyDown(KeyCode.UpArrow))   // 上
-        {
-            choice -= 1; if (choice < Choice.Start) { choice = Choice.Exit; }
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow)) // 下
-        {
-            choice += 1; if (choice > Choice.Exit) { choice = Choice.Start; }
-        }
         rectTransform.anchoredPosition =
             new Vector2(position[(int)choice, 0], position[((int)choice), 1]);  // 現在選択しているところに移動
 
@@ -65,28 +91,13 @@ public class TitleArrow : MonoBehaviour
                 case Choice.Exit:       // 終了
                     Debug.Log("ゲーム終了");
 #if UNITY_EDITOR
-                    UnityEditor.EditorApplication.isPlaying = false;
+                    UnityEditor.EditorApplication.isPlaying = false;    // エディタ上
 #endif
+                    Application.Quit(); // アプリ上
                     break;
                 case Choice.Max:
                     break;
             }
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        // ゲームパッド入力取得
-        float move = Input.GetAxis("Stick_Y") + Input.GetAxis("Cross_Y");
-
-        // 矢印
-        if (move > 0.0f)   // 上
-        {
-            choice -= 1; if (choice < Choice.Start) { choice = Choice.Exit; }
-        }
-        if (move < 0.0f) // 下
-        {
-            choice += 1; if (choice > Choice.Exit) { choice = Choice.Start; }
         }
     }
 }
