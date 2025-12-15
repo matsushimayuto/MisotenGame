@@ -363,30 +363,32 @@ public class Block : MonoBehaviour
 
     
 
-    // 執事(仮)出現用関数(後々エフェクトに置き換わるため削除予定)
-    public void AppearButler()
+    // 執事出現用関数
+    public void AppearButler(int Phase)
     {
-        if (pushDir[GetPhase() + 1].x != 0)
+        if (pushDir[Phase].x != 0)
         {
-            if (pushDir[GetPhase() + 1].x > 0.0f)   // 右
+            if (pushDir[Phase].x > 0.0f)   // 右
             {
                 butlerPrefab.transform.position = new Vector3(bPos.x - bScale.x * 1.0f, 1.5f, bPos.z);
+                butlerPrefab.transform.rotation = Quaternion.Euler(new Vector3(0.0f, 90.0f, 0.0f));
             }
             else                    // 左
             {
                 butlerPrefab.transform.position = new Vector3(bPos.x + bScale.x * 1.0f, 1.5f, bPos.z);
+                butlerPrefab.transform.rotation = Quaternion.Euler(new Vector3(0.0f, -90.0f, 0.0f));
             }
         }
         else
         {
-            if (pushDir[GetPhase() + 1].z > 0.0f)  // 上
+            if (pushDir[Phase].z > 0.0f)  // 上
             {
                 butlerPrefab.transform.position = new Vector3(bPos.x, 1.5f, bPos.z - bScale.z * 1.0f);
-                Debug.Log(bPos);
             }
             else                    // 下
             {
                 butlerPrefab.transform.position = new Vector3(bPos.x, 1.5f, bPos.z + bScale.z * 1.0f);
+                butlerPrefab.transform.rotation = Quaternion.Euler(new Vector3(0.0f, 180.0f, 0.0f));
             }
         }
         Debug.Log(butlerPrefab.transform.position);
