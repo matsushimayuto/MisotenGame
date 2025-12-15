@@ -3,12 +3,19 @@ using UnityEngine.UIElements;
 
 public class FollowWorld : MonoBehaviour
 {
-    public Transform target;    // 追従したい対象（元の親）
+    private Transform target;    // 追従したい対象（元の親）
     private int Cnt;            // 向きカウント
     private Vector3 backDir;    // 後方ベクトル
 
     private void Start()
     {
+        // 初期位置をターゲットに合わせる
+        if (target == null)
+        {
+            target = GameObject.FindWithTag("Player").transform;
+            Debug.Log("Start" + backDir);
+        }
+        
     }
 
     void Update()
