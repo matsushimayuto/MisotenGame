@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
     private Block attachedBlock = null;
 
     private bool isLookingAround = false; // 首振り中か
+    private bool gameOver;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,6 +29,7 @@ public class Enemy : MonoBehaviour
         GameMNG = FindFirstObjectByType<GameMNG>();
         target = GameObject.FindWithTag("Player")?.transform;
         PosTarget = pointB;
+        gameOver = false;
     }
 
     // Update is called once per frame
@@ -37,7 +39,21 @@ public class Enemy : MonoBehaviour
 
         if (CanSeeTarget()) //索敵範囲内かのチェック
         {
-            Debug.Log("プレイヤー発見！ → ゲームオーバー処理へ");
+            if (!gameOver)
+            {
+                gameOver = true;
+                Time.timeScale = 0.0f;
+                GameManager.Instance.ChangeState(GameState.GameOver);
+                // Start表示中の遅延処理
+                StartCoroutine(Delay(3.0f, () =>
+                {
+                    // ゲームを再開
+                    Time.timeScale = 1f;
+                    // シーン遷移
+                    SceneLoader.Instance.LoadScene(SceneName.Stage, true, 2.0f);
+                }));
+                Debug.Log("プレイヤー発見！ → ゲームオーバー処理へ");
+            }
         }
 
         DetectionMesh detectionMesh = transform.GetComponent<DetectionMesh>();
@@ -227,5 +243,9 @@ public class Enemy : MonoBehaviour
         if (col != null) col.isTrigger = true; // 衝突判定を停止
     }
 
-   
+    private IEnumerator Delay(float time, System.Action action)
+    {
+        yield return new WaitForSecondsRealtime(time);
+        action?.Invoke();
+    }
 }
