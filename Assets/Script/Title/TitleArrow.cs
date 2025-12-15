@@ -17,10 +17,10 @@ public class TitleArrow : MonoBehaviour
 
     // 矢印の座標データ
     float[,] position = new float[4, 2] {
-        { 136,   96 },
-        { 136,   44 },
-        { 178,  -54 },
-        { 230, -162 }
+        { 395.0f,  248.0f },
+        { 395.0f,  105.0f },
+        { 462.0f, -145.0f },
+        { 623.0f, -462.0f }
     };
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,15 +34,12 @@ public class TitleArrow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // ゲームパッド入力取得
-        float move = Input.GetAxis("Stick_Y") + Input.GetAxis("Cross_Y");
-
         // 矢印
-        if (Input.GetKeyDown(KeyCode.UpArrow) || move > 0.0f)   // 上
+        if (Input.GetKeyDown(KeyCode.UpArrow))   // 上
         {
             choice -= 1; if (choice < Choice.Start) { choice = Choice.Exit; }
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow) || move < 0.0f) // 下
+        if (Input.GetKeyDown(KeyCode.DownArrow)) // 下
         {
             choice += 1; if (choice > Choice.Exit) { choice = Choice.Start; }
         }
@@ -74,6 +71,22 @@ public class TitleArrow : MonoBehaviour
                 case Choice.Max:
                     break;
             }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        // ゲームパッド入力取得
+        float move = Input.GetAxis("Stick_Y") + Input.GetAxis("Cross_Y");
+
+        // 矢印
+        if (move > 0.0f)   // 上
+        {
+            choice -= 1; if (choice < Choice.Start) { choice = Choice.Exit; }
+        }
+        if (move < 0.0f) // 下
+        {
+            choice += 1; if (choice > Choice.Exit) { choice = Choice.Start; }
         }
     }
 }
