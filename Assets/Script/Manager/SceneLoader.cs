@@ -48,13 +48,12 @@ public class SceneLoader : MonoBehaviour
 
     private IEnumerator LoadSceneWithFade(SceneName scene, float fadeInTime)
     {
-        // ステート変更
-        GameManager.Instance.ChangeState(GameState.Loading);
-
-
         // フェードアウト演出
         UIManager.Instance.FadeOut(0.8f);
         yield return new WaitForSeconds(0.8f);
+
+        // ステート変更
+        GameManager.Instance.ChangeState(GameState.Loading);
 
         AsyncOperation async = SceneManager.LoadSceneAsync(scene.ToString());
         async.allowSceneActivation = false;
