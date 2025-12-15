@@ -14,18 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmClips:
   - name: TitleBGM
-    clip: {fileID: 8300000, guid: 243cdd5c105f66642875c01d0f86cf78, type: 3}
+    clip: {fileID: 8300000, guid: 698b029f2d9fd5f4ca4f337068c5b82e, type: 3}
     loop: 1
     volume: 1
   - name: StageBGM
-    clip: {fileID: 8300000, guid: 30d9db2f8a0df774eac76020d458a82e, type: 3}
+    clip: {fileID: 8300000, guid: b7daed7b0d2db6e47b1c03b9f6b84bb0, type: 3}
     loop: 1
     volume: 1
   seClips:
-  - name: 
-    clip: {fileID: 0}
+  - name: MoveSE
+    clip: {fileID: 8300000, guid: 5f42345274641d243a6eb7d3bc040953, type: 3}
     loop: 0
-    volume: 0
+    volume: 1
+  - name: EnterSE
+    clip: {fileID: 8300000, guid: 417e1403acc9e184885ba31291e102f2, type: 3}
+    loop: 0
+    volume: 1
   envClips:
   - name: 
     clip: {fileID: 0}

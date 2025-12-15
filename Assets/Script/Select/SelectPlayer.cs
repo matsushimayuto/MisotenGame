@@ -10,7 +10,8 @@ public class SelectPlayer : MonoBehaviour
 
     private Rigidbody rb;
     private Vector3 prevPosition;
-
+    private float stepDistance = 1.5f;
+    float moved = 0;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -18,8 +19,15 @@ public class SelectPlayer : MonoBehaviour
 
     void FixedUpdate()
     {
-        // 過去座標を取得
-        prevPosition = transform.position;
+
+        float delta = Vector3.Distance(transform.position, prevPosition);
+        moved += delta;
+
+        if(moved >= stepDistance)
+        {
+            PlayerFootStep();
+            moved = 0;
+        }
 
         // 入力取得（WASD / 矢印キー / ゲームパッド）
         float moveX =
@@ -39,6 +47,16 @@ public class SelectPlayer : MonoBehaviour
             // プレイヤーを進行方向に回転させる
             Quaternion targetRotation = Quaternion.LookRotation(move, Vector3.up);
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotateSpeed * Time.fixedDeltaTime));
+
         }
+
+        // 過去座標を取得
+        prevPosition = transform.position;
     }
+
+    private void PlayerFootStep()
+    {
+        AudioManager.Instance.PlaySE("MoveSE");
+    }
+
 }
