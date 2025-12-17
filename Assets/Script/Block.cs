@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class Block : MonoBehaviour
 {
@@ -43,6 +43,7 @@ public class Block : MonoBehaviour
     private float lastLBDownTime = -Mathf.Infinity;     // LBを最後に押した時間
     private float lastRBDownTime = -Mathf.Infinity;     // RB
     private float lastYDownTime  = -Mathf.Infinity;     // Y
+    private bool isYDown = false;           // Y(方向指定)ボタンを押したか
 
     private GameObject effect;      // エフェクト本体
     private FollowWorld follow;     // 速度線エフェクト用
@@ -82,69 +83,73 @@ public class Block : MonoBehaviour
     {
         if (hit)
         {
-            // 方向指定
-            if (Input.GetKeyUp(KeyCode.P) || Input.GetButtonDown("Specific"))   // キーボード(P) or パッド(Y)
-            {
-                // プレイヤー → ブロック の方向ベクトル
-                pushDir[Movenum] = (bPos - pPos);
-                pushDir[Movenum].y = 0.0f;
+            // 入力検知(入力された時間を記録)
+            if (Input.GetKeyUp(KeyCode.P) || Input.GetButtonDown("Specific")) { lastYDownTime = Time.time; }
+            if (Input.GetButtonDown("LB")) { lastLBDownTime = Time.time; }
+            if (Input.GetButtonDown("RB")) { lastRBDownTime = Time.time; }
+        }
 
-                //ブロックが斜めに行かないように値が大きい方に飛ばす
-                if (Mathf.Abs(pushDir[Movenum].x) >= Mathf.Abs(pushDir[Movenum].z))
+        // リセット
+        if (lastLBDownTime != -Mathf.Infinity && lastLBDownTime + resetSec > Time.time)
+        {
+            if (Input.GetButtonDown("RB")) { MoveReset(); }
+        }
+        if (lastRBDownTime != -Mathf.Infinity && lastRBDownTime + resetSec > Time.time)
+        {
+            if (Input.GetButtonDown("LB")) { MoveReset(); }
+        }
+
+        // フェーズスキップ
+        if (lastLBDownTime != -Mathf.Infinity && lastLBDownTime + resetSec > Time.time)
+        {
+            if (Input.GetButtonDown("Specific")) { PhaseSkip(); }
+        }
+        if (lastYDownTime != -Mathf.Infinity && lastYDownTime + resetSec > Time.time)
+        {
+            if (Input.GetButtonDown("LB")) { PhaseSkip(); }
+        }
+
+        // 方向指定(一定時間内にLBの入力がなかったため)
+        if (lastYDownTime != -Mathf.Infinity && lastYDownTime + resetSec < Time.time)    
+        {
+            // プレイヤー → ブロック の方向ベクトル
+            pushDir[Movenum] = (bPos - pPos);
+            pushDir[Movenum].y = 0.0f;
+
+            //ブロックが斜めに行かないように値が大きい方に飛ばす
+            if (Mathf.Abs(pushDir[Movenum].x) >= Mathf.Abs(pushDir[Movenum].z))
+            {
+                Debug.Log(pushDir[Movenum]);
+                pushDir[Movenum].z = 0.0f;
+            }
+            else
+            {
+                Debug.Log(pushDir[Movenum]);
+                pushDir[Movenum].x = 0.0f;
+            }
+
+            //正規化
+            pushDir[Movenum] = pushDir[Movenum].normalized;
+            Debug.Log("殴った");
+
+            // 矢印の描画
+            Debug.Log(Movenum);
+            arrow[Movenum].Draw(pushDir[Movenum], bPos, bScale, Movenum);
+
+            if (bMirror)
+            {
+                if (MirrorObj != null)
                 {
-                    Debug.Log(pushDir[Movenum]);
-                    pushDir[Movenum].z = 0.0f;
+                    MirrorObj.SetPushDir(pushDir[Movenum]);
                 }
-                else
-                {
-                    Debug.Log(pushDir[Movenum]);
-                    pushDir[Movenum].x = 0.0f;
-                }
-
-                //正規化
-                pushDir[Movenum] = pushDir[Movenum].normalized;
-                Debug.Log("殴った");
-
-                // 矢印の描画
-                Debug.Log(Movenum);
-                arrow[Movenum].Draw(pushDir[Movenum], bPos, bScale, Movenum);
-
-                if(bMirror)
-                {
-                    if(MirrorObj!=null)
-                    {
-                        MirrorObj.SetPushDir(pushDir[Movenum]);
-                    }
-                }
-
-                addMovenum(false);
             }
 
-            // 方向リセット
-            if (Input.GetButtonDown("LB"))
-            {
-                lastLBDownTime = Time.time;
-                MoveReset();
-            }
-            if (Input.GetButtonDown("RB"))
-            {
-                lastRBDownTime = Time.time;
-                MoveReset();
-            }
+            addMovenum(false);
 
-            // フェーズスキップ
-            if (Input.GetButtonDown("LB"))
-            {
-                lastLBDownTime = Time.time;
-                PhaseSkip();
-            }
-            if (Input.GetButtonDown("Specific"))
-            {
-                lastYDownTime = Time.time;
-                PhaseSkip();
-            }
+            lastYDownTime = -Mathf.Infinity;
         }
     }
+
     private void FixedUpdate()
     {
         if (bMove && !isHitStopping)
@@ -449,41 +454,35 @@ public class Block : MonoBehaviour
 
     private void MoveReset()
     {
-        if (Mathf.Abs(lastLBDownTime - lastRBDownTime) <= resetSec)
+        // 触れているブロックの動きをリセットする
+        Debug.Log("リセット");
+        Reset();
+        if (bMirror)
         {
-            // 触れているブロックの動きをリセットする
-            Debug.Log("リセット");
-            Reset();
-            if (bMirror)
+            if (MirrorObj != null)
             {
-                if (MirrorObj != null)
-                {
-                    MirrorObj.Reset();
-                }
+                MirrorObj.Reset();
             }
-            // 連続でtrueを通らないようにタイムスタンプをリセット
-            lastLBDownTime = lastRBDownTime = -Mathf.Infinity;
         }
+        // 連続でtrueを通らないようにタイムスタンプをリセット
+        lastLBDownTime = lastRBDownTime = -Mathf.Infinity; 
     }
+
     public void Reset()
     {
         for (int i = 0; i < GameMNG.num; i++) {
             pushDir[i] = Vector3.zero;
-            arrow[i] = null;
-            Destroy(arrowInstance[i]);
+            arrow[i].gameObject.SetActive(false);
         }
         Movenum = 0;
     }
 
     private void PhaseSkip()
-    {
-        if (Mathf.Abs(lastLBDownTime - lastYDownTime) <= resetSec)
-        {
-            // 触れているブロックのフェーズをスキップ
-            Debug.Log("スキップ");
-            addMovenum(false);
-            // 連続でtrueを通らないようにタイムスタンプをリセット
-            lastLBDownTime = lastYDownTime = -Mathf.Infinity;
-        }
+    {  
+        // 触れているブロックのフェーズをスキップ
+        Debug.Log("スキップ");
+        addMovenum(false);
+        // 連続でtrueを通らないようにタイムスタンプをリセット
+        lastLBDownTime = lastYDownTime = -Mathf.Infinity;
     }
 }
