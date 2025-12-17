@@ -453,9 +453,26 @@ public class Block : MonoBehaviour
         {
             // 触れているブロックの動きをリセットする
             Debug.Log("リセット");
+            Reset();
+            if (bMirror)
+            {
+                if (MirrorObj != null)
+                {
+                    MirrorObj.Reset();
+                }
+            }
             // 連続でtrueを通らないようにタイムスタンプをリセット
             lastLBDownTime = lastRBDownTime = -Mathf.Infinity;
         }
+    }
+    public void Reset()
+    {
+        for (int i = 0; i < GameMNG.num; i++) {
+            pushDir[i] = Vector3.zero;
+            arrow[i] = null;
+            Destroy(arrowInstance[i]);
+        }
+        Movenum = 0;
     }
 
     private void PhaseSkip()
@@ -464,6 +481,7 @@ public class Block : MonoBehaviour
         {
             // 触れているブロックのフェーズをスキップ
             Debug.Log("スキップ");
+            addMovenum(false);
             // 連続でtrueを通らないようにタイムスタンプをリセット
             lastLBDownTime = lastYDownTime = -Mathf.Infinity;
         }
