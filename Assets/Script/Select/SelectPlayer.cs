@@ -1,5 +1,4 @@
-using Unity.VisualScripting;
-using UnityEditor;
+
 using UnityEngine;
 
 public class SelectPlayer : MonoBehaviour
@@ -12,12 +11,13 @@ public class SelectPlayer : MonoBehaviour
     private Vector3 prevPosition;
     private float stepDistance = 1.5f;
     float moved = 0;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
 
         float delta = Vector3.Distance(transform.position, prevPosition);
@@ -49,7 +49,12 @@ public class SelectPlayer : MonoBehaviour
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotateSpeed * Time.fixedDeltaTime));
 
         }
+        else
+        {
+            rb.angularVelocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
 
+        }
         // âﬂãéç¿ïWÇéÊìæ
         prevPosition = transform.position;
     }
