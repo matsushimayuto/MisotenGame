@@ -99,6 +99,11 @@ public class Block : MonoBehaviour
             if (Input.GetButtonDown("LB")) { MoveReset(); }
         }
 
+        if(Input.GetKeyUp(KeyCode.V))
+        {
+            PhaseSkip();
+        }
+
         // フェーズスキップ
         if (lastLBDownTime != -Mathf.Infinity && lastLBDownTime + resetSec > Time.time)
         {
