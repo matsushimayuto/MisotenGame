@@ -33,9 +33,16 @@ public class Player : MonoBehaviour
             // プレイヤーを進行方向に回転させる
             Quaternion targetRotation = Quaternion.LookRotation(move, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+            
+        }
+        else
+        {
+            m_Rb.angularVelocity = Vector3.zero;
+            m_Rb.linearVelocity = Vector3.zero;
+
         }
 
-        
+
     }
 
     //プレイヤーとブロックの当たり判定
