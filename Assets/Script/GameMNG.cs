@@ -52,6 +52,7 @@ public class GameMNG : MonoBehaviour
                         e.StartInfiniteLook();
                     }
                 }
+                Check();
             }
         }
 
