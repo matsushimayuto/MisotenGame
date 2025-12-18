@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: 37583b38ce6835f4eae442903c512d2e, type: 2}
-  bgmGroup: {fileID: 7415663134594829265, guid: 37583b38ce6835f4eae442903c512d2e, type: 2}
+  bgmGroupA: {fileID: -8285950631282809230, guid: 37583b38ce6835f4eae442903c512d2e, type: 2}
+  bgmGroupB: {fileID: -8840470814093916252, guid: 37583b38ce6835f4eae442903c512d2e, type: 2}
   seGroup: {fileID: 988492901745933597, guid: 37583b38ce6835f4eae442903c512d2e, type: 2}
   envGroup: {fileID: 5494189221231559508, guid: 37583b38ce6835f4eae442903c512d2e, type: 2}
   audioData: {fileID: 11400000, guid: 73479179a86a2a44a9b5ed9dc724917d, type: 2}
+  sePoolSize: 8

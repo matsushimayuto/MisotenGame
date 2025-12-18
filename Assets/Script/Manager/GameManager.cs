@@ -63,17 +63,18 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.Title:
-                AudioManager.Instance.PlayBGM("TitleBGM", 1f);
+                AudioManager.Instance.PlayBGM("TitleBGM", 0.8f);
                 break;
             case GameState.Select:
-                AudioManager.Instance.PlayBGM("SelectBGM", 1f);
+                AudioManager.Instance.PlayBGM("SelectBGM", 0.8f);
                 break;
             case GameState.Start:
                 //Time.timeScale = 0f;
+                AudioManager.Instance.StopBGM(0.8f);
                 break;
             case GameState.Playing:
                 Time.timeScale = 1f;
-                //AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
+                AudioManager.Instance.PlayBGM("StageBGM", 1f);
                 break;
             case GameState.Paused:
                 Time.timeScale = 0f;
@@ -106,7 +107,6 @@ public class GameManager : MonoBehaviour
                 break;
             case SceneName.Stage:
                 //ChangeState(GameState.Playing);
-                AudioManager.Instance.PlayBGM("StageBGM", 1.5f);
                 break;
             case SceneName.Result:
                 ChangeState(GameState.Result);
