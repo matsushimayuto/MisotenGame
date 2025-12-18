@@ -35,6 +35,7 @@ public class StageEnterContoroller : MonoBehaviour
         if (!StageManager.Instance.IsStageUnlocked(w, s))
             return;
 
+        GameManager.Instance.IsFirstStageEnter = true;
         StageManager.Instance.SetStage(w, s);
         SceneLoader.Instance.LoadScene(SceneName.Stage, true, 1.0f);
     }

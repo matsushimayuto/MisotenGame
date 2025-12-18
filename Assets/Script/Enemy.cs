@@ -49,6 +49,8 @@ public class Enemy : MonoBehaviour
                 {
                     // ゲームを再開
                     Time.timeScale = 1f;
+                    // StartUIを非表示にする
+                    GameManager.Instance.IsFirstStageEnter = false;
                     // シーン遷移
                     SceneLoader.Instance.LoadScene(SceneName.Stage, true, 2.0f);
                 }));

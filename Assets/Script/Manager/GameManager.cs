@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     [Tooltip("ゲームの状態を変更したときに実行するイベントを格納する変数")]
     public event System.Action<GameState> OnStateChanged;
 
+    public bool IsFirstStageEnter { get; set; } = true; // Start表示を１回にするフラグ
+
 
     //ーーーーーーーーーーーーーーーーーーーーーーーーーーー
     // 以下に関数を記述

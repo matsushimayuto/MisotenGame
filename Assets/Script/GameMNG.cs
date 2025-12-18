@@ -12,17 +12,24 @@ public class GameMNG : MonoBehaviour
     bool bGameOver = false;     // ゲームオーバーフラグ
     void Start()
     {
-        // ゲーム全体を停止
-        Time.timeScale = 0.0f;
+        if (GameManager.Instance.IsFirstStageEnter)
+        {
+            // ゲーム全体を停止
+            Time.timeScale = 0.0f;
 
-        // Start表示
-        GameManager.Instance.ChangeState(GameState.Start);
+            // Start表示
+            GameManager.Instance.ChangeState(GameState.Start);
 
-        // Start表示中の遅延処理
-        StartCoroutine(Delay(3.0f, () => {
-            // ゲームを再開
+            StartCoroutine(Delay(3.0f, () =>
+            {
+                GameManager.Instance.ChangeState(GameState.Playing);
+            }));
+        }
+        else
+        {
+            // GameOver後などは即プレイ
             GameManager.Instance.ChangeState(GameState.Playing);
-        }));
+        }
     }
 
     void Update()
@@ -131,6 +138,8 @@ public class GameMNG : MonoBehaviour
                 StartCoroutine(Delay(3.0f, () => {
                     // ゲームを再開
                     Time.timeScale = 1f;
+                    // StartUIを非表示にする
+                    GameManager.Instance.IsFirstStageEnter = false;
                     // シーン遷移
                     SceneLoader.Instance.LoadScene(SceneName.Stage, true, 2.0f);
                 }));
