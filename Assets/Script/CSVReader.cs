@@ -122,7 +122,7 @@ public class StageLoader2D : MonoBehaviour
                     case 3: Instantiate(WidthWallPrefab, pos, Quaternion.identity); break;
 
                     // 外壁(縦)
-                    case 4: Instantiate(HeightWallPrefab, pos, Quaternion.identity); break;
+                    case 4: Instantiate(HeightWallPrefab, pos, Quaternion.Euler(0, 90, 0)); break;
 
                     // ワープ（左配置用）
                     case 5:
