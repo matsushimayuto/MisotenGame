@@ -36,7 +36,18 @@ public class GameMNG : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.T) || Input.GetButtonDown("Decide"))
         {
-            if (check)
+            // いずれかのブロックに方向指定をしているか
+            bool isExistMoveBlock = false;
+            foreach (Block b in FindObjectsByType<Block>(FindObjectsSortMode.None))
+            {
+                for(int i = 0; i < num; i++)
+                {
+                    if(b.CheckReserve(i)) { isExistMoveBlock = true; break; }   // 方向指定されている場合は処理を進める
+                }
+                if (isExistMoveBlock) { break; }
+            }
+
+            if (check && isExistMoveBlock)
             { // ブロック移動開始処理
                 foreach (Block b in FindObjectsByType<Block>(FindObjectsSortMode.None))
                 {
