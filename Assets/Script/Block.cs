@@ -366,6 +366,7 @@ public class Block : MonoBehaviour
 
         // 側面へ少しずらす
         Vector3 spawnPos = transform.position + backDir * radius;
+        spawnPos.y += 3.0f;
 
         // エフェクト生成
         Instantiate(stopEffectPrefab, spawnPos, Quaternion.LookRotation(backDir));
