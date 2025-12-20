@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameMNG: {fileID: 0}
-  moveForce: 5
+  moveForce: 15
   bMirror: 0
   MirrorObj: {fileID: 0}
   arrowPrefab: {fileID: 5526087056217657225, guid: 5f44831710371f44d81b0437bef873ec, type: 3}
