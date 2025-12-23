@@ -79,7 +79,7 @@ public class TitleArrow : MonoBehaviour
             {
                 case Choice.Start:      // ç≈èâÇ©ÇÁ
                     SceneLoader.Instance.LoadScene(SceneName.Select, true, 1f);
-                    AudioManager.Instance.StopBGM(1.5f);
+                    //AudioManager.Instance.StopBGM(1.5f);
                     break;
                 case Choice.Continue:   // ìríÜÇ©ÇÁ
                     SceneLoader.Instance.LoadScene(SceneName.Select, true, 1f);
