@@ -12,45 +12,50 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    [Header("AudioMixer")] 
+    [Header("AudioMixer")]
     public AudioMixer mixer;
     public AudioMixerGroup bgmGroupA;
     public AudioMixerGroup bgmGroupB;
     public AudioMixerGroup seGroup;
     public AudioMixerGroup envGroup;
 
-    [Header("Audiodataを参照用の格納用変数")]
+    [Header("AudioData")]
     public AudioData audioData;
 
     [Header("SE Pool")]
     [SerializeField] private int sePoolSize = 8;
 
-    [Tooltip("参照を楽に行うための辞書変数")]
     private Dictionary<string, AudioSetting> bgmDict = new();
     private Dictionary<string, AudioSetting> seDict = new();
     private Dictionary<string, AudioSetting> envDict = new();
- 
-    [Tooltip("クロスフェード用変数")]
+
     private AudioSource bgmA;
     private AudioSource bgmB;
-    private bool isUsingA = true;
-
-    [Tooltip("環境音とSE再生用プールの変数")]
     private AudioSource envSource;
     private Queue<AudioSource> sePool = new();
 
+    private AudioSource currentBgm;
+    private AudioSource nextBgm;
+
+    private Coroutine bgmFadeCoroutine;
+    private Coroutine envFadeCoroutine;
+
     private const string BGM_A_PARAM = "BGM_A";
     private const string BGM_B_PARAM = "BGM_B";
-    private const string SE_PARAM  = "SE_Volume";
-    private const string ENV_PARAM = "ENV_Volume";
+    private const string ENV_PARAM 　= "ENV_Volume";
+
+    private float currentBgmBaseVolume;
+    private float nextBgmBaseVolume;
 
     //ーーーーーーーーーーーーーーーーーーーーーーーーー
     // 以下に関数記述
 
-    // SingletonやAudioMixerなどの初期化を行う関数
+
+    //============================
+    // 初期化
+    //============================
     private void Awake()
     {
-        // AudioManagerの初期化
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -59,16 +64,16 @@ public class AudioManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        if(audioData == null)
+        if (audioData == null)
         {
-            Debug.LogError("AudioData is null");
+            Debug.LogError("[AudioManager] AudioData is null");
             enabled = false;
             return;
         }
 
         InitSources();
         BuildDictionaries();
-
+        ValidateMixerParams();
     }
 
     private void InitSources()
@@ -76,6 +81,9 @@ public class AudioManager : MonoBehaviour
         bgmA = CreateSource(bgmGroupA, true);
         bgmB = CreateSource(bgmGroupB, true);
         envSource = CreateSource(envGroup, true);
+
+        currentBgm = bgmA;
+        nextBgm = bgmB;
 
         for (int i = 0; i < sePoolSize; i++)
             sePool.Enqueue(CreateSource(seGroup, false));
@@ -87,16 +95,29 @@ public class AudioManager : MonoBehaviour
         s.outputAudioMixerGroup = group;
         s.loop = loop;
         s.playOnAwake = false;
-        s.volume = 1.0f;
         return s;
     }
 
     private void BuildDictionaries()
     {
         foreach (var a in audioData.bgmClips) bgmDict[a.name] = a;
-        foreach (var a in audioData.seClips) seDict[a.name] = a;
+        foreach (var a in audioData.seClips) seDict[a.name] 　= a;
         foreach (var a in audioData.envClips) envDict[a.name] = a;
     }
+
+    private void ValidateMixerParams()
+    {
+        CheckParam(BGM_A_PARAM);
+        CheckParam(BGM_B_PARAM);
+        CheckParam(ENV_PARAM);
+    }
+
+    private void CheckParam(string param)
+    {
+        if (!mixer.GetFloat(param, out _))
+            Debug.LogError($"[AudioManager] Missing Mixer Param: {param}");
+    }
+
 
     //====================================
     //  BGM
@@ -108,36 +129,53 @@ public class AudioManager : MonoBehaviour
     // 上記の書き方でBGMを再生できる、クロスフェードさせたい場合も同様に使用する
     public void PlayBGM(string name, float fadeTime = 1f)
     {
-        // 辞書内に変数があるかどうか
-        if(!bgmDict.TryGetValue(name, out var setting)) return;
+        if (!bgmDict.TryGetValue(name, out var setting))
+        {
+            Debug.LogWarning($"[AudioManager] BGM not found: {name}");
+            return;
+        }
 
+        // 初回再生（クロスフェードしない）
+        if (!currentBgm.isPlaying)
+        {
+            currentBgm.clip = setting.clip;
+            currentBgm.loop = setting.loop;
+            currentBgmBaseVolume = setting.volume;
 
-        // 現在再生している音源と、次に再生する音源を識別
-        AudioSource active = isUsingA ? bgmA : bgmB;
-        AudioSource next   = isUsingA ? bgmB : bgmA;
+            currentBgm.volume = currentBgmBaseVolume;
+            currentBgm.Play();
+            return;
+        }
 
-        // 同一BGMガード
-        if (active.clip == setting.clip) return;
+        // 次BGM準備
+        nextBgm.clip = setting.clip;
+        nextBgm.loop = setting.loop;
+        nextBgmBaseVolume = setting.volume;
 
-        // 次に再生する音源の設定を更新
-        next.clip = setting.clip;
-        next.loop = setting.loop;
-        next.Play();
+        nextBgm.volume = nextBgmBaseVolume;
+        nextBgm.Play();
 
-        // クロスフェードコルーチン開始
-        StopAllCoroutines();
-        StartCoroutine(CrossFadeMixer(active, next, fadeTime, setting.volume));
-        // 使用中フラグを下げる
-        isUsingA = !isUsingA;
+        if (bgmFadeCoroutine != null)
+            StopCoroutine(bgmFadeCoroutine);
+
+        bgmFadeCoroutine = StartCoroutine(
+            CrossFadeBGM(fadeTime)
+        );
     }
+
 
     // StopBGM : 引数:float(フェードにかける時間)、戻り値:なし
     // BGMをフェードアウトさせて停止させる関数
     public void StopBGM(float fadeTime = 1f)
     {
-        StopAllCoroutines();
- 
-        StartCoroutine(FadeOutAndStopBGM(fadeTime));
+        if (!currentBgm.isPlaying)
+            return;
+
+        if (bgmFadeCoroutine != null)
+            StopCoroutine(bgmFadeCoroutine);
+
+        bgmFadeCoroutine = StartCoroutine(FadeOutCurrentBGM(fadeTime));
+
     }
 
     //====================================
@@ -148,20 +186,26 @@ public class AudioManager : MonoBehaviour
     // 使用例 : AudioManager.Instance.PlaySE("足音");
     public void PlaySE(string name)
     {
-        if (!seDict.TryGetValue(name, out var setting)) return;
+        if (!seDict.TryGetValue(name, out var setting))
+        {
+            Debug.LogWarning($"[AudioManager] SE not found: {name}");
+            return;
+        }
 
-        if (sePool.Count == 0) return;
+        AudioSource src = sePool.Count > 0
+            ? sePool.Dequeue()
+            : sePool.Peek(); // 枯渇時は最古を再利用
 
-        var src = sePool.Dequeue();
-        src.clip = setting.clip;
         src.PlayOneShot(setting.clip, setting.volume);
         StartCoroutine(ReturnSE(src));
     }
 
+
     private IEnumerator ReturnSE(AudioSource src)
     {
         yield return new WaitUntil(() => !src.isPlaying);
-        sePool.Enqueue(src);
+        if (!sePool.Contains(src))
+            sePool.Enqueue(src);
     }
 
     //====================================
@@ -172,7 +216,11 @@ public class AudioManager : MonoBehaviour
     // 環境音を再生するための関数
     public void PlayEnv(string name)
     {
-        if (!envDict.TryGetValue(name, out var setting)) return;
+        if (!envDict.TryGetValue(name, out var setting))
+        {
+            Debug.LogWarning($"[AudioManager] ENV not found: {name}");
+            return;
+        }
 
         envSource.clip = setting.clip;
         envSource.loop = setting.loop;
@@ -182,11 +230,14 @@ public class AudioManager : MonoBehaviour
     }
 
 
+
     // StopEnv : 引数:float(フェードにかける時間)、戻り値:なし
     public void StopEnv(float fadeTime = 1f)
     {
-        StopCoroutine(nameof(FadeOutAndStopEnv));
-        StartCoroutine(FadeOutAndStopEnv(fadeTime));
+        if (envFadeCoroutine != null)
+            StopCoroutine(envFadeCoroutine);
+
+        envFadeCoroutine = StartCoroutine(FadeOutEnv(fadeTime));
     }
 
 
@@ -195,38 +246,33 @@ public class AudioManager : MonoBehaviour
     //====================================
 
     // クロスフェード用コルーチン
-    private IEnumerator CrossFadeMixer(
-    AudioSource from,
-    AudioSource to,
-    float time,
-    float targetVol)
+    private IEnumerator CrossFadeBGM(float time)
     {
-        string fromParam = GetBgmParam(from);
-        string toParam = GetBgmParam(to);
+        float fromBase = currentBgmBaseVolume;
+        float toBase = nextBgmBaseVolume;
 
-        mixer.GetFloat(fromParam, out float fromStartDb);
-
-        float toTargetDb = LinearToDb(targetVol);
-
-        // 初期化
-        mixer.SetFloat(toParam, -80f);
+        currentBgm.volume = fromBase;
+        nextBgm.volume = 0f;
 
         float t = 0f;
         while (t < time)
         {
             t += Time.deltaTime;
-            float r = t / time;
+            float r = Mathf.SmoothStep(0f, 1f, t / time);
 
-            mixer.SetFloat(fromParam, Mathf.Lerp(fromStartDb, -80f, r));
-            mixer.SetFloat(toParam, Mathf.Lerp(-80f, toTargetDb, r));
-
+            currentBgm.volume = Mathf.Lerp(fromBase, 0f, r);
+            nextBgm.volume = Mathf.Lerp(0f, toBase, r);
             yield return null;
         }
 
-        mixer.SetFloat(fromParam, -80f);
-        mixer.SetFloat(toParam, toTargetDb);
+        currentBgm.volume = 0f;
+        currentBgm.Stop();
 
-        from.Stop();
+        nextBgm.volume = toBase;
+
+        // ★ 状態更新（重要）
+        currentBgmBaseVolume = nextBgmBaseVolume;
+        (currentBgm, nextBgm) = (nextBgm, currentBgm);
     }
 
     //=================================
@@ -234,51 +280,28 @@ public class AudioManager : MonoBehaviour
     //=================================
 
     // BGM用フェードアウトコルーチン
-    private IEnumerator FadeOutAndStopBGM(float time)
+    private IEnumerator FadeOutCurrentBGM(float time)
     {
-        AudioSource a = bgmA;
-        AudioSource b = bgmB;
-
-        bool aPlaying = a.isPlaying;
-        bool bPlaying = b.isPlaying;
-
-        if (!aPlaying && !bPlaying) yield break;
-
+        float start = currentBgm.volume;
         float t = 0f;
-
-        // 開始音量取得
-        mixer.GetFloat(BGM_A_PARAM, out float aStart);
-        mixer.GetFloat(BGM_B_PARAM, out float bStart);
 
         while (t < time)
         {
             t += Time.deltaTime;
-            float r = t / time;
-
-            if (aPlaying)
-                mixer.SetFloat(BGM_A_PARAM, Mathf.Lerp(aStart, -80f, r));
-
-            if (bPlaying)
-                mixer.SetFloat(BGM_B_PARAM, Mathf.Lerp(bStart, -80f, r));
-
+            currentBgm.volume = Mathf.Lerp(start, 0f, t / time);
             yield return null;
         }
 
-        if (aPlaying)
-        {
-            mixer.SetFloat(BGM_A_PARAM, -80f);
-            a.Stop();
-        }
+        currentBgm.Stop();
+        currentBgm.volume = 0f;
 
-        if (bPlaying)
-        {
-            mixer.SetFloat(BGM_B_PARAM, -80f);
-            b.Stop();
-        }
+        
+        currentBgmBaseVolume = 1f;
+        currentBgm.clip = null;
     }
 
     // ENV用フェードアウトコルーチン
-    private IEnumerator FadeOutAndStopEnv(float time)
+    private IEnumerator FadeOutEnv(float time)
     {
         if (!envSource.isPlaying)
             yield break;
@@ -286,7 +309,6 @@ public class AudioManager : MonoBehaviour
         mixer.GetFloat(ENV_PARAM, out float startDb);
 
         float t = 0f;
-
         while (t < time)
         {
             t += Time.deltaTime;
@@ -296,12 +318,12 @@ public class AudioManager : MonoBehaviour
 
         mixer.SetFloat(ENV_PARAM, -80f);
         envSource.Stop();
-
-        // 次回再生用に初期化（重要）
-        mixer.SetFloat(ENV_PARAM, startDb);
     }
 
 
+    //============================
+    // Utility
+    //============================
     private float LinearToDb(float v)
     {
         return Mathf.Log10(Mathf.Clamp(v, 0.0001f, 1f)) * 20f;

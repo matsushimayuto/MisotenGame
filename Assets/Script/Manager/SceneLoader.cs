@@ -64,14 +64,16 @@ public class SceneLoader : MonoBehaviour
         async.allowSceneActivation = true;
         yield return null;
 
-        // フェードイン
 
+        // 移行先のシーンの共通処理を呼び出し
+        GameManager.Instance?.SetStateByScene(scene);
+
+        // フェードイン
         yield return new WaitForSeconds(fadeInTime);
         UIManager.Instance.FadeIn(0.8f);
         yield return new WaitForSeconds(0.8f);
 
-        // 移行先のシーンの共通処理を呼び出し
-        GameManager.Instance?.SetStateByScene(scene);
+        
     }
 
 
