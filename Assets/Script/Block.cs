@@ -47,6 +47,7 @@ public class Block : MonoBehaviour
 
     private GameObject effect;      // エフェクト本体
     private FollowWorld follow;     // 速度線エフェクト用
+    private GameObject shituji;      // 執事本体 
 
     void Start()
     {
@@ -369,7 +370,7 @@ public class Block : MonoBehaviour
         spawnPos.y += 3.0f;
 
         // エフェクト生成
-        Instantiate(stopEffectPrefab, spawnPos, Quaternion.LookRotation(backDir));
+        shituji = Instantiate(stopEffectPrefab, spawnPos, Quaternion.LookRotation(backDir));
     }
 
     
@@ -383,11 +384,13 @@ public class Block : MonoBehaviour
             {
                 butlerPrefab.transform.position = new Vector3(bPos.x - bScale.x * 1.0f, 1.5f, bPos.z);
                 butlerPrefab.transform.rotation = Quaternion.Euler(new Vector3(0.0f, 90.0f, 0.0f));
+                ChangeEffect(butlerPrefab.GetComponentInChildren<ParticleSystem>());
             }
             else                    // 左
             {
                 butlerPrefab.transform.position = new Vector3(bPos.x + bScale.x * 1.0f, 1.5f, bPos.z);
                 butlerPrefab.transform.rotation = Quaternion.Euler(new Vector3(0.0f, -90.0f, 0.0f));
+                ChangeEffect(butlerPrefab.GetComponentInChildren<ParticleSystem>());
             }
         }
         else
@@ -395,11 +398,13 @@ public class Block : MonoBehaviour
             if (pushDir[Phase].z > 0.0f)  // 上
             {
                 butlerPrefab.transform.position = new Vector3(bPos.x, 1.5f, bPos.z - bScale.z * 1.0f);
+                ChangeEffect(butlerPrefab.GetComponentInChildren<ParticleSystem>());
             }
             else                    // 下
             {
                 butlerPrefab.transform.position = new Vector3(bPos.x, 1.5f, bPos.z + bScale.z * 1.0f);
                 butlerPrefab.transform.rotation = Quaternion.Euler(new Vector3(0.0f, 180.0f, 0.0f));
+                ChangeEffect(butlerPrefab.GetComponentInChildren<ParticleSystem>());
             }
         }
         Debug.Log(butlerPrefab.transform.position);
@@ -490,5 +495,10 @@ public class Block : MonoBehaviour
         addMovenum(false);
         // 連続でtrueを通らないようにタイムスタンプをリセット
         lastLBDownTime = lastYDownTime = -Mathf.Infinity;
+    }
+
+    private void ChangeEffect(ParticleSystem particle)
+    {
+        particle.Play();
     }
 }
