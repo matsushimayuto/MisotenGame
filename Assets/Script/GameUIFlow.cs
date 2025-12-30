@@ -7,33 +7,59 @@ public class GameUIFlow : MonoBehaviour
     [SerializeField] Image darkPanel;
     [SerializeField] Image UIimage;
 
+    [Header("Wavy Material")]
+    [SerializeField] Material wavyMaterial;
+
+    [Header("Time Settings")]
+    [SerializeField] float uiFadeInTime = 1.0f;
+    [SerializeField] float wavyDuration = 3.0f;
+    [SerializeField] float uiFadeOutTime = 1.0f;
+
+    Material runtimeWavyMat;
+
     void Start()
     {
+        runtimeWavyMat = Instantiate(wavyMaterial);
+        UIimage.material = runtimeWavyMat;
         StartCoroutine(UIAnimation());
+    }
+
+    void Update()
+    {
+        if (runtimeWavyMat != null)
+        {
+            runtimeWavyMat.SetFloat("_TimeOffset", Time.unscaledTime);
+        }
     }
 
     IEnumerator UIAnimation()
     {
-        // 暗くする
+        // ---------- フェードイン（ゆらゆらON） ----------
+        //UIimage.material = wavyMaterial;
+        UIimage.color = new Color(1, 1, 1, 0);
+
         float t = 0f;
         while (t < 1f)
         {
-            t += Time.unscaledDeltaTime * 2f;
-            darkPanel.color =
-                new Color(0, 0, 0, Mathf.Lerp(0f, 0.6f, t));
+            t += Time.unscaledDeltaTime / uiFadeInTime;
+            UIimage.color = new Color(1, 1, 1, t);
             yield return null;
         }
 
-        // 画像表示
+        // ---------- ゆらゆらキープ ----------
+        yield return new WaitForSecondsRealtime(wavyDuration);
+
+        // ---------- フェードアウト ----------
         t = 0f;
         while (t < 1f)
         {
-            t += Time.unscaledDeltaTime * 3f;
-            UIimage.color =
-                new Color(1, 1, 1, t);
-            UIimage.transform.localScale =
-                Vector3.Lerp(Vector3.one * 1.75f, Vector3.one * 0.75f, t);
+            t += Time.unscaledDeltaTime / uiFadeOutTime;
+            UIimage.color = new Color(1, 1, 1, 1f - t);
             yield return null;
         }
+
+        // ---------- 完全に消す ----------
+        UIimage.material = null;
+        UIimage.color = new Color(1, 1, 1, 0);
     }
 }
