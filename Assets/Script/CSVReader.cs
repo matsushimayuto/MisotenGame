@@ -11,7 +11,11 @@ public class StageLoader2D : MonoBehaviour
     public GameObject WarpWallBPrefab1;
     public GameObject WarpWallAPrefab2;
     public GameObject WarpWallBPrefab2;
+    public GameObject MirrorBlock2_1;
+    public GameObject MirrorBlock3_1;
+    public GameObject MirrorBlock1_3;
     public GameObject EnemyPrefab;
+    public GameObject TwoHitEnemyPrefab;
     public GameObject BlockPrefab1;
     public GameObject BlockPrefab2;
     public GameObject BlockPrefab3;
@@ -144,8 +148,27 @@ public class StageLoader2D : MonoBehaviour
                         WarpB2 = Instantiate(WarpWallBPrefab2, pos, Quaternion.Euler(0, 0, 0));
                         break;
 
+                    // 鏡ブロック2*1
+                    case 9:
+                        adjust = new Vector3(0, 0, -cellSize * 0.5f);
+                        MirrorBlock2_1 = Instantiate(MirrorBlock2_1, pos + adjust, Quaternion.identity);
+                        break;
+
+                    // 鏡ブロック3*1
+                    case 10:
+                        MirrorBlock3_1 = Instantiate(MirrorBlock3_1, pos, Quaternion.identity);
+                        break;
+
+                    // 鏡ブロック1*3
+                    case 11:
+                        MirrorBlock1_3 = Instantiate(MirrorBlock1_3, pos, Quaternion.identity);
+                        break;
+
                     // 敵
                     case 100: Instantiate(EnemyPrefab, pos, Quaternion.identity); break;
+
+                    // ２回当てないと倒れない敵
+                    case 101: Instantiate(TwoHitEnemyPrefab, pos, Quaternion.identity); break;
 
                     // 動かないブロック（3*1）縦
                     case 200: Instantiate(BlockPrefab1, pos, Quaternion.identity); break;
