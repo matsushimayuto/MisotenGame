@@ -10,6 +10,10 @@ public class GameMNG : MonoBehaviour
     bool check=true;
     bool bFlagCollect = false;  // ゲームオーバーフラグを回収したか
     bool bGameOver = false;     // ゲームオーバーフラグ
+    bool bAppearButler = false; // 執事を出すフラグ
+    const float appearTime = 0.5f;  // フラグが立ってから出すまでの時間
+    float timeCount = 0.0f;         // ↑のカウント用
+
     void Start()
     {
         if (GameManager.Instance.IsFirstStageEnter)
@@ -49,6 +53,7 @@ public class GameMNG : MonoBehaviour
 
             if (check && isExistMoveBlock)
             { // ブロック移動開始処理
+                bAppearButler = true;
                 foreach (Block b in FindObjectsByType<Block>(FindObjectsSortMode.None))
                 {
                     Debug.Log("移動");
@@ -57,11 +62,6 @@ public class GameMNG : MonoBehaviour
                         check = false;
                         b.DestroyArrow();
                     }
-                    if(b.CheckReserve(0))
-                    {
-                        b.AppearButler(0);
-                    }
-
                 }
                 if (!check)
                 {
@@ -71,6 +71,21 @@ public class GameMNG : MonoBehaviour
                     }
                 }
                 Check();
+            }
+        }
+
+        // 執事出現
+        if (bAppearButler)
+        {
+            timeCount += Time.deltaTime;
+            if(timeCount > appearTime)
+            {
+                foreach (Block b in FindObjectsByType<Block>(FindObjectsSortMode.None))
+                {
+                    if (b.CheckReserve(b.GetPhase() + 1)) { b.AppearButler(b.GetPhase() + 1); }
+                }
+                timeCount = 0.0f;
+                bAppearButler = false;
             }
         }
 
@@ -131,7 +146,7 @@ public class GameMNG : MonoBehaviour
                 // 次のフェーズで1つ以上ブロックが動くか
                 if (b.CheckReserve(b.GetPhase() + 1))
                 {
-                    b.AppearButler(b.GetPhase() + 1);
+                    if(b.GetPhase() == 0) { bAppearButler = true; }
                     _bMoveReserve = true; // 最低でもどれか1つは動くのでゲームオーバーではない
                 }
 
