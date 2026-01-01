@@ -49,6 +49,14 @@ public class Block : MonoBehaviour
     private FollowWorld follow;     // 速度線エフェクト用
     private GameObject shituji;      // 執事本体 
 
+    // 外壁の座標データ
+    float[,] wallPosition = new float[4, 2] {
+        { 22.5f, -1.5f },       // 右
+        { -22.5f,  -1.5f },     // 左
+        { 0.0f,  15.0f },       // 上           
+        { 0.0f, -18.0f }        // 下
+    };
+
     void Start()
     {
         GameMNG = FindFirstObjectByType<GameMNG>();
@@ -142,6 +150,11 @@ public class Block : MonoBehaviour
             Debug.Log(Movenum);
             arrow[Movenum].Draw(pushDir[Movenum], bPos, bScale, Movenum);
 
+            if (Movenum == 0)
+            {
+                AppearButler(0);               
+            }
+
             if (bMirror)
             {
                 if (MirrorObj != null)
@@ -171,15 +184,15 @@ public class Block : MonoBehaviour
         }
 
         // 執事(仮)
-        if(butlerPrefab.transform.position.x != 999.0f)
-        {
-            timeCount += Time.deltaTime;
-            if (timeCount > destroyTime)
-            {
-                butlerPrefab.transform.position = new Vector3(999.0f, 999.0f, 999.0f);
-                timeCount = 0.0f;
-            }            
-        }
+        //if(butlerPrefab.transform.position.x != 999.0f)
+        //{
+        //    timeCount += Time.deltaTime;
+        //    if (timeCount > destroyTime)
+        //    {
+        //        butlerPrefab.transform.position = new Vector3(999.0f, 999.0f, 999.0f);
+        //        timeCount = 0.0f;
+        //    }            
+        //}
     }
 
     //当たっているとき
@@ -333,6 +346,48 @@ public class Block : MonoBehaviour
         }
     }
 
+    // 動く方向の番号を返す
+    // 右:0 左:1 上:2 下:3
+    private int GetDirNumber(int Phase)
+    {
+        if (pushDir[Phase].x != 0)
+        {
+            if (pushDir[Phase].x > 0.0f)   // 右
+            {
+                return 0;
+            }
+            else                    // 左
+            {
+                return 1;
+            }
+        }
+        else
+        {
+            if (pushDir[Phase].z > 0.0f)  // 上
+            {
+                return 2;
+            }
+            else                    // 下
+            {
+                return 3;
+            }
+        }
+    }
+
+    private float WhichLeftorRight(float bPos, int dirNum)
+    {
+        float subPos = bPos - wallPosition[dirNum, 0];
+        if (subPos < 0) return bPos;
+        else return -bPos;
+    }
+
+    private float WhichUporDown(float bPos, int dirNum)
+    {
+        float subPos = bPos - wallPosition[dirNum, 1];
+        if (subPos > 0) return bPos;
+        else return -bPos;
+    }
+
     public void SetPushDir(Vector3 _Dir)
     {
         pushDir[Movenum] = -_Dir;
@@ -382,13 +437,33 @@ public class Block : MonoBehaviour
         {
             if (pushDir[Phase].x > 0.0f)   // 右
             {
-                butlerPrefab.transform.position = new Vector3(bPos.x - bScale.x * 1.0f, 1.5f, bPos.z);
+                if(Phase == 0)  // フェーズ1の場合はブロックのそばに出す
+                {
+                    butlerPrefab.transform.position = new Vector3(bPos.x - bScale.x * 1.5f, 1.5f, bPos.z);
+                }
+                else            // フェーズ2以降は外壁の近くに出す
+                {
+                    int dirNum = GetDirNumber(Phase - 1);
+                    butlerPrefab.transform.position = 
+                        new Vector3(wallPosition[dirNum, 0] + WhichLeftorRight(bPos.x, dirNum) - bScale.x * 1.5f, 
+                        1.5f, wallPosition[dirNum, 1]);
+                }                    
                 butlerPrefab.transform.rotation = Quaternion.Euler(new Vector3(0.0f, 90.0f, 0.0f));
                 ChangeEffect(butlerPrefab.GetComponentInChildren<ParticleSystem>());
             }
             else                    // 左
             {
-                butlerPrefab.transform.position = new Vector3(bPos.x + bScale.x * 1.0f, 1.5f, bPos.z);
+                if (Phase == 0)
+                {
+                    butlerPrefab.transform.position = new Vector3(bPos.x + bScale.x * 1.5f, 1.5f, bPos.z);
+                }
+                else
+                {
+                    int dirNum = GetDirNumber(Phase - 1);
+                    butlerPrefab.transform.position =
+                        new Vector3(wallPosition[dirNum, 0] + WhichLeftorRight(bPos.x, dirNum) + bScale.x * 1.5f,
+                        1.5f, wallPosition[dirNum, 1]);
+                }
                 butlerPrefab.transform.rotation = Quaternion.Euler(new Vector3(0.0f, -90.0f, 0.0f));
                 ChangeEffect(butlerPrefab.GetComponentInChildren<ParticleSystem>());
             }
@@ -397,12 +472,32 @@ public class Block : MonoBehaviour
         {
             if (pushDir[Phase].z > 0.0f)  // 上
             {
-                butlerPrefab.transform.position = new Vector3(bPos.x, 1.5f, bPos.z - bScale.z * 1.0f);
+                if (Phase == 0)
+                {
+                    butlerPrefab.transform.position = new Vector3(bPos.x, 1.5f, bPos.z - bScale.z * 1.5f);
+                }
+                else
+                {
+                    int dirNum = GetDirNumber(Phase - 1);
+                    butlerPrefab.transform.position =
+                        new Vector3(wallPosition[dirNum, 0], 1.5f, 
+                        wallPosition[dirNum, 1] + WhichUporDown(bPos.z, dirNum) - bScale.z * 1.5f);
+                }
                 ChangeEffect(butlerPrefab.GetComponentInChildren<ParticleSystem>());
             }
             else                    // 下
             {
-                butlerPrefab.transform.position = new Vector3(bPos.x, 1.5f, bPos.z + bScale.z * 1.0f);
+                if (Phase == 0)
+                {
+                    butlerPrefab.transform.position = new Vector3(bPos.x, 1.5f, bPos.z + bScale.z * 1.5f);
+                }
+                else
+                {
+                    int dirNum = GetDirNumber(Phase - 1);
+                    butlerPrefab.transform.position =
+                        new Vector3(wallPosition[dirNum, 0], 1.5f,
+                        wallPosition[dirNum, 1] + WhichUporDown(bPos.z, dirNum) + bScale.z * 1.5f);
+                }
                 butlerPrefab.transform.rotation = Quaternion.Euler(new Vector3(0.0f, 180.0f, 0.0f));
                 ChangeEffect(butlerPrefab.GetComponentInChildren<ParticleSystem>());
             }
