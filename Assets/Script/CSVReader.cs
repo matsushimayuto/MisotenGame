@@ -41,6 +41,11 @@ public class StageLoader2D : MonoBehaviour
     private GameObject WarpA2;
     private GameObject WarpB2;
 
+    // 鏡ブロック管理用
+    private Block mirrorBlockA = null;
+    private Block mirrorBlockB = null;
+
+
     void Start()
     {
         LoadStage(StageManager.Instance.GetCurrentWorld(), StageManager.Instance.GetCurrentStage());
@@ -151,17 +156,20 @@ public class StageLoader2D : MonoBehaviour
                     // 鏡ブロック2*1
                     case 9:
                         adjust = new Vector3(0, 0, -cellSize * 0.5f);
-                        MirrorBlock2_1 = Instantiate(MirrorBlock2_1, pos + adjust, Quaternion.identity);
+                        GameObject obj2_1 = Instantiate(MirrorBlock2_1, pos + adjust, Quaternion.identity);
+                        RegisterMirrorBlock(obj2_1);
                         break;
 
                     // 鏡ブロック3*1
                     case 10:
-                        MirrorBlock3_1 = Instantiate(MirrorBlock3_1, pos, Quaternion.identity);
+                        GameObject obj3_1 = Instantiate(MirrorBlock3_1, pos, Quaternion.identity);
+                        RegisterMirrorBlock(obj3_1);
                         break;
 
                     // 鏡ブロック1*3
                     case 11:
-                        MirrorBlock1_3 = Instantiate(MirrorBlock1_3, pos, Quaternion.identity);
+                        GameObject obj1_3 = Instantiate(MirrorBlock1_3, pos, Quaternion.Euler(0, 90, 0));
+                        RegisterMirrorBlock(obj1_3);
                         break;
 
                     // 敵
@@ -244,6 +252,25 @@ public class StageLoader2D : MonoBehaviour
         else
         {
             Debug.LogWarning("WarpA2かWarpB2がどちらか不足しています。リンクされませんでした。");
+        }
+    }
+
+    private void RegisterMirrorBlock(GameObject obj)
+    {
+        Block block = obj.GetComponent<Block>();
+        if (block == null) return;
+
+        if (mirrorBlockA == null)
+        {
+            mirrorBlockA = block;
+        }
+        else if (mirrorBlockB == null)
+        {
+            mirrorBlockB = block;
+
+            // --- 相互リンク ---
+            mirrorBlockA.SetMirror(mirrorBlockB);
+            mirrorBlockB.SetMirror(mirrorBlockA);
         }
     }
 

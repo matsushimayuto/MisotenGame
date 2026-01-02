@@ -596,4 +596,11 @@ public class Block : MonoBehaviour
     {
         particle.Play();
     }
+
+    // 鏡ブロックセッター
+    public void SetMirror(Block other)
+    {
+        bMirror = true;
+        MirrorObj = other;
+    }
 }
