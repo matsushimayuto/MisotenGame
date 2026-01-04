@@ -4,7 +4,8 @@ Shader "Custom/UI_Wavy"
     {
         _MainTex ("Main Texture", 2D) = "white" {}
         _NoiseTex ("Noise Texture", 2D) = "white" {}
-        _Strength ("Strength", Range(0,0.1)) = 0.02
+        _Strength ("Strength", Range(0,0.1)) = 0.04
+        _Margin ("UV Margin", Range(0,0.1)) = 0.05
         _Speed ("Speed", Range(0,5)) = 1
         _TimeOffset ("Time Offset", Float) = 0
     }
@@ -46,6 +47,7 @@ Shader "Custom/UI_Wavy"
             sampler2D _MainTex;
             sampler2D _NoiseTex;
             float _Strength;
+            float _Margin;
             float _Speed;
             float _TimeOffset;
 
@@ -59,13 +61,18 @@ Shader "Custom/UI_Wavy"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float2 noiseUV = i.uv + _TimeOffset * _Speed;
+                // UVを安全領域に縮める
+                float2 baseUV = lerp(_Margin, 1.0 - _Margin, i.uv);
+
+                // ノイズ用UV（時間加算）
+                float2 noiseUV = baseUV + _TimeOffset * _Speed;
+
                 float2 noise = tex2D(_NoiseTex, noiseUV).rg - 0.5;
 
-                float2 uv = i.uv + noise * _Strength;
-                fixed4 col = tex2D(_MainTex, uv);
+                // 見た目用の揺れ
+                float2 uv = baseUV + noise * _Strength;
 
-                return col;
+                return tex2D(_MainTex, uv);
             }
             ENDCG
         }
