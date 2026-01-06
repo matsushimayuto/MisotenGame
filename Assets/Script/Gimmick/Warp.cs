@@ -13,11 +13,12 @@ public class TeleportMirror : MonoBehaviour
         if (!collision.gameObject.CompareTag("Block")) return;
 
         Block block = collision.gameObject.GetComponent<Block>();
-        if (block == null) return;
+        if (block == null)
+            return;
 
         // === 角度チェック（正面衝突のみ）===
         Vector3 moveDir = block.GetDeltaMove().normalized;
-        float dot = Vector3.Dot(moveDir, transform.forward);
+        float dot = Vector3.Dot(moveDir, -transform.up);
         if (dot > -0.9f)
         {
             Debug.Log("角度が違う");

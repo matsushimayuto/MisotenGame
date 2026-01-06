@@ -957,12 +957,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: LoadCSV
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: StageCSV
       value: 
-      objectReference: {fileID: 4900000, guid: a392726bcbb5f6b4a89c73059215e109, type: 3}
+      objectReference: {fileID: 4900000, guid: bd4bbb6ab5c60ac418536f381f78ce9d, type: 3}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: MirrorBlock1_3
       value: 
@@ -975,6 +975,22 @@ PrefabInstance:
       propertyPath: MirrorBlock3_1
       value: 
       objectReference: {fileID: 1482092415023605716, guid: cf5a1c2ea3e466a4da29ef5dbc1da8d8, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: WarpWallAPrefab1
+      value: 
+      objectReference: {fileID: 8704997254204829849, guid: a61499cabafd0294396f87b19d66faf9, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: WarpWallAPrefab2
+      value: 
+      objectReference: {fileID: 8704997254204829849, guid: a61499cabafd0294396f87b19d66faf9, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: WarpWallBPrefab1
+      value: 
+      objectReference: {fileID: 8704997254204829849, guid: 09e523a30aff34b4fbd9eda7789f6931, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: WarpWallBPrefab2
+      value: 
+      objectReference: {fileID: 8704997254204829849, guid: 09e523a30aff34b4fbd9eda7789f6931, type: 3}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: TwoHitEnemyPrefab
       value: 

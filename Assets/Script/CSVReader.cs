@@ -135,23 +135,51 @@ public class StageLoader2D : MonoBehaviour
 
                     // ワープ（左配置用）
                     case 5:
-                        WarpA1 = Instantiate(WarpWallAPrefab1, pos, Quaternion.Euler(0, 90, 0));
-                        break;
+                        {
+                            Vector3 offset = new Vector3(2.0f, 2.75f, 0f);
+                            WarpA1 = Instantiate(
+                                WarpWallAPrefab1,
+                                pos + offset,
+                                Quaternion.Euler(-90, 90, 0)
+                            );
+                            break;
+                        }
 
                     // ワープ（右配置用）
                     case 6:
-                        WarpB1 = Instantiate(WarpWallBPrefab1, pos, Quaternion.Euler(0, 270, 0));
-                        break;
+                        {
+                            Vector3 offset = new Vector3(-2.0f, 2.75f, 0f);
+                            WarpB1 = Instantiate(
+                                WarpWallBPrefab1,
+                                pos + offset,
+                                Quaternion.Euler(-90, 270, 0)
+                            );
+                            break;
+                        }
 
                     // ワープ（上配置用）
                     case 7:
-                        WarpA2 = Instantiate(WarpWallAPrefab2, pos, Quaternion.Euler(0, 180, 0));
-                        break;
+                        {
+                            Vector3 offset = new Vector3(0f, 2.75f, -2.0f);
+                            WarpA2 = Instantiate(
+                                WarpWallAPrefab2,
+                                pos + offset,
+                                Quaternion.Euler(-90, 180, 0)
+                            );
+                            break;
+                        }
 
                     // ワープ（下配置用）
                     case 8:
-                        WarpB2 = Instantiate(WarpWallBPrefab2, pos, Quaternion.Euler(0, 0, 0));
-                        break;
+                        {
+                            Vector3 offset = new Vector3(0f, 2.75f, 2.0f);
+                            WarpB2 = Instantiate(
+                                WarpWallBPrefab2,
+                                pos + offset,
+                                Quaternion.Euler(-90, 0, 0)
+                            );
+                            break;
+                        }
 
                     // 鏡ブロック2*1
                     case 9:
@@ -178,10 +206,10 @@ public class StageLoader2D : MonoBehaviour
                     // ２回当てないと倒れない敵
                     case 101: Instantiate(TwoHitEnemyPrefab, pos, Quaternion.identity); break;
 
-                    // 動かないブロック（3*1）縦
+                    // 動かないブロック（3*1）横
                     case 200: Instantiate(BlockPrefab1, pos, Quaternion.identity); break;
 
-                    // 動かないブロック（3*1）横
+                    // 動かないブロック（3*1）縦
                     case 201: Instantiate(BlockPrefab2, pos, Quaternion.Euler(0, 90, 0)); break;
 
                     // 動かないブロック（2*1）縦
