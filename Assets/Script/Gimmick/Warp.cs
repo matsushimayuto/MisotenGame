@@ -8,11 +8,11 @@ public class TeleportMirror : MonoBehaviour
     [Header("出口から少し前に出す距離")]
     public float offsetDistance = 0.0f;
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        if (!collision.gameObject.CompareTag("Block")) return;
+        if (!other.gameObject.CompareTag("Block")) return;
 
-        Block block = collision.gameObject.GetComponent<Block>();
+        Block block = other.gameObject.GetComponent<Block>();
         if (block == null)
             return;
 
@@ -27,7 +27,7 @@ public class TeleportMirror : MonoBehaviour
 
         // === 相対位置の記録 ===
         // ブロック中心がワープAの中心からどれだけ離れているか（ローカル基準）
-        Vector3 localOffsetFromWarpA = transform.InverseTransformPoint(collision.transform.position);
+        Vector3 localOffsetFromWarpA = transform.InverseTransformPoint(other.transform.position);
 
         // === 出口側の位置を計算 ===
         // 入口側の相対位置を、出口側のローカル空間に変換
@@ -37,7 +37,7 @@ public class TeleportMirror : MonoBehaviour
         Vector3 targetPos = worldOffsetFromWarpB + teleportExit.forward * offsetDistance;
 
         // === テレポート先のブロック重なりチェック ===
-        if (!CanTeleport(collision.gameObject, teleportExit, targetPos))
+        if (!CanTeleport(other.gameObject, teleportExit, targetPos))
         {
             Debug.Log("出口が塞がっているためテレポート中止");
             block.StopMove();
@@ -45,12 +45,12 @@ public class TeleportMirror : MonoBehaviour
         }
         // 出口と入口の回転差分を計算してブロックに適用
         Quaternion rotationDelta = teleportExit.rotation * Quaternion.Inverse(transform.rotation);
-        collision.transform.rotation = rotationDelta * collision.transform.rotation;
+        other.transform.rotation = rotationDelta * other.transform.rotation;
 
         // === テレポート実行 ===
-        collision.transform.position = targetPos;
+        other.transform.position = targetPos;
 
-        Debug.Log($"{collision.gameObject.name} がワープA→Bにテレポートしました！");
+        Debug.Log($"{other.gameObject.name} がワープA→Bにテレポートしました！");
     }
 
     bool CanTeleport(GameObject block, Transform teleportExit, Vector3 targetPos)
@@ -72,7 +72,7 @@ public class TeleportMirror : MonoBehaviour
         foreach (var hit in overlaps)
         {
             if (hit.gameObject == block) continue;
-            if (hit.CompareTag("Block") || hit.CompareTag("Object"))
+            if (hit.CompareTag("Block"))
             {
                 Debug.Log("テレポート先がふさがってる: " + hit.name);
                 return false;
