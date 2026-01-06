@@ -24,6 +24,7 @@ public class StageManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    // 初期化
     void Initialize()
     {
         unlockedTable = new bool[selectData.worlds.Count, 5];
@@ -39,24 +40,41 @@ public class StageManager : MonoBehaviour
 
     }
 
+    // ステージをアンロックしているかの確認用関数
     public bool IsStageUnlocked(int world, int stage)
     {
         return unlockedTable[world - 1, stage - 1];
     }
 
+    // ステージをアンロックする関数
     public void UnlockStage(int world, int stage)
     {
         unlockedTable[world - 1, stage - 1] = true;
     }
 
+    // セレクトから特定のステージのcsvファイルを読み込んでシーン遷移する関数
     public void SetStage(int world, int stage)
     {
+        // 入るステージの番号を上書き
         CurrentWorld = world;
         CurrentStage = stage;
+        // 入るステージのcsvファイルを指定して、シーン遷移
         SceneLoader.Instance.LoadScene(SceneName.Stage, true, 1.0f);
-
     }
 
+    // ワールドとステージの番号を個別設定できる関数
+    public int SetCurrentWorld(int worldNumber)
+    {
+        CurrentWorld = worldNumber;
+        return CurrentWorld;
+    }
+    public int SetCurrentStage(int stageNumber)
+    {
+        CurrentStage = stageNumber;
+        return CurrentStage;
+    }
+
+    // ワールドとステージの番号を取得するための関数
     public int GetCurrentWorld()
     {
         return CurrentWorld;

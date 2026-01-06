@@ -10,6 +10,7 @@ public class SelectPlayer : MonoBehaviour
     private Rigidbody rb;
     private Vector3 prevPosition;
     private float stepDistance = 1.5f;
+    private bool canMove = true;
     float moved = 0;
 
     void Start()
@@ -17,8 +18,14 @@ public class SelectPlayer : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    public void SetMoveEnabled(bool enabled)
+    {
+        canMove = enabled;
+    }
+
     void Update()
     {
+        if (!canMove) return;
 
         float delta = Vector3.Distance(transform.position, prevPosition);
         moved += delta;
@@ -63,5 +70,6 @@ public class SelectPlayer : MonoBehaviour
     {
         //AudioManager.Instance.PlaySE("MoveSE");
     }
+
 
 }
