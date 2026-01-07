@@ -5,9 +5,10 @@ public class Title_Thief : MonoBehaviour
     private Animator animator;  // アニメーション
     private float timeCount = 0.0f;     // 時間のカウント
     const float reactionTime = 5.0f;    // リアクションさせる時間
-    const float rotateTime = 7.5f;      // 回り始める時間
-    const float reWalkTime = 8.5f;      // 再び歩き始める時間
-    private float walkSpeed = 0.01f;        // 歩くスピード
+    const float rotateTime = 8.7f;      // 回り始める時間
+    const float reWalkTime = 9.7f;      // 再び歩き始める時間
+    const float stopTime = 11.5f;       // アニメーションを止める時間
+    private float walkSpeed = 0.04f;        // 歩くスピード
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -17,6 +18,11 @@ public class Title_Thief : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        
+    }
+
+    private void FixedUpdate()
     {
         timeCount += Time.deltaTime;
 
@@ -35,14 +41,20 @@ public class Title_Thief : MonoBehaviour
         if (timeCount > rotateTime && timeCount < reWalkTime)
         {
             animator.SetInteger("n_MoveNum", 0);
-            gameObject.transform.Rotate(new Vector3(0.0f, 1.0f, 0.0f));
+            gameObject.transform.Rotate(new Vector3(0.0f, 4.0f, 0.0f));
         }
         // 歩き始める
-        if (timeCount > reWalkTime)
+        if (timeCount > reWalkTime && timeCount < stopTime)
         {
             animator.SetInteger("n_MoveNum", 0);
+            animator.speed = 2.0f;
             gameObject.transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
-            gameObject.transform.position += new Vector3(0.0f, 0.0f, -walkSpeed);
+            gameObject.transform.position += new Vector3(0.0f, 0.0f, -walkSpeed * 2.0f);
+        }
+        // ストップ
+        if (timeCount > stopTime)
+        {
+            animator.speed = 0.0f;
         }
     }
 }
