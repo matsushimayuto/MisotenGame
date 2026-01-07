@@ -15,10 +15,12 @@ public class Enemy : MonoBehaviour
     //[SerializeField, Tooltip("障害物レイヤー")] private LayerMask obstacleMask;      // 障害物レイヤー
     [SerializeField, Tooltip("エフェクト")] private GameObject hitEffect;    // ヒットエフェクト
     private Transform target;    // プレイヤー
+    private Animator EnemyAnimator; // アニメーション切り替え用
 
     private Coroutine lookCoroutine;
     private Vector3 PosTarget;    // 現在の目標地点
     private Block attachedBlock = null;
+    private Rigidbody rb;
 
     private bool isLookingAround = false; // 首振り中か
     private bool gameOver;
@@ -30,6 +32,8 @@ public class Enemy : MonoBehaviour
         target = GameObject.FindWithTag("Player")?.transform;
         PosTarget = pointB;
         gameOver = false;
+
+        EnemyAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -71,6 +75,9 @@ public class Enemy : MonoBehaviour
         // 通常パトロール
         transform.position = Vector3.MoveTowards(transform.position, PosTarget, speed * Time.deltaTime);
         Vector3 dir = (PosTarget - transform.position).normalized;
+
+        EnemyAnimator.SetBool("isMoving", true);
+
         if (dir.sqrMagnitude > 0.001f)
         {
             Quaternion targetRot = Quaternion.LookRotation(dir, Vector3.up);
@@ -80,14 +87,14 @@ public class Enemy : MonoBehaviour
         // 到達したら首振り動作へ
         if (Vector3.Distance(transform.position, PosTarget) < 0.05f)
         {
-            lookCoroutine=StartCoroutine(LookAround(false));
+            EnemyAnimator.SetTrigger("keikai");
+            EnemyAnimator.SetBool("isMoving", false);
+            lookCoroutine =StartCoroutine(LookAround(false));
         }
     }
 
     public void StartInfiniteLook()
     {
-
-
         // 一回 Look が動いていたら終了
         if (lookCoroutine != null)
             StopCoroutine(lookCoroutine);
@@ -186,12 +193,14 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.CompareTag("Block"))
         {
             Block block = collision.gameObject.GetComponent<Block>();
+            EnemyAnimator.SetTrigger("Burst_Before");
 
             // すでに他のBlockにくっついている場合は、衝突したBlockで押しつぶされたとみなしてDestroy
             if (attachedBlock != null && block != attachedBlock)
             {
                 Debug.Log("Enemyが他のBlockに押しつぶされた！");
-                Destroy(gameObject);
+                attachedBlock.StopBlock();
+                StartCoroutine(HitStopCoroutine());
                 return;
             }
 
@@ -222,6 +231,7 @@ public class Enemy : MonoBehaviour
                 Vector3 moveDir = attachedBlock.GetDeltaMove().normalized;
                 Vector3 contactDir = (other.ClosestPoint(transform.position) - transform.position).normalized;
 
+                
                 if (Vector3.Dot(moveDir, contactDir) > 0.5f) // 正面衝突
                 {
                     Debug.Log("EnemyがBlockにくっついた状態でObjectに正面衝突");
@@ -229,7 +239,13 @@ public class Enemy : MonoBehaviour
                     Vector3 EffectPos = transform.position;
                     EffectPos.y += 2.5f; // 少し上からRayを飛ばす
                     Instantiate(hitEffect, EffectPos, transform.rotation);    // エフェクト生成
-                    Destroy(gameObject);
+
+                    // 吹っ飛びアニメーション
+                    EnemyAnimator.SetTrigger("Burst");
+                    attachedBlock.StopBlock();
+                    StartCoroutine(HitStopCoroutine());
+
+                    //Destroy(gameObject);
                 }
             }
         }
@@ -249,5 +265,12 @@ public class Enemy : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(time);
         action?.Invoke();
+    }
+    // ヒットストップ用コルーチン
+    private IEnumerator HitStopCoroutine()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        Destroy(gameObject);
     }
 }

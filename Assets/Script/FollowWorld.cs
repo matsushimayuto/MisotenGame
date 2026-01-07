@@ -38,14 +38,11 @@ public class FollowWorld : MonoBehaviour
             // 半径計算
             float targetRadius = targetRenderer.bounds.extents.x;
             float effectRadius = effectRenderer.bounds.extents.z;
-
-            Debug.Log("ターゲット半径:" + targetRadius + " エフェクト半径:" + effectRadius);
             switch (Cnt)
             {
                 case 0: // X+
                     // 側面へ少しずらす
                     radius =  effectRenderer.bounds.extents.x + targetRenderer.bounds.extents.x - 2.0f;
-                    Debug.Log("Radius:" + radius);
                     spawnPos = target.position;
                     spawnPos.x -= radius;
                     spawnPos.y = ObjectHeight;
