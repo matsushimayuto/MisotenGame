@@ -1,0 +1,10 @@
+diff a/Assets/Script/GameMNG.cs b/Assets/Script/GameMNG.cs	(rejected hunks)
+@@ -57,6 +57,8 @@
+                 foreach (Block b in FindObjectsByType<Block>(FindObjectsSortMode.None))
+                 {
+                     Debug.Log("�ړ�");
++                    
++                    b.StopBlock();
+                     if (b.ReleaseStoredForce(0))
+                     {
+                         check = false;

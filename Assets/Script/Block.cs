@@ -34,6 +34,7 @@ public class Block : MonoBehaviour
     // 執事(仮) ※後々削除予定
     [Header("執事")]
     [SerializeField] private GameObject butlerPrefab;   // 執事(仮)のプレハブ
+    private Animator butlerAnim; // アニメーション切り替え用(エネミー)
 
     const float destroyTime = 1.0f;
     private float timeCount = 0.0f;
@@ -48,6 +49,7 @@ public class Block : MonoBehaviour
     private GameObject effect;      // エフェクト本体
     private FollowWorld follow;     // 速度線エフェクト用
     private GameObject shituji;      // 執事本体 
+    private Animator PlayerAnim;    // アニメーション切り替え用(プレイヤー)
 
     // 外壁の座標データ
     float[,] wallPosition = new float[4, 2] {
@@ -86,6 +88,10 @@ public class Block : MonoBehaviour
 
         // 執事(仮)
         butlerPrefab = Instantiate(butlerPrefab, new Vector3(999.0f, 999.0f, 999.0f), Quaternion.identity);
+
+        butlerAnim = butlerPrefab.GetComponent<Animator>();
+        Debug.Log(butlerAnim);
+        PlayerAnim = GameObject.Find("Player(Clone)").GetComponent<Animator>();
     }
 
     void Update()
@@ -145,6 +151,9 @@ public class Block : MonoBehaviour
             //正規化
             pushDir[Movenum] = pushDir[Movenum].normalized;
             Debug.Log("殴った");
+
+            // 攻撃アニメーション
+            PlayerAnim.SetTrigger("Attack");
 
             // 矢印の描画
             Debug.Log(Movenum);
@@ -265,6 +274,8 @@ public class Block : MonoBehaviour
             // 動き出す瞬間のエフェクト
             SpawnStopEffect();
             SpeedEffect();
+            Animator animator = butlerPrefab.GetComponent<Animator>();
+            animator.SetTrigger("Attack");
             return true;
         }
         return false;
@@ -308,6 +319,13 @@ public class Block : MonoBehaviour
         {
             Destroy(arrowInstance[i]);
         }
+    }
+
+    public void StopBlock()
+    {
+        hitStopTime = 1.5f;
+        StartCoroutine(HitStopCoroutine());
+        hitStopTime = 0.05f;
     }
 
     // ヒットストップ用コルーチン
@@ -428,11 +446,10 @@ public class Block : MonoBehaviour
         shituji = Instantiate(stopEffectPrefab, spawnPos, Quaternion.LookRotation(backDir));
     }
 
-    
-
     // 執事出現用関数
     public void AppearButler(int Phase)
     {
+        if(butlerAnim)
         if (pushDir[Phase].x != 0)
         {
             if (pushDir[Phase].x > 0.0f)   // 右
@@ -443,6 +460,11 @@ public class Block : MonoBehaviour
                 }
                 else            // フェーズ2以降は外壁の近くに出す
                 {
+                    // アニメーション
+                    if(PlayerAnim)
+                    {
+                        PlayerAnim.SetTrigger("Call");
+                    }
                     int dirNum = GetDirNumber(Phase - 1);
                     butlerPrefab.transform.position = 
                         new Vector3(wallPosition[dirNum, 0] + WhichLeftorRight(bPos.x, dirNum) - bScale.x * 1.5f, 
@@ -459,10 +481,15 @@ public class Block : MonoBehaviour
                 }
                 else
                 {
+                    // アニメーション  
+                    if (PlayerAnim)
+                    {
+                        PlayerAnim.SetTrigger("Call");
+                    }
                     int dirNum = GetDirNumber(Phase - 1);
                     butlerPrefab.transform.position =
-                        new Vector3(wallPosition[dirNum, 0] + WhichLeftorRight(bPos.x, dirNum) + bScale.x * 1.5f,
-                        1.5f, wallPosition[dirNum, 1]);
+                    new Vector3(wallPosition[dirNum, 0] + WhichLeftorRight(bPos.x, dirNum) + bScale.x * 1.5f,
+                    1.5f, wallPosition[dirNum, 1]);
                 }
                 butlerPrefab.transform.rotation = Quaternion.Euler(new Vector3(0.0f, -90.0f, 0.0f));
                 ChangeEffect(butlerPrefab.GetComponentInChildren<ParticleSystem>());
@@ -478,10 +505,14 @@ public class Block : MonoBehaviour
                 }
                 else
                 {
+                    if (PlayerAnim)
+                    {
+                        PlayerAnim.SetTrigger("Call");
+                    }
                     int dirNum = GetDirNumber(Phase - 1);
                     butlerPrefab.transform.position =
-                        new Vector3(wallPosition[dirNum, 0], 1.5f, 
-                        wallPosition[dirNum, 1] + WhichUporDown(bPos.z, dirNum) - bScale.z * 1.5f);
+                    new Vector3(wallPosition[dirNum, 0], 1.5f, 
+                    wallPosition[dirNum, 1] + WhichUporDown(bPos.z, dirNum) - bScale.z * 1.5f);
                 }
                 ChangeEffect(butlerPrefab.GetComponentInChildren<ParticleSystem>());
             }
@@ -493,10 +524,15 @@ public class Block : MonoBehaviour
                 }
                 else
                 {
+                    // アニメーション
+                    if (PlayerAnim)
+                    {
+                        PlayerAnim.SetTrigger("Call");
+                    }
                     int dirNum = GetDirNumber(Phase - 1);
                     butlerPrefab.transform.position =
-                        new Vector3(wallPosition[dirNum, 0], 1.5f,
-                        wallPosition[dirNum, 1] + WhichUporDown(bPos.z, dirNum) + bScale.z * 1.5f);
+                    new Vector3(wallPosition[dirNum, 0], 1.5f,
+                    wallPosition[dirNum, 1] + WhichUporDown(bPos.z, dirNum) + bScale.z * 1.5f);
                 }
                 butlerPrefab.transform.rotation = Quaternion.Euler(new Vector3(0.0f, 180.0f, 0.0f));
                 ChangeEffect(butlerPrefab.GetComponentInChildren<ParticleSystem>());
