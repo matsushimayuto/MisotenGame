@@ -38,6 +38,7 @@ public class StageManager : MonoBehaviour
             }
         }
 
+        SetCurrentWorld(1);
     }
 
     // ステージをアンロックしているかの確認用関数
