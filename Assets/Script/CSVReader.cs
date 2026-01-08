@@ -142,6 +142,7 @@ public class StageLoader2D : MonoBehaviour
                                 pos + offset,
                                 Quaternion.Euler(-90, 90, 0)
                             );
+                            SetWarpColor(WarpA1, Color.green);
                             break;
                         }
 
@@ -154,6 +155,7 @@ public class StageLoader2D : MonoBehaviour
                                 pos + offset,
                                 Quaternion.Euler(-90, 270, 0)
                             );
+                            SetWarpColor(WarpB1, Color.green);
                             break;
                         }
 
@@ -300,6 +302,15 @@ public class StageLoader2D : MonoBehaviour
             mirrorBlockA.SetMirror(mirrorBlockB);
             mirrorBlockB.SetMirror(mirrorBlockA);
         }
+    }
+
+    private void SetWarpColor(GameObject warpObj, Color color)
+    {
+        Renderer renderer = warpObj.GetComponentInChildren<Renderer>();
+        if (renderer == null) return;
+
+        // material を使うのがポイント（sharedMaterial は使わない）
+        renderer.material.color = color;
     }
 
 }
