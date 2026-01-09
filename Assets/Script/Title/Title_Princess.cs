@@ -11,6 +11,8 @@ public class Title_Princess : MonoBehaviour
     const float chaseTime = 9.7f;       // 追いかけ始める時間
     const float stopTime = 11.5f;       // アニメーションを止める時間
     private bool bOnce = false;
+    private bool isPlaying = false;
+
     private Vector3 startPosition;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -52,11 +54,18 @@ public class Title_Princess : MonoBehaviour
             animator.SetInteger("n_MoveNum", 0);
             gameObject.transform.position += new Vector3(0.0f, 0.0f, -0.08f);
             camera.transform.position += new Vector3(-0.002f, 0.005f, 0.015f);
+
+            if(!isPlaying)
+            {
+                AudioManager.Instance.PlayBGM("TitleBGM", 0.8f);
+                isPlaying = true;
+            }
         }
         // ストップ
         if (timeCount > stopTime)
         {
             animator.speed = 0.0f;
+            GameManager.Instance.ChangeState(GameState.Title);
         }
     }
 }
