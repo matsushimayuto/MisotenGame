@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Title_Thief : MonoBehaviour
 {
@@ -9,17 +10,19 @@ public class Title_Thief : MonoBehaviour
     const float reWalkTime = 9.7f;      // 再び歩き始める時間
     const float stopTime = 11.5f;       // アニメーションを止める時間
     private float walkSpeed = 0.04f;        // 歩くスピード
+    private Vector3 startPosition;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();    // アニメーション取得
+        startPosition = gameObject.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void FixedUpdate()

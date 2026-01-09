@@ -1,8 +1,13 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TitleArrow : MonoBehaviour
 {
     RectTransform rectTransform;    // Panel上の座標
+    Image image;                    // 矢印のImage
+    float timeCount = 0.0f;         // カウント
+
     bool isPressed = false;         // ゲームパッド入力がされているか
     float KeepPressingTime = 0.0f;  // 一度入力してからそのまま押し続けている時間
     const float limitTime = 0.25f;  // 一度入力してから再度入力を受け付けるまでの時間
@@ -12,17 +17,17 @@ public class TitleArrow : MonoBehaviour
     {
         Start,
         Continue,
-        Credit,
+        //Credit,
         Exit,
         Max,
     }
     Choice choice;
 
     // 矢印の座標データ
-    float[,] position = new float[4, 2] {
+    float[,] position = new float[3, 2] {
         { 395.0f,  248.0f },
         { 395.0f,  105.0f },
-        { 462.0f, -145.0f },
+        //{ 462.0f, -145.0f },
         { 623.0f, -462.0f }
     };
 
@@ -31,6 +36,7 @@ public class TitleArrow : MonoBehaviour
     {
         choice = Choice.Start;  // 初期状態は初めから
         rectTransform = GetComponent<RectTransform>();
+        image = GetComponent<Image>();
         rectTransform.anchoredPosition = new Vector2(position[0, 0], position[0, 1]);
     }
 
@@ -85,9 +91,9 @@ public class TitleArrow : MonoBehaviour
                     SceneLoader.Instance.LoadScene(SceneName.Select, true, 1f);
                     AudioManager.Instance.StopBGM(1.5f);
                     break;
-                case Choice.Credit:     // 利用規約類
-                    Debug.Log("クレジット");
-                    break;
+                //case Choice.Credit:     // 利用規約類
+                //    Debug.Log("クレジット");
+                //    break;
                 case Choice.Exit:       // 終了
                     Debug.Log("ゲーム終了");
 #if UNITY_EDITOR
@@ -99,5 +105,17 @@ public class TitleArrow : MonoBehaviour
                     break;
             }
         }
+        // シーン再読み込み(デバッグ用)
+        if (Input.GetKeyUp(KeyCode.Alpha0))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        timeCount += 0.2f;
+        image.color = new Color(1.0f, 1.0f, 1.0f, Mathf.Cos(timeCount));
+        //Debug.Log(image.color.a);
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Title_Princess : MonoBehaviour
 {
@@ -10,18 +11,20 @@ public class Title_Princess : MonoBehaviour
     const float chaseTime = 9.7f;       // 追いかけ始める時間
     const float stopTime = 11.5f;       // アニメーションを止める時間
     private bool bOnce = false;
+    private Vector3 startPosition;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();    // アニメーション取得
         camera = Camera.main;
+        startPosition = gameObject.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void FixedUpdate()
