@@ -16,6 +16,8 @@ public class Enemy : MonoBehaviour
     [SerializeField, Tooltip("エフェクト")] private GameObject hitEffect;    // ヒットエフェクト
     private Transform target;    // プレイヤー
     private Animator EnemyAnimator; // アニメーション切り替え用
+    private GameObject EnemyHead; // 敵の頭部
+    private DetectionMesh Detection;   // 検知範囲オブジェクト
 
     private Coroutine lookCoroutine;
     private Vector3 PosTarget;    // 現在の目標地点
@@ -30,10 +32,13 @@ public class Enemy : MonoBehaviour
     {
         GameMNG = FindFirstObjectByType<GameMNG>();
         target = GameObject.FindWithTag("Player")?.transform;
+        pointA = transform.position;//最初の位置
+        pointB =  pointB + pointA;
         PosTarget = pointB;
         gameOver = false;
 
         EnemyAnimator = GetComponent<Animator>();
+        EnemyHead = transform.Find("group/Head").gameObject;
     }
 
     // Update is called once per frame
@@ -62,8 +67,8 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        DetectionMesh detectionMesh = transform.GetComponent<DetectionMesh>();
-        detectionMesh.detected = CanSeeTarget();
+        Detection = transform.GetComponent<DetectionMesh>();
+        Detection.detected = CanSeeTarget();
     }
 
     //移動関数
@@ -76,10 +81,9 @@ public class Enemy : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, PosTarget, speed * Time.deltaTime);
         Vector3 dir = (PosTarget - transform.position).normalized;
 
-        EnemyAnimator.SetBool("isMoving", true);
-
         if (dir.sqrMagnitude > 0.001f)
         {
+            EnemyAnimator.SetBool("isMoving", true);
             Quaternion targetRot = Quaternion.LookRotation(dir, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
         }
@@ -87,9 +91,9 @@ public class Enemy : MonoBehaviour
         // 到達したら首振り動作へ
         if (Vector3.Distance(transform.position, PosTarget) < 0.05f)
         {
-            EnemyAnimator.SetTrigger("keikai");
             EnemyAnimator.SetBool("isMoving", false);
-            lookCoroutine =StartCoroutine(LookAround(false));
+            EnemyAnimator.SetTrigger("keikai");
+            lookCoroutine = StartCoroutine(LookAround(false));
         }
     }
 
@@ -182,7 +186,7 @@ public class Enemy : MonoBehaviour
         {
             if (hit.transform == target) return true;
         }
-
+        
         return false;
         
     }
@@ -272,5 +276,21 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         Destroy(gameObject);
+    }
+
+    private IEnumerator SmoothRotateToQuaternion(Quaternion targetRot, float duration)
+    {
+        Quaternion startRot = transform.rotation;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+            transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
+            yield return null;
+        }
+
+        transform.rotation = targetRot;
     }
 }
