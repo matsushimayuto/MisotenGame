@@ -59,33 +59,38 @@ public class GameManager : MonoBehaviour
     // 基本的にはUIの表示切替等で扱う予定
     public void ChangeState(GameState newState)
     {
-        SetState(newState); // 読み込むシーンに応じてUIをセット
+        if (CurrentState == newState)
+            return;
 
-        // 状態遷移時の共通処理を以下に記述
+        CurrentState = newState;
+        OnStateChanged?.Invoke(newState);
+
+        // UI切り替え
         switch (newState)
         {
             case GameState.Title:
+                UIManager.Instance.Show("TitleUI");
                 AudioManager.Instance.PlayBGM("TitleBGM", 0.8f);
                 break;
+
             case GameState.Select:
+                UIManager.Instance.Show("SelectUI");
                 AudioManager.Instance.PlayBGM("SelectBGM", 2.0f);
                 break;
-            case GameState.Start:
-                //Time.timeScale = 0f;
-                AudioManager.Instance.StopBGM(0.8f);
-                break;
+
             case GameState.Playing:
+                UIManager.Instance.Show("HUD");
                 Time.timeScale = 1f;
                 AudioManager.Instance.PlayBGM("StageBGM", 1f);
                 break;
+
             case GameState.Paused:
+                UIManager.Instance.Show("PauseUI");
                 Time.timeScale = 0f;
                 break;
+
             case GameState.Result:
-                // リザルトUIを表示など
-                break;
-            case GameState.GameOver:
-                // ゲームオーバー演出を再生など
+                UIManager.Instance.Show("ResultUI");
                 break;
         }
     }

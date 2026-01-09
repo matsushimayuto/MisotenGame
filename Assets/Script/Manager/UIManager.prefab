@@ -155,12 +155,16 @@ MonoBehaviour:
   uiSets:
   - state: 0
     uiRoot: {fileID: 7830268212636911674}
+    fadeDuration: 1
   - state: 3
     uiRoot: {fileID: 2071338087449466520}
+    fadeDuration: 0.3
   - state: 6
     uiRoot: {fileID: 4390080757999522385}
+    fadeDuration: 0.3
   - state: 7
     uiRoot: {fileID: 7612996252418286890}
+    fadeDuration: 0.3
   fadePanel: {fileID: 1816036240841259513}
 --- !u!1001 &1882865909735251732
 PrefabInstance:
