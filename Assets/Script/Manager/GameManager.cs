@@ -7,6 +7,7 @@ using UnityEngine;
 // ゲーム状態管理用データ     ーーー他に追加したい状態があればここに記入
 public enum GameState
 {
+    TitleAnimation,
     Title,
     Select,
     Loading,
@@ -65,7 +66,7 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.Title:
-                AudioManager.Instance.PlayBGM("TitleBGM", 0.8f);
+                //AudioManager.Instance.PlayBGM("TitleBGM", 0.8f);
                 break;
             case GameState.Select:
                 AudioManager.Instance.PlayBGM("SelectBGM", 2.0f);
@@ -99,7 +100,7 @@ public class GameManager : MonoBehaviour
         switch(newScene)
         {
             case SceneName.Title:
-                ChangeState(GameState.Title);
+                ChangeState(GameState.TitleAnimation);
                 break;
             case SceneName.Game:
                 ChangeState(GameState.Playing);
