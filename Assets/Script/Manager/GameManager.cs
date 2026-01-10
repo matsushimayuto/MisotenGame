@@ -66,13 +66,11 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.Title:
-                //AudioManager.Instance.PlayBGM("TitleBGM", 0.8f);
                 break;
             case GameState.Select:
                 AudioManager.Instance.PlayBGM("SelectBGM", 2.0f);
                 break;
             case GameState.Start:
-                //Time.timeScale = 0f;
                 AudioManager.Instance.StopBGM(0.8f);
                 break;
             case GameState.Playing:
@@ -103,13 +101,12 @@ public class GameManager : MonoBehaviour
                 ChangeState(GameState.TitleAnimation);
                 break;
             case SceneName.Game:
-                ChangeState(GameState.Playing);
+                //ChangeState(GameState.Playing);
                 break;
             case SceneName.Select:
                 ChangeState(GameState.Select);
                 break;
             case SceneName.Stage:
-                //ChangeState(GameState.Playing);
                 break;
             case SceneName.Result:
                 ChangeState(GameState.Result);
