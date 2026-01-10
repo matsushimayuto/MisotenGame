@@ -1,9 +1,5 @@
-using System;
 using System.Collections;
-using TreeEditor;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class InteractionController : MonoBehaviour
 {

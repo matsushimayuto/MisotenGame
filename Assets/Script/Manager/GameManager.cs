@@ -65,6 +65,9 @@ public class GameManager : MonoBehaviour
         // ó‘Ô‘JˆÚ‚Ì‹¤’Êˆ—‚ğˆÈ‰º‚É‹Lq
         switch (newState)
         {
+            case GameState.TitleAnimation:
+                AudioManager.Instance.StopBGM();
+                break;
             case GameState.Title:
                 break;
             case GameState.Select:

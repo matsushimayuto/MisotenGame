@@ -118,7 +118,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _Strength: 0.02
     - _Surface: 0
-    - _TimeOffset: 23.927216
+    - _TimeOffset: 125.17329
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
