@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f28659ec04470634b9c094f101302c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startscene: 0
+  startscene: 1
   AudioManager: {fileID: 4937154202235016986, guid: fb6a9987304643c41ba3f844820d0326, type: 3}
   UIManager: {fileID: 8778347783636371982, guid: 7f79f7d39356ec447b6571923b86d58e, type: 3}
 --- !u!4 &1992206754

@@ -50,8 +50,6 @@ public class Title_Butler : MonoBehaviour
         if (timeCount > stopTime)
         {
             animator.speed = 0.0f;
-
-            GameManager.Instance.ChangeState(GameState.Title);
         }
     }
 }
