@@ -25,15 +25,16 @@ public class Arrow : MonoBehaviour
     public void Draw(Vector3 _pushDir, Vector3 _blockPos, Vector3 _blockScale, int _phase)
     {
         // 色変更
-        switch(_phase)
+        switch (_phase)
         {
             case 0: // フェーズ1
+                spriteRenderer.color = Color.blue;
                 break;  // 色を変えないので何もしない
             case 1: // フェーズ2
-                spriteRenderer.color = Color.blue;
+                spriteRenderer.color = Color.green;
                 break;
             case 2: // フェーズ3
-                spriteRenderer.color = Color.green;
+                spriteRenderer.color = Color.red;
                 break;
         }
 
