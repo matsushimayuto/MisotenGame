@@ -108,7 +108,7 @@ public class TitleArrow : MonoBehaviour
         // シーン再読み込み(デバッグ用)
         if (Input.GetKeyUp(KeyCode.Alpha0))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneLoader.Instance.LoadScene(SceneName.Title, true, 0.8f);
         }
     }
 

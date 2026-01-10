@@ -55,7 +55,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.75, y: 0.9, z: 0.75}
+  m_Size: {x: 0.7, y: 0.9, z: 0.7}
   m_Center: {x: 0.0000019073486, y: 0.4203899, z: 0.00000047683716}
 --- !u!33 &558969249148427004
 MeshFilter:
