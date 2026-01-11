@@ -23,8 +23,8 @@ public class SelectCamera : MonoBehaviour
 
         //if (inside == true)
         //{
-            // ˆÊ’u‚ğ•âŠÔ‚µ‚Ä’Ç]
-            Vector3 desiredPos = target.position + targetOffset;
+        // ˆÊ’u‚ğ•âŠÔ‚µ‚Ä’Ç]
+        Vector3 desiredPos = new Vector3(-1.5f, target.position.y + targetOffset.y, target.position.z + targetOffset.z); 
 
             transform.position = Vector3.Lerp(
                 transform.position,
