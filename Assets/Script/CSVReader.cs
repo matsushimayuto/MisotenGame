@@ -42,8 +42,22 @@ public class StageLoader2D : MonoBehaviour
     private GameObject WarpB2;
 
     // 鏡ブロック管理用
-    private Block mirrorBlockA = null;
-    private Block mirrorBlockB = null;
+    private MirrorEntry mirrorBlockA1 = null;
+    private MirrorEntry mirrorBlockB1 = null;
+    private MirrorEntry mirrorBlockA2 = null;
+    private MirrorEntry mirrorBlockB2 = null;
+
+    private class MirrorEntry
+    {
+        public int cellID;
+        public Block block;
+
+        public MirrorEntry(int id, Block b)
+        {
+            cellID = id;
+            block = b;
+        }
+    }
 
 
     void Start()
@@ -187,19 +201,19 @@ public class StageLoader2D : MonoBehaviour
                     case 9:
                         adjust = new Vector3(0, 0, -cellSize * 0.5f);
                         GameObject obj2_1 = Instantiate(MirrorBlock2_1, pos + adjust, Quaternion.identity);
-                        RegisterMirrorBlock(obj2_1);
+                        RegisterMirrorBlock(obj2_1,9);
                         break;
 
                     // 鏡ブロック3*1
                     case 10:
                         GameObject obj3_1 = Instantiate(MirrorBlock3_1, pos, Quaternion.identity);
-                        RegisterMirrorBlock(obj3_1);
+                        RegisterMirrorBlock(obj3_1,10);
                         break;
 
                     // 鏡ブロック1*3
                     case 11:
                         GameObject obj1_3 = Instantiate(MirrorBlock1_3, pos, Quaternion.Euler(0, 90, 0));
-                        RegisterMirrorBlock(obj1_3);
+                        RegisterMirrorBlock(obj1_3,11);
                         break;
 
                     // 敵
@@ -285,23 +299,62 @@ public class StageLoader2D : MonoBehaviour
         }
     }
 
-    private void RegisterMirrorBlock(GameObject obj)
+    private void RegisterMirrorBlock(GameObject obj, int cellID)
     {
         Block block = obj.GetComponent<Block>();
         if (block == null) return;
 
-        if (mirrorBlockA == null)
-        {
-            mirrorBlockA = block;
-        }
-        else if (mirrorBlockB == null)
-        {
-            mirrorBlockB = block;
+        MirrorEntry entry = new MirrorEntry(cellID, block);
 
-            // --- 相互リンク ---
-            mirrorBlockA.SetMirror(mirrorBlockB);
-            mirrorBlockB.SetMirror(mirrorBlockA);
+        // --- 1ペア目 ---
+        if (mirrorBlockA1 == null)
+        {
+            mirrorBlockA1 = entry;
+            return;
         }
+
+        if (mirrorBlockB1 == null && CanPair(mirrorBlockA1.cellID, cellID))
+        {
+            mirrorBlockB1 = entry;
+            LinkMirror(mirrorBlockA1.block, mirrorBlockB1.block);
+            return;
+        }
+
+        // --- 2ペア目 ---
+        if (mirrorBlockA2 == null)
+        {
+            mirrorBlockA2 = entry;
+            return;
+        }
+
+        if (mirrorBlockB2 == null && CanPair(mirrorBlockA2.cellID, cellID))
+        {
+            mirrorBlockB2 = entry;
+            LinkMirror(mirrorBlockA2.block, mirrorBlockB2.block);
+            return;
+        }
+    }
+
+    private bool CanPair(int a, int b)
+    {
+        switch (a)
+        {
+            case 9:
+                return b == 9;
+
+            case 10:
+            case 11:
+                return b == 10 || b == 11;
+
+            default:
+                return false;
+        }
+    }
+
+    private void LinkMirror(Block a, Block b)
+    {
+        a.SetMirror(b);
+        b.SetMirror(a);
     }
 
     private void SetWarpColor(GameObject warpObj, Color color)
