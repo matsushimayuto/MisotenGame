@@ -998,12 +998,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb091838d578b84995106507c864a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointA: {x: 7.3, y: 1.2, z: 16}
-  pointB: {x: 7.3, y: 1.2, z: 16}
+  movePoint: []
   speed: 3
   GameMNG: {fileID: 407886747}
   viewAngle: 90
   viewDistance: 10
+  hitEffect: {fileID: 0}
 --- !u!135 &719502700
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1512,12 +1512,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb091838d578b84995106507c864a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointA: {x: 17.1, y: 1.2, z: 16}
-  pointB: {x: 17.1, y: 1.2, z: 7}
+  movePoint: []
   speed: 2
   GameMNG: {fileID: 407886747}
   viewAngle: 90
   viewDistance: 10
+  hitEffect: {fileID: 0}
 --- !u!135 &1186290944
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1652,7 +1652,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8186355369712624839, guid: 2c63e3cf31d93584e825bc8b668c204f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 16.4
+      value: 17.1
       objectReference: {fileID: 0}
     - target: {fileID: 8186355369712624839, guid: 2c63e3cf31d93584e825bc8b668c204f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1705,6 +1705,22 @@ PrefabInstance:
     - target: {fileID: 8391132688137814126, guid: 2c63e3cf31d93584e825bc8b668c204f, type: 3}
       propertyPath: pointB.z
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8391132688137814126, guid: 2c63e3cf31d93584e825bc8b668c204f, type: 3}
+      propertyPath: movePoint.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8391132688137814126, guid: 2c63e3cf31d93584e825bc8b668c204f, type: 3}
+      propertyPath: movePoint.Array.data[0].z
+      value: -9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8391132688137814126, guid: 2c63e3cf31d93584e825bc8b668c204f, type: 3}
+      propertyPath: movePoint.Array.data[1].x
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8391132688137814126, guid: 2c63e3cf31d93584e825bc8b668c204f, type: 3}
+      propertyPath: movePoint.Array.data[1].z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8849597978649132669, guid: 2c63e3cf31d93584e825bc8b668c204f, type: 3}
       propertyPath: m_Name
@@ -1848,6 +1864,10 @@ PrefabInstance:
       propertyPath: GameMNG
       value: 
       objectReference: {fileID: 407886747}
+    - target: {fileID: 8391132688137814126, guid: 2c63e3cf31d93584e825bc8b668c204f, type: 3}
+      propertyPath: movePoint.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8849597978649132669, guid: 2c63e3cf31d93584e825bc8b668c204f, type: 3}
       propertyPath: m_Name
       value: Dorobo (1)
@@ -2959,7 +2979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91bb99b1e306dbb43a37a5b03c34747b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1464352725}
+  heightOffset: 6
 --- !u!1001 &1976511972
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -2,11 +2,15 @@
 using UnityEngine;
 using System.Collections;
 using static UnityEngine.GraphicsBuffer;
+using NUnit.Framework.Constraints;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField, Tooltip("最初の位置")]private Vector3 pointA;   // パトロール開始地点
-    [SerializeField, Tooltip("目的地の位置")] private Vector3 pointB;   // パトロール終了地点
+    private Vector3 NextPoint;   // 次の移動先
+    [SerializeField, Tooltip("移動量")] private Vector3[] movePoint;   //移動量
+    private int PointNum;
+    private int dir;
+
     [SerializeField, Tooltip("移動速度")] private float speed = 2.0f;   // 移動速度
     [SerializeField, Tooltip("GameMNG")] private GameMNG GameMNG; // gameMng
     [Header("視界設定")]
@@ -20,7 +24,7 @@ public class Enemy : MonoBehaviour
     private DetectionMesh Detection;   // 検知範囲オブジェクト
 
     private Coroutine lookCoroutine;
-    private Vector3 PosTarget;    // 現在の目標地点
+  
     private Block attachedBlock = null;
     private Rigidbody rb;
 
@@ -32,9 +36,9 @@ public class Enemy : MonoBehaviour
     {
         GameMNG = FindFirstObjectByType<GameMNG>();
         target = GameObject.FindWithTag("Player")?.transform;
-        pointA = transform.position;//最初の位置
-        pointB =  pointB + pointA;
-        PosTarget = pointB;
+        PointNum = 0;
+        NextPoint = movePoint[PointNum] + transform.position; //次の移動先決定
+        dir = 1;
         gameOver = false;
 
         EnemyAnimator = GetComponent<Animator>();
@@ -78,22 +82,23 @@ public class Enemy : MonoBehaviour
         if (attachedBlock != null || isLookingAround) { return; }
 
         // 通常パトロール
-        transform.position = Vector3.MoveTowards(transform.position, PosTarget, speed * Time.deltaTime);
-        Vector3 dir = (PosTarget - transform.position).normalized;
+        transform.position = Vector3.MoveTowards(transform.position, NextPoint, speed * Time.deltaTime);
+        Vector3 dir = (NextPoint - transform.position).normalized;
 
         if (dir.sqrMagnitude > 0.001f)
         {
-            EnemyAnimator.SetBool("isMoving", true);
+           // EnemyAnimator.SetBool("isMoving", true);
             Quaternion targetRot = Quaternion.LookRotation(dir, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
         }
 
         // 到達したら首振り動作へ
-        if (Vector3.Distance(transform.position, PosTarget) < 0.05f)
+        if (Vector3.Distance(transform.position, NextPoint) < 0.05f)
         {
             EnemyAnimator.SetBool("isMoving", false);
             EnemyAnimator.SetTrigger("keikai");
             lookCoroutine = StartCoroutine(LookAround(false));
+            NextPointSet();
         }
     }
 
@@ -143,8 +148,20 @@ public class Enemy : MonoBehaviour
 
         } while (_infinite);
 
-        PosTarget = (PosTarget == pointA) ? pointB : pointA;
+       // NextPoint = (NextPoint == pointA) ? pointB : pointA;
         isLookingAround = false;
+    }
+    private void NextPointSet()
+    {
+        PointNum += dir;
+        NextPoint = (movePoint[PointNum] * dir) + transform.position;
+
+        if ((0 == PointNum&&dir==-1 )|| (movePoint.Length-1 == PointNum&&dir==1))
+        {
+            PointNum += dir;
+            dir = (dir == 1) ? -1 : 1;
+        }
+        
     }
 
     // スムーズ回転（自然な加減速）
