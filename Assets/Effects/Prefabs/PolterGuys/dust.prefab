@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6428836759768489918}
   - component: {fileID: 7903151287028384559}
   - component: {fileID: 7649401799717065788}
-  - component: {fileID: 1376884074186718294}
   m_Layer: 0
   m_Name: dust
   m_TagString: Untagged
@@ -28,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 475819652074137261}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.542, y: 0, z: -0.319}
+  m_LocalPosition: {x: 0.39, y: 0, z: -0.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4835,19 +4834,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &1376884074186718294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 475819652074137261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91bb99b1e306dbb43a37a5b03c34747b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!1 &1757056298491695036
 GameObject:
   m_ObjectHideFlags: 0
@@ -4875,7 +4861,7 @@ Transform:
   m_GameObject: {fileID: 1757056298491695036}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.081, y: 0, z: -0.091}
+  m_LocalPosition: {x: -0.72, y: 0, z: -0.091}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5135,8 +5121,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 2
-      minScalar: 1
+      scalar: 3
+      minScalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5771,7 +5757,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 6
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -9356,15 +9342,15 @@ ParticleSystem:
       maxColor: {r: 4, g: 2.3106332, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.25, g: 0.25, b: 0.25, a: 1}
-        key1: {r: 0, g: 0, b: 0, a: 0.8392157}
+        key0: {r: 1, g: 0.96550846, b: 0.8660377, a: 1}
+        key1: {r: 0.99664116, g: 1, b: 0.9792453, a: 0.8392157}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
-        ctime0: 0
+        ctime0: 3778
         ctime1: 26600
         ctime2: 51580
         ctime3: 51580
