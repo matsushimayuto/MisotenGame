@@ -4,13 +4,15 @@ using UnityEngine.SceneManagement;
 public class StageEnterContoroller : MonoBehaviour
 {
     private StageAreaTrigger candidate;
+    private bool IsEnter = false;
 
     void Update()
     {
-        if (candidate == null) return;
+        if (candidate == null || IsEnter) return;
 
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Decide"))
         {
+            IsEnter = true;
             AudioManager.Instance.PlaySE("EnterSE");
             TryEnter();
         }
