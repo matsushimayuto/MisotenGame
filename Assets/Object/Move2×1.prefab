@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1010056719768816972}
   - component: {fileID: 7272517399867222681}
   - component: {fileID: -2241832923743144050}
+  - component: {fileID: 2398490155339081712}
   m_Layer: 0
   m_Name: "Move2\xD71"
   m_TagString: Block
@@ -157,3 +158,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.75, y: 1.2, z: 1.95}
   m_Center: {x: 0, y: 0.60968196, z: 0}
+--- !u!114 &2398490155339081712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7689065736055001702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cba3bd82125de864ead12fd5c9d988e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dustPrefab: {fileID: 475819652074137261, guid: fa6e0cbe0388662429a0975e54073d3b, type: 3}

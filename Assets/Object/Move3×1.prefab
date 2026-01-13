@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 4390930764749057921}
   - component: {fileID: -3680011322495994363}
   - component: {fileID: 3218616556849570587}
+  - component: {fileID: -8261828418183887718}
   m_Layer: 0
   m_Name: "Move3\xD71"
   m_TagString: Block
@@ -244,3 +245,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &-8261828418183887718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482092415023605716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cba3bd82125de864ead12fd5c9d988e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dustPrefab: {fileID: 475819652074137261, guid: fa6e0cbe0388662429a0975e54073d3b, type: 3}
