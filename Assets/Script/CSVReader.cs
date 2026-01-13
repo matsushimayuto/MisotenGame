@@ -22,6 +22,10 @@ public class StageLoader2D : MonoBehaviour
     public GameObject BlockPrefab4;
     public GameObject BlockPrefab5;
     public GameObject BlockPrefab6;
+    public GameObject LBlockPrefab1;
+    public GameObject LBlockPrefab2;
+    public GameObject LBlockPrefab3;
+    public GameObject LBlockPrefab4;
     public GameObject MoveBlockPrefab1;
     public GameObject MoveBlockPrefab2;
     public GameObject MoveBlockPrefab3;
@@ -33,13 +37,16 @@ public class StageLoader2D : MonoBehaviour
     [SerializeField] private TextAsset StageCSV; // 読み込むcsvファイル
 
     private const string StageRootPath = "Stages/";
-    
 
     // WarpA / WarpB を保持しておく変数
     private GameObject WarpA1;
     private GameObject WarpB1;
     private GameObject WarpA2;
     private GameObject WarpB2;
+    private GameObject WarpA3;
+    private GameObject WarpB3;
+    private GameObject WarpA4;
+    private GameObject WarpB4;
 
     // 鏡ブロック管理用
     private MirrorEntry mirrorBlockA1 = null;
@@ -58,7 +65,6 @@ public class StageLoader2D : MonoBehaviour
             block = b;
         }
     }
-
 
     void Start()
     {
@@ -216,6 +222,58 @@ public class StageLoader2D : MonoBehaviour
                         RegisterMirrorBlock(obj1_3,11);
                         break;
 
+                    // ワープ（左配置用2）
+                    case 12:
+                        {
+                            Vector3 offset = new Vector3(2.0f, 2.75f, 0f);
+                            WarpA3 = Instantiate(
+                                WarpWallAPrefab1,
+                                pos + offset,
+                                Quaternion.Euler(-90, 90, 0)
+                            );
+                            SetWarpColor(WarpA3, Color.yellow);
+                            break;
+                        }
+
+                    // ワープ（右配置用2）
+                    case 13:
+                        {
+                            Vector3 offset = new Vector3(-2.0f, 2.75f, 0f);
+                            WarpB3 = Instantiate(
+                                WarpWallBPrefab1,
+                                pos + offset,
+                                Quaternion.Euler(-90, 270, 0)
+                            );
+                            SetWarpColor(WarpB3, Color.yellow);
+                            break;
+                        }
+
+                    // ワープ（上配置用2）
+                    case 14:
+                        {
+                            Vector3 offset = new Vector3(0f, 2.75f, -2.0f);
+                            WarpA4 = Instantiate(
+                                WarpWallAPrefab2,
+                                pos + offset,
+                                Quaternion.Euler(-90, 180, 0)
+                            );
+                            SetWarpColor(WarpA4, Color.cyan);
+                            break;
+                        }
+
+                    // ワープ（下配置用2）
+                    case 15:
+                        {
+                            Vector3 offset = new Vector3(0f, 2.75f, 2.0f);
+                            WarpB4 = Instantiate(
+                                WarpWallBPrefab2,
+                                pos + offset,
+                                Quaternion.Euler(-90, 0, 0)
+                            );
+                            SetWarpColor(WarpB4, Color.cyan);
+                            break;
+                        }
+
                     // 敵
                     case 100: Instantiate(EnemyPrefab, pos, Quaternion.identity); break;
 
@@ -249,6 +307,18 @@ public class StageLoader2D : MonoBehaviour
                     // 動かないブロック（1*1）
                     case 205: Instantiate(BlockPrefab6, pos, Quaternion.identity); break;
 
+                    // 動かないブロック（┗スタート）
+                    case 206: Instantiate(LBlockPrefab1, pos, Quaternion.identity); break;
+
+                    // 動かないブロック（┏スタート）
+                    case 207: Instantiate(LBlockPrefab2, pos, Quaternion.Euler(0, 90, 0)); break;
+
+                    // 動かないブロック（┓スタート）
+                    case 208: Instantiate(LBlockPrefab3, pos, Quaternion.Euler(0,180, 0)); break;
+
+                    // 動かないブロック（┛スタート）
+                    case 209: Instantiate(LBlockPrefab4, pos, Quaternion.Euler(0,270, 0)); break;
+
                     // 動くブロック（3*1）縦
                     case 300: Instantiate(MoveBlockPrefab1, pos, Quaternion.identity); break;
 
@@ -265,13 +335,13 @@ public class StageLoader2D : MonoBehaviour
                         adjust = new Vector3(cellSize * 0.5f, 0, 0);
                         Instantiate(MoveBlockPrefab4, pos + adjust, Quaternion.Euler(0, 90, 0));
                         break;
-                    // 動くブロック（1*1）横
+                    // 動くブロック（1*1）
                     case 304: Instantiate(MoveBlockPrefab5, pos, Quaternion.identity); break;
                 }
             }
         }
 
-        // WarpAとWarpBの接続
+        // WarpA1とWarpB1の接続
         if (WarpA1 != null && WarpB1 != null)
         {
             TeleportMirror tA1 = WarpA1.GetComponent<TeleportMirror>();
@@ -284,7 +354,7 @@ public class StageLoader2D : MonoBehaviour
         {
             Debug.LogWarning("WarpA1かWarpB1がどちらか不足しています。リンクされませんでした。");
         }
-        // WarpAとWarpBの接続
+        // WarpA2とWarpB2の接続
         if (WarpA2 != null && WarpB2 != null)
         {
             TeleportMirror tA2 = WarpA2.GetComponent<TeleportMirror>();
@@ -296,6 +366,32 @@ public class StageLoader2D : MonoBehaviour
         else
         {
             Debug.LogWarning("WarpA2かWarpB2がどちらか不足しています。リンクされませんでした。");
+        }
+        // WarpA3とWarpB3の接続
+        if (WarpA3 != null && WarpB3 != null)
+        {
+            TeleportMirror tA3 = WarpA3.GetComponent<TeleportMirror>();
+            TeleportMirror tB3 = WarpB3.GetComponent<TeleportMirror>();
+
+            tA3.teleportExit = WarpB3.transform;
+            tB3.teleportExit = WarpA3.transform;
+        }
+        else
+        {
+            Debug.LogWarning("WarpA3かWarpB3がどちらか不足しています。リンクされませんでした。");
+        }
+        // WarpA4とWarpB4の接続
+        if (WarpA4 != null && WarpB4 != null)
+        {
+            TeleportMirror tA4 = WarpA4.GetComponent<TeleportMirror>();
+            TeleportMirror tB4 = WarpB4.GetComponent<TeleportMirror>();
+
+            tA4.teleportExit = WarpB4.transform;
+            tB4.teleportExit = WarpA4.transform;
+        }
+        else
+        {
+            Debug.LogWarning("WarpA3かWarpB3がどちらか不足しています。リンクされませんでした。");
         }
     }
 
@@ -365,5 +461,4 @@ public class StageLoader2D : MonoBehaviour
         // material を使うのがポイント（sharedMaterial は使わない）
         renderer.material.color = color;
     }
-
 }
