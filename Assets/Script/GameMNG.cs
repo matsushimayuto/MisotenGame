@@ -56,11 +56,11 @@ public class GameMNG : MonoBehaviour
                 bAppearButler = true;
                 foreach (Block b in FindObjectsByType<Block>(FindObjectsSortMode.None))
                 {
+                    b.DestroyArrow();
                     Debug.Log("ˆÚ“®");
                     if (b.ReleaseStoredForce(0))
                     {
-                        check = false;
-                        b.DestroyArrow();
+                        check = false;                     
                     }
                 }
                 if (!check)
