@@ -896,12 +896,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: LoadCSV
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: StageCSV
       value: 
-      objectReference: {fileID: 4900000, guid: bd4bbb6ab5c60ac418536f381f78ce9d, type: 3}
+      objectReference: {fileID: 4900000, guid: c9241764e60109a42870cb837c909524, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: LBlockPrefab1
+      value: 
+      objectReference: {fileID: 2453126713284970080, guid: a5a5614389ecbd74eb1bd45a7764e80a, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: LBlockPrefab2
+      value: 
+      objectReference: {fileID: 2453126713284970080, guid: a5a5614389ecbd74eb1bd45a7764e80a, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: LBlockPrefab3
+      value: 
+      objectReference: {fileID: 2453126713284970080, guid: a5a5614389ecbd74eb1bd45a7764e80a, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: LBlockPrefab4
+      value: 
+      objectReference: {fileID: 2453126713284970080, guid: a5a5614389ecbd74eb1bd45a7764e80a, type: 3}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: MirrorBlock1_3
       value: 
