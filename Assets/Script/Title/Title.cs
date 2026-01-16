@@ -53,11 +53,13 @@ public class TitleArrow : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.UpArrow) || move > 0.0f)   // è„
             {
                 isPressed = true;
+                AudioManager.Instance.PlaySE("CursorSE");
                 choice -= 1; if (choice < Choice.Start) { choice = Choice.Exit; }
             }
             if (Input.GetKeyDown(KeyCode.DownArrow) || move < 0.0f) // â∫
             {
                 isPressed = true;
+                AudioManager.Instance.PlaySE("CursorSE");
                 choice += 1; if (choice > Choice.Exit) { choice = Choice.Start; }
             }
             KeepPressingTime = 0.0f;
@@ -81,6 +83,7 @@ public class TitleArrow : MonoBehaviour
         // ÉVÅ[ÉìëJà⁄
         if (Input.GetKeyUp(KeyCode.Return) || Input.GetButtonDown("Decide"))
         {
+            AudioManager.Instance.PlaySE("EnterSE");
             switch (choice)
             {
                 case Choice.Start:      // ç≈èâÇ©ÇÁ
