@@ -337,9 +337,10 @@ GameObject:
   - component: {fileID: 973136798}
   - component: {fileID: 973136800}
   - component: {fileID: 973136801}
+  - component: {fileID: 973136802}
   m_Layer: 0
   m_Name: SkyBox
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -412,7 +413,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 247
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -468,6 +469,19 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &973136802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973136797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7752016c8d44e8b4db1193a4239cd8fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveTime: 1
 --- !u!1 &1390543202
 GameObject:
   m_ObjectHideFlags: 0
