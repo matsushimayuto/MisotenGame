@@ -11,12 +11,14 @@ public class Title_Thief : MonoBehaviour
     const float stopTime = 11.5f;       // アニメーションを止める時間
     private float walkSpeed = 0.04f;        // 歩くスピード
     private Vector3 startPosition;
+    private bool bOnce = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();    // アニメーション取得
         startPosition = gameObject.transform.position;
+        AudioManager.Instance.PlayBGM("WalkBGM");
     }
 
     // Update is called once per frame
@@ -36,9 +38,12 @@ public class Title_Thief : MonoBehaviour
             gameObject.transform.position += new Vector3(0.0f, 0.0f, walkSpeed);
         }
         // リアクション
-        if (timeCount > reactionTime)
+        if (timeCount > reactionTime && !bOnce)
         {
+            AudioManager.Instance.StopBGM();
+            AudioManager.Instance.PlaySE("ReactionSE");
             animator.SetInteger("n_MoveNum", 1);
+            bOnce = true;
         }
         // 回り始める
         if (timeCount > rotateTime && timeCount < reWalkTime)
