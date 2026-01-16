@@ -903,6 +903,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4900000, guid: c9241764e60109a42870cb837c909524, type: 3}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: EnemyPrefabD
+      value: 
+      objectReference: {fileID: 8849597978649132669, guid: 08c47b6cee3e5a94cae8312ba7e318c0, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: EnemyPrefabR
+      value: 
+      objectReference: {fileID: 8849597978649132669, guid: 36a33b0d5fc906e458b4b695aa210af7, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: EnemyPrefabU
+      value: 
+      objectReference: {fileID: 8849597978649132669, guid: 70109d2e3f354604b87ed790d2d16b21, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: EnemyPrefabDU
       value: 
       objectReference: {fileID: 8849597978649132669, guid: 08c47b6cee3e5a94cae8312ba7e318c0, type: 3}
@@ -910,6 +922,10 @@ PrefabInstance:
       propertyPath: EnemyPrefabLD
       value: 
       objectReference: {fileID: 8849597978649132669, guid: 62782c40fd18472439362fa066a7c57d, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: EnemyPrefabLR
+      value: 
+      objectReference: {fileID: 8849597978649132669, guid: b5d72a6373599fe408129d5b98a8fa27, type: 3}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: EnemyPrefabRD
       value: 
@@ -921,7 +937,7 @@ PrefabInstance:
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: EnemyPrefabUD
       value: 
-      objectReference: {fileID: 8849597978649132669, guid: 70109d2e3f354604b87ed790d2d16b21, type: 3}
+      objectReference: {fileID: 8849597978649132669, guid: fbcd5047d943458479931e492de33c3e, type: 3}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: EnemyPrefabUL
       value: 
