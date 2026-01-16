@@ -133,8 +133,6 @@ MonoBehaviour:
   movePoint:
   - {x: 0, y: 0, z: 6}
   - {x: 0, y: 0, z: -6}
-  - {x: 0, y: 0, z: -6}
-  - {x: 0, y: 0, z: 6}
   speed: 3
   GameMNG: {fileID: 0}
   viewAngle: 90
