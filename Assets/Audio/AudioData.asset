@@ -25,6 +25,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: b7daed7b0d2db6e47b1c03b9f6b84bb0, type: 3}
     loop: 1
     volume: 1
+  - name: WalkBGM
+    clip: {fileID: 8300000, guid: f3a6bae7189026a4a9c2b2f902f5dbd9, type: 3}
+    loop: 0
+    volume: 1
   seClips:
   - name: CursorSE
     clip: {fileID: 8300000, guid: 5f42345274641d243a6eb7d3bc040953, type: 3}
@@ -32,6 +36,10 @@ MonoBehaviour:
     volume: 1
   - name: EnterSE
     clip: {fileID: 8300000, guid: 417e1403acc9e184885ba31291e102f2, type: 3}
+    loop: 0
+    volume: 1
+  - name: ReactionSE
+    clip: {fileID: 8300000, guid: b1004545ef6a53341b61176b13eafa41, type: 3}
     loop: 0
     volume: 1
   envClips:
