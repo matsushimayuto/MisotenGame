@@ -187,15 +187,12 @@ public class AudioManager : MonoBehaviour
     public void PlaySE(string name)
     {
         if (!seDict.TryGetValue(name, out var setting))
-        {
-            Debug.LogWarning($"[AudioManager] SE not found: {name}");
             return;
-        }
 
-        AudioSource src = sePool.Count > 0
-            ? sePool.Dequeue()
-            : sePool.Peek(); // ŒÍŠ‰‚ÍÅŒÃ‚ğÄ—˜—p
+        if (sePool.Count == 0)
+            return; // Ä¶‚µ‚È‚¢
 
+        var src = sePool.Dequeue();
         src.PlayOneShot(setting.clip, setting.volume);
         StartCoroutine(ReturnSE(src));
     }
