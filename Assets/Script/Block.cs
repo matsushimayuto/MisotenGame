@@ -51,6 +51,10 @@ public class Block : MonoBehaviour
     private GameObject shituji;      // 執事本体 
     private Animator PlayerAnim;    // アニメーション切り替え用(プレイヤー)
 
+    private bool bStartStop = false;
+    private bool bStartMove_1 = false;
+    private bool bStartMove_2 = false;
+
     // 外壁の座標データ
     float[,] wallPosition = new float[4, 2] {
         { 22.5f, -1.5f },       // 右
@@ -119,19 +123,12 @@ public class Block : MonoBehaviour
             PhaseSkip();
         }
 
-        // フェーズスキップ
-        if (lastLBDownTime != -Mathf.Infinity && lastLBDownTime + resetSec > Time.time)
-        {
-            if (Input.GetButtonDown("Specific")) { PhaseSkip(); }
-        }
-        if (lastYDownTime != -Mathf.Infinity && lastYDownTime + resetSec > Time.time)
-        {
-            if (Input.GetButtonDown("LB")) { PhaseSkip(); }
-        }
-
         // 方向指定(一定時間内にLBの入力がなかったため)
         if (lastYDownTime != -Mathf.Infinity && lastYDownTime + resetSec < Time.time)    
         {
+            // スキップ機能
+            if (Input.GetButton("LB")) { PhaseSkip(); }
+
             // プレイヤー → ブロック の方向ベクトル
             pushDir[Movenum] = (bPos - pPos);
             pushDir[Movenum].y = 0.0f;
@@ -182,6 +179,31 @@ public class Block : MonoBehaviour
     {
         if (bMove && !isHitStopping)
         {
+            // 移動中のアニメーション制御
+            if (butlerAnim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+            {
+          
+            }
+            else
+            {
+                if (CheckReserve(Movenum + 1))
+                {
+                    if (!bStartMove_1)
+                    {
+                        butlerAnim.SetTrigger("BeforePunch");
+                        bStartMove_1 = true;
+                    }
+                }
+                
+            }
+            if (!bStartStop)
+            {
+                StopBlock();
+                bStartStop = true;
+            }
+            // レイ判定
+            RayTest();
+            // 移動処理
             Vector3 move = pushDir[Movenum] * moveForce * Time.fixedDeltaTime;
             rb.MovePosition(rb.position + move);
             deltaMove = move; // 移動量を保存
@@ -191,6 +213,7 @@ public class Block : MonoBehaviour
         {
             deltaMove = Vector3.zero;
         }
+        
 
         // 執事(仮)
         //if(butlerPrefab.transform.position.x != 999.0f)
@@ -275,7 +298,10 @@ public class Block : MonoBehaviour
             SpawnStopEffect();
             SpeedEffect();
             Animator animator = butlerPrefab.GetComponent<Animator>();
-            animator.SetTrigger("Attack");
+            if(!bStartStop)
+            {
+                animator.SetTrigger("Attack");
+            }
             return true;
         }
         return false;
@@ -320,12 +346,13 @@ public class Block : MonoBehaviour
             Destroy(arrowInstance[i]);
         }
     }
-
+    // 最初のアニメーション用ヒットストップ
     public void StopBlock()
     {
-        hitStopTime = 1.5f;
+        hitStopTime = 3.0f;
         StartCoroutine(HitStopCoroutine());
         hitStopTime = 0.05f;
+        
     }
 
     // ヒットストップ用コルーチン
@@ -425,7 +452,7 @@ public class Block : MonoBehaviour
         Vector3 backDir = -dir;
 
         // ----------- ブロックの半径を計算 -----------
-        Vector3 scale = transform.localScale;
+        Vector3 scale = transform.localScale;   
         float radius;
 
         // X方向が強い → X側面
@@ -456,6 +483,7 @@ public class Block : MonoBehaviour
             {
                 if(Phase == 0)  // フェーズ1の場合はブロックのそばに出す
                 {
+                    butlerAnim.SetTrigger("Ojigi");
                     butlerPrefab.transform.position = new Vector3(bPos.x - bScale.x * 1.5f, 1.5f, bPos.z);
                 }
                 else            // フェーズ2以降は外壁の近くに出す
@@ -465,7 +493,15 @@ public class Block : MonoBehaviour
                     {
                         PlayerAnim.SetTrigger("Call");
                     }
-                    int dirNum = GetDirNumber(Phase - 1);
+                        //if (CheckReserve(Phase + 1))
+                        //{
+                        //    butlerAnim.SetTrigger("BeforePunch");
+                        //}
+                        //else
+                        //{
+                        //    butlerAnim.SetTrigger("AfterPunch");
+                        //}
+                        int dirNum = GetDirNumber(Phase - 1);
                     butlerPrefab.transform.position = 
                         new Vector3(wallPosition[dirNum, 0] + WhichLeftorRight(bPos.x, dirNum) - bScale.x * 1.5f, 
                         1.5f, wallPosition[dirNum, 1]);
@@ -477,7 +513,8 @@ public class Block : MonoBehaviour
             {
                 if (Phase == 0)
                 {
-                    butlerPrefab.transform.position = new Vector3(bPos.x + bScale.x * 1.5f, 1.5f, bPos.z);
+                        butlerAnim.SetTrigger("Ojigi");
+                        butlerPrefab.transform.position = new Vector3(bPos.x + bScale.x * 1.5f, 1.5f, bPos.z);
                 }
                 else
                 {
@@ -486,7 +523,15 @@ public class Block : MonoBehaviour
                     {
                         PlayerAnim.SetTrigger("Call");
                     }
-                    int dirNum = GetDirNumber(Phase - 1);
+                        //if (CheckReserve(Phase + 1))
+                        //{
+                        //    butlerAnim.SetTrigger("BeforePunch");
+                        //}
+                        //else
+                        //{
+                        //    butlerAnim.SetTrigger("AfterPunch");
+                        //}
+                        int dirNum = GetDirNumber(Phase - 1);
                     butlerPrefab.transform.position =
                     new Vector3(wallPosition[dirNum, 0] + WhichLeftorRight(bPos.x, dirNum) + bScale.x * 1.5f,
                     1.5f, wallPosition[dirNum, 1]);
@@ -501,7 +546,8 @@ public class Block : MonoBehaviour
             {
                 if (Phase == 0)
                 {
-                    butlerPrefab.transform.position = new Vector3(bPos.x, 1.5f, bPos.z - bScale.z * 1.5f);
+                        butlerAnim.SetTrigger("Ojigi");
+                        butlerPrefab.transform.position = new Vector3(bPos.x, 1.5f, bPos.z - bScale.z * 1.5f);
                 }
                 else
                 {
@@ -509,7 +555,15 @@ public class Block : MonoBehaviour
                     {
                         PlayerAnim.SetTrigger("Call");
                     }
-                    int dirNum = GetDirNumber(Phase - 1);
+                        //if (CheckReserve(Phase + 1))
+                        //{
+                        //    butlerAnim.SetTrigger("BeforePunch");
+                        //}
+                        //else
+                        //{
+                        //    butlerAnim.SetTrigger("AfterPunch");
+                        //}
+                        int dirNum = GetDirNumber(Phase - 1);
                     butlerPrefab.transform.position =
                     new Vector3(wallPosition[dirNum, 0], 1.5f, 
                     wallPosition[dirNum, 1] + WhichUporDown(bPos.z, dirNum) - bScale.z * 1.5f);
@@ -520,7 +574,8 @@ public class Block : MonoBehaviour
             {
                 if (Phase == 0)
                 {
-                    butlerPrefab.transform.position = new Vector3(bPos.x, 1.5f, bPos.z + bScale.z * 1.5f);
+                        butlerAnim.SetTrigger("Ojigi");
+                        butlerPrefab.transform.position = new Vector3(bPos.x, 1.5f, bPos.z + bScale.z * 1.5f);
                 }
                 else
                 {
@@ -529,7 +584,15 @@ public class Block : MonoBehaviour
                     {
                         PlayerAnim.SetTrigger("Call");
                     }
-                    int dirNum = GetDirNumber(Phase - 1);
+                        //if (CheckReserve(Phase + 1))
+                        //{
+                        //    butlerAnim.SetTrigger("BeforePunch");
+                        //}
+                        //else
+                        //{
+                        //    butlerAnim.SetTrigger("AfterPunch");
+                        //}
+                        int dirNum = GetDirNumber(Phase - 1);
                     butlerPrefab.transform.position =
                     new Vector3(wallPosition[dirNum, 0], 1.5f,
                     wallPosition[dirNum, 1] + WhichUporDown(bPos.z, dirNum) + bScale.z * 1.5f);
@@ -585,6 +648,7 @@ public class Block : MonoBehaviour
             //ターゲット情報を設定
             follow.SetTarget(this.transform);
             follow.SetTransform(pushDir[Movenum], transform.localScale);
+            butlerAnim.SetTrigger("Attack");
 
         }
         else
@@ -638,5 +702,46 @@ public class Block : MonoBehaviour
     {
         bMirror = true;
         MirrorObj = other;
+    }
+
+    // アニメーション開始用レイ判定
+    private void RayTest()
+    {
+        Debug.Log(pushDir[Movenum] + "RayTest");
+        //Rayの作成　　　　　　　↓Rayを飛ばす原点　　　↓Rayを飛ばす方向
+        // 今回の進行方向
+        Vector3 dir = pushDir[Movenum];
+        Debug.Log(dir);
+        Ray ray = new Ray(transform.position, dir);
+
+        //Rayが当たったオブジェクトの情報を入れる箱
+        RaycastHit hit;
+
+        //Rayの飛ばせる距離
+        int distance = 10;
+
+        //Rayの可視化    ↓Rayの原点　　　　↓Rayの方向　　　　　　　　　↓Rayの色
+        Debug.DrawLine(ray.origin, ray.direction * distance, Color.red);
+
+        //もしRayにオブジェクトが衝突したら
+        //                  ↓Ray  ↓Rayが当たったオブジェクト ↓距離
+        if (Physics.Raycast(ray, out hit, distance))
+        {
+            //Rayが当たったオブジェクトのtagがObjectだったら
+            if (hit.collider.tag == "Object")
+            // アニメーション再生開始判定
+            if (CheckReserve(Movenum + 2))
+            {
+
+            }
+            else
+            {
+                if (!bStartMove_2)
+                {
+                    bStartMove_2 = true;
+                    butlerAnim.SetTrigger("AfterPunch");
+                }
+            }
+        }
     }
 }
