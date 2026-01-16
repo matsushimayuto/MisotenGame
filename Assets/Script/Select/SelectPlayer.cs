@@ -8,6 +8,7 @@ public class SelectPlayer : MonoBehaviour
     [SerializeField, Tooltip("移動速度")] private float rotateSpeed = 10.0f; // 向きを変える速さ（補間用
 
     private Rigidbody rb;
+    private CapsuleCollider cc;
     private Vector3 prevPosition;
     private float stepDistance = 1.5f;
     private bool canMove = true;
@@ -16,11 +17,13 @@ public class SelectPlayer : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        cc = GetComponent<CapsuleCollider>();
     }
 
     public void SetMoveEnabled(bool enabled)
     {
         canMove = enabled;
+        cc.isTrigger = true;
     }
 
     void Update()
@@ -66,10 +69,16 @@ public class SelectPlayer : MonoBehaviour
         prevPosition = transform.position;
     }
 
+    // プレイヤーの足音を一定間隔で鳴らす用の関数
     private void PlayerFootStep()
     {
         //AudioManager.Instance.PlaySE("MoveSE");
     }
 
-
+    // プレイヤーの座標を設定しなおす用の関数
+    public Vector3 SetPlayerPos(Vector3 newPos)
+    {
+        this.transform.position = newPos;
+        return this.transform.position;
+    }
 }

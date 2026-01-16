@@ -27,12 +27,14 @@ public class InteractionController : MonoBehaviour
         }
     }
 
+    // 当たり判定エリアに入ったら呼び出す関数
     public void OnEnterArea()
     {
         isInArea = true;
         promptUI.Show(transform);
     }
 
+    // 当たり判定エリアから出たら呼び出す関数
     public void OnExitArea()
     {
         isInArea = false;
