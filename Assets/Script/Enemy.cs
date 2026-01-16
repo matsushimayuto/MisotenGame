@@ -153,15 +153,21 @@ public class Enemy : MonoBehaviour
     }
     private void NextPointSet()
     {
-        PointNum += dir;
-        NextPoint = (movePoint[PointNum] * dir) + transform.position;
-
-        if ((0 == PointNum&&dir==-1 )|| (movePoint.Length-1 == PointNum&&dir==1))
+        if (movePoint.Length == 1)
+        {
+            dir = (dir == 1) ? -1 : 1;
+            NextPoint = (movePoint[PointNum] * dir) + transform.position;
+        }
+        else
         {
             PointNum += dir;
-            dir = (dir == 1) ? -1 : 1;
+            NextPoint = (movePoint[PointNum] * dir) + transform.position;
+            if ((0 == PointNum && dir == -1) || (movePoint.Length - 1 == PointNum && dir == 1))
+            {
+                PointNum += dir;
+                dir = (dir == 1) ? -1 : 1;
+            }
         }
-        
     }
 
     // スムーズ回転（自然な加減速）

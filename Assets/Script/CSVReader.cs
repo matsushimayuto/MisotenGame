@@ -16,6 +16,12 @@ public class StageLoader2D : MonoBehaviour
     public GameObject MirrorBlock1_3;
     public GameObject EnemyPrefab;
     public GameObject TwoHitEnemyPrefab;
+    public GameObject EnemyPrefabUD;
+    public GameObject EnemyPrefabRD;
+    public GameObject EnemyPrefabLD;
+    public GameObject EnemyPrefabRL;
+    public GameObject EnemyPrefabDU;
+    public GameObject EnemyPrefabUL;
     public GameObject BlockPrefab1;
     public GameObject BlockPrefab2;
     public GameObject BlockPrefab3;
@@ -279,6 +285,24 @@ public class StageLoader2D : MonoBehaviour
 
                     // ‚Q‰ñ“–‚Ä‚È‚¢‚Æ“|‚ê‚È‚¢“G
                     case 101: Instantiate(TwoHitEnemyPrefab, pos, Quaternion.identity); break;
+
+                    // “G(ã‰º)
+                    case 102: Instantiate(EnemyPrefabUD, pos, Quaternion.identity); break;
+
+                    // “G(‰E‰º)
+                    case 103: Instantiate(EnemyPrefabRD, pos, Quaternion.identity); break;
+
+                    // “G(¶‰º)
+                    case 104: Instantiate(EnemyPrefabLD, pos, Quaternion.identity); break;
+
+                    // “G(‰E¶)
+                    case 105: Instantiate(EnemyPrefabRL, pos, Quaternion.identity); break;
+
+                    // “G(‰ºã)
+                    case 106: Instantiate(EnemyPrefabDU, pos, Quaternion.identity); break;
+
+                    // “G(ã¶)
+                    case 107: Instantiate(EnemyPrefabUL, pos, Quaternion.identity); break;
 
                     // “®‚©‚È‚¢ƒuƒƒbƒNi3*1j‰¡
                     case 200: Instantiate(BlockPrefab1, pos, Quaternion.identity); break;
