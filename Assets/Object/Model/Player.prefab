@@ -256,6 +256,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: a923ec6e256c4f542b6e77059266f52b, type: 2}
+    - target: {fileID: 5866666021909216657, guid: cf1db1b9cba4d6e40980be1af44c6e9a, type: 3}
+      propertyPath: m_UpdateMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6565123856309694628, guid: cf1db1b9cba4d6e40980be1af44c6e9a, type: 3}
       propertyPath: m_Materials.Array.size
       value: 2

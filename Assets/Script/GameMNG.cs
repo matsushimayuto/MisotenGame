@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class GameMNG : MonoBehaviour
 {
+    public enum ResultType
+    {
+        Clear,
+        GameOver
+    }
+
     [SerializeField, Tooltip("ブロック移動回数")] public int num = 3;//ブロック移動回数
     [SerializeField, Tooltip("時間停止(秒)")] private float stopDuration = 10.0f;
    
@@ -13,6 +19,7 @@ public class GameMNG : MonoBehaviour
     bool bAppearButler = false; // 執事を出すフラグ
     const float appearTime = 3.3f;  // フラグが立ってから出すまでの時間
     float timeCount = 0.0f;         // ↑のカウント用
+    private Animator PlayerAnim;    // アニメーション切り替え用(プレイヤー)
 
     void Start()
     {
@@ -34,6 +41,8 @@ public class GameMNG : MonoBehaviour
             // GameOver後などは即プレイ
             GameManager.Instance.ChangeState(GameState.Playing);
         }
+
+        PlayerAnim = GameObject.Find("Player(Clone)").GetComponent<Animator>();
     }
 
     void Update()
@@ -126,16 +135,7 @@ public class GameMNG : MonoBehaviour
             // 敵がすべて倒されていたらシーン遷移
             if (Object.FindFirstObjectByType<Enemy>() == null)
             {
-                Time.timeScale = 0.0f;
-                GameManager.Instance.ChangeState(GameState.Result);
-                // Start表示中の遅延処理
-                StartCoroutine(Delay(3.0f, () => {
-                    // ゲームを再開
-                    Time.timeScale = 1f;
-                    // シーン遷移
-                    SceneLoader.Instance.LoadScene(SceneName.Select, true);
-                }));
-
+                StartCoroutine(ResultSequence(ResultType.Clear));
                 return;
             }
 
@@ -161,23 +161,101 @@ public class GameMNG : MonoBehaviour
 
             if(bGameOver && !bFlagCollect)
             {
-                Time.timeScale = 0.0f;
-                GameManager.Instance.ChangeState(GameState.GameOver);
-                // Start表示中の遅延処理
-                StartCoroutine(Delay(3.0f, () => {
-                    // ゲームを再開
-                    Time.timeScale = 1f;
-                    // StartUIを非表示にする
-                    GameManager.Instance.IsFirstStageEnter = false;
-                    // シーン遷移
-                    SceneLoader.Instance.LoadScene(SceneName.Stage, true, 2.0f);
-                }));
                 bFlagCollect = true;
-                // GameManager.Instance.ChangeState(GameState.GameOver);
-                //SceneLoader.Instance.LoadScene(SceneName.Stage, true, 2.0f);
-
+                StartCoroutine(ResultSequence(ResultType.GameOver));
             }
         }
+    }
+
+    // リザルト演出
+    IEnumerator ResultSequence(ResultType type)
+    {
+        // ゲーム進行停止
+        Time.timeScale = 0.0f;
+
+        // ===== カメラ演出 =====
+        ResultCamera resultCam = FindFirstObjectByType<ResultCamera>();
+        Player player = FindFirstObjectByType<Player>();
+
+        if (resultCam != null && player != null)
+        {
+            resultCam.SetTarget(player.transform);
+            resultCam.BeginResult();
+            resultCam.MoveToPlayer();
+            yield return new WaitForSecondsRealtime(1.0f);
+
+            // プレイヤーをカメラ正面に向ける
+            yield return StartCoroutine(
+                RotatePlayerToCamera(player, resultCam.transform, 0.5f)
+            );
+        }
+
+        // ===== プレイヤーモーション =====
+        if (type == ResultType.Clear)
+        {
+            // クリアモーション
+            PlayerAnim.SetTrigger("Success");
+        }
+        else
+        {
+            // ゲームオーバーモーション
+            PlayerAnim.SetTrigger("Miss");
+        }
+        yield return new WaitForSecondsRealtime(2.0f);
+
+        // ===== 状態切り替え =====
+        if (type == ResultType.Clear)
+        {
+            GameManager.Instance.ChangeState(GameState.Result);
+        }
+        else
+        {
+            GameManager.Instance.ChangeState(GameState.GameOver);
+        }
+
+        // ===== UI 表示待ち =====
+        yield return new WaitForSecondsRealtime(3.0f);
+
+        // ゲーム再開
+        Time.timeScale = 1f;
+
+        // ===== 遷移 =====
+        if (type == ResultType.Clear)
+        {
+            SceneLoader.Instance.LoadScene(SceneName.Select, true);
+        }
+        else
+        {
+            GameManager.Instance.IsFirstStageEnter = false;
+            SceneLoader.Instance.LoadScene(SceneName.Stage, true, 2.0f);
+        }
+
+        resultCam.EndResult();
+    }
+
+    IEnumerator RotatePlayerToCamera(Player player, Transform cam, float rotateTime)
+    {
+        Transform tr = player.transform;
+
+        // カメラの前方向（水平化）
+        Vector3 camForward = cam.forward;
+        camForward.y = 0f;
+
+        if (camForward.sqrMagnitude < 0.001f)
+            yield break;
+
+        Quaternion startRot = tr.rotation;
+        Quaternion targetRot = Quaternion.LookRotation(-camForward);
+
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.unscaledDeltaTime / rotateTime;
+            tr.rotation = Quaternion.Slerp(startRot, targetRot, t);
+            yield return null;
+        }
+
+        tr.rotation = targetRot;
     }
 
     // 遅延関数

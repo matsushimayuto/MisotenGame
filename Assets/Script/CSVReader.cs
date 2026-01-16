@@ -150,7 +150,12 @@ public class StageLoader2D : MonoBehaviour
                 switch (cell)
                 {
                     // プレイヤー
-                    case 1: Instantiate(PlayerPrefab, pos, Quaternion.identity); break;
+                    case 1:
+                        GameObject player = Instantiate(PlayerPrefab, pos, Quaternion.identity);
+                        // カメラに教える
+                        ResultCamera cameraCtrl = Camera.main.GetComponent<ResultCamera>();
+                        cameraCtrl.SetTarget(player.transform);
+                        break;
 
                     // 外壁
                     case 2: Instantiate(WallPrefab, pos, Quaternion.identity); break;
