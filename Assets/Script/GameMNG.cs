@@ -11,7 +11,7 @@ public class GameMNG : MonoBehaviour
     bool bFlagCollect = false;  // ゲームオーバーフラグを回収したか
     bool bGameOver = false;     // ゲームオーバーフラグ
     bool bAppearButler = false; // 執事を出すフラグ
-    const float appearTime = 0.5f;  // フラグが立ってから出すまでの時間
+    const float appearTime = 3.3f;  // フラグが立ってから出すまでの時間
     float timeCount = 0.0f;         // ↑のカウント用
 
     void Start()
@@ -42,6 +42,9 @@ public class GameMNG : MonoBehaviour
         {
             // いずれかのブロックに方向指定をしているか
             bool isExistMoveBlock = false;
+
+            Time.timeScale = 2.0f;
+            
             foreach (Block b in FindObjectsByType<Block>(FindObjectsSortMode.None))
             {
                 for(int i = 0; i < num; i++)
@@ -84,7 +87,7 @@ public class GameMNG : MonoBehaviour
                 {
                     if (b.CheckReserve(b.GetPhase() + 1)) { b.AppearButler(b.GetPhase() + 1); }
                 }
-                timeCount = 0.0f;
+                timeCount = 3.1f;
                 bAppearButler = false;
             }
         }
@@ -182,5 +185,15 @@ public class GameMNG : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(time);
         action?.Invoke();
+    }
+
+    public IEnumerator Restart()
+    {
+        //3秒停止する
+        Time.timeScale = 0;
+        yield return new WaitForSeconds(3.0f);
+
+        //再開する
+        Time.timeScale = 1;
     }
 }
