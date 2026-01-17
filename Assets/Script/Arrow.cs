@@ -49,7 +49,7 @@ public class Arrow : MonoBehaviour
                     (_blockPos.x + _blockScale.x) * shiftWidth + AdjustByCameraX(_blockPos.x), 
                     positionY, 
                     _blockPos.z + AdjustByCameraZ(_blockPos.z));
-                transform.rotation = Quaternion.Euler(90.0f, 0.0f, 0.0f);
+                transform.rotation = Quaternion.Euler(90.0f, 0.0f, -90.0f);
             }
             else                    // ç∂
             {
@@ -57,7 +57,7 @@ public class Arrow : MonoBehaviour
                     (_blockPos.x - _blockScale.x) * shiftWidth + AdjustByCameraX(_blockPos.x), 
                     positionY, 
                     _blockPos.z + AdjustByCameraZ(_blockPos.z));
-                transform.rotation = Quaternion.Euler(90.0f, 0.0f, 180.0f);
+                transform.rotation = Quaternion.Euler(90.0f, 0.0f, 90.0f);
             }
         }
         else
@@ -68,7 +68,7 @@ public class Arrow : MonoBehaviour
                     _blockPos.x + AdjustByCameraX(_blockPos.x), 
                     positionY, 
                     (_blockPos.z + _blockScale.z) * shiftWidth + AdjustByCameraZ(_blockPos.z));
-                transform.rotation = Quaternion.Euler(90.0f, 0.0f, 90.0f);
+                transform.rotation = Quaternion.Euler(90.0f, 0.0f, 0.0f);
             }
             else                    // â∫
             {
@@ -76,7 +76,7 @@ public class Arrow : MonoBehaviour
                     _blockPos.x + AdjustByCameraX(_blockPos.x), 
                     positionY, 
                     (_blockPos.z - _blockScale.z) * shiftWidth + AdjustByCameraZ(_blockPos.z));
-                transform.rotation = Quaternion.Euler(90.0f, 0.0f, -90.0f);
+                transform.rotation = Quaternion.Euler(90.0f, 0.0f, 180.0f);
             }
         }
     }

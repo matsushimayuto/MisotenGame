@@ -106,7 +106,10 @@ MonoBehaviour:
   moveForce: 15
   bMirror: 0
   MirrorObj: {fileID: 0}
-  arrowPrefab: {fileID: 5526087056217657225, guid: 5f44831710371f44d81b0437bef873ec, type: 3}
+  arrowPrefab:
+  - {fileID: 5526087056217657225, guid: ad0e238ce5a5dc34ea581d4124ff9b1e, type: 3}
+  - {fileID: 5526087056217657225, guid: 76f2c0b6d90c650478ac4cfecb994366, type: 3}
+  - {fileID: 5526087056217657225, guid: d49f77af1d7863e4aa65a4aee08fec5f, type: 3}
   stopEffectPrefab: {fileID: 440553042098200902, guid: d78e07a139749814d941e6d20c05c508, type: 3}
   SpeedEffectPrefab: {fileID: 951762926067239334, guid: 35b98461b1a37a04399851f8cdf0a627, type: 3}
   butlerPrefab: {fileID: 4296623982462441793, guid: 877e8a21d5bd5da4fa8f1b3fab42426f, type: 3}
