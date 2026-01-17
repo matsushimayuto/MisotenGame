@@ -23,7 +23,11 @@ public class SelectPlayer : MonoBehaviour
     public void SetMoveEnabled(bool enabled)
     {
         canMove = enabled;
-        cc.isTrigger = true;
+    }
+
+    public void SetPlayerIsTrigger(bool enabled)
+    {
+        cc.isTrigger = enabled;
     }
 
     void Update()

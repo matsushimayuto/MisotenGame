@@ -42,6 +42,6 @@ public class WorldSelectUI : MonoBehaviour
 
     public void Cancel()
     {
-        controller.CancelWorldSelect();
+        controller.CloseWorldSelect();
     }
 }
