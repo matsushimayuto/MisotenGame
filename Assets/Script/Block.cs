@@ -23,7 +23,7 @@ public class Block : MonoBehaviour
     private Vector3 deltaMove; // 直近の移動量
 
     [Header("矢印")]
-    [SerializeField, Tooltip("プレハブ")] public GameObject arrowPrefab;    // 矢印のプレハブ
+    [SerializeField, Tooltip("プレハブ")] public GameObject[] arrowPrefab = new GameObject[3];    // 矢印のプレハブ
     private GameObject[] arrowInstance = new GameObject[3];
     private Arrow[] arrow = new Arrow[3];
 
@@ -86,7 +86,7 @@ public class Block : MonoBehaviour
         // 矢印
         for (int i = 0; i < GameMNG.num; i++)
         {
-            arrowInstance[i] = Instantiate(arrowPrefab, bPos, Quaternion.identity);
+            arrowInstance[i] = Instantiate(arrowPrefab[i], bPos, Quaternion.identity);
             arrow[i] = arrowInstance[i].GetComponent<Arrow>();
         }
 
