@@ -12,7 +12,10 @@ public class GameMNG : MonoBehaviour
 
     [SerializeField, Tooltip("ブロック移動回数")] public int num = 3;//ブロック移動回数
     [SerializeField, Tooltip("時間停止(秒)")] private float stopDuration = 10.0f;
-   
+    [Header("演出時エフェクト")]
+    [SerializeField, Tooltip("クリア")] public GameObject clearEffect;
+    [SerializeField, Tooltip("失敗")] public GameObject failureEffect;
+
     bool check=true;
     bool bFlagCollect = false;  // ゲームオーバーフラグを回収したか
     bool bGameOver = false;     // ゲームオーバーフラグ
@@ -195,11 +198,15 @@ public class GameMNG : MonoBehaviour
         {
             // クリアモーション
             PlayerAnim.SetTrigger("Success");
+            // クリアエフェクト
+            Instantiate(clearEffect, player.transform.position + new Vector3(0.0f, 6.0f, 0.0f), Quaternion.identity);
         }
         else
         {
             // ゲームオーバーモーション
             PlayerAnim.SetTrigger("Miss");
+            // 失敗エフェクト
+            Instantiate(failureEffect, player.transform.position + new Vector3(-1.0f, 5.0f, 0.0f), Quaternion.identity);
         }
         yield return new WaitForSecondsRealtime(2.0f);
 

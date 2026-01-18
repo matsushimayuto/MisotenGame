@@ -97,6 +97,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teleportExit: {fileID: 8324213749293607459, guid: a61499cabafd0294396f87b19d66faf9, type: 3}
+  inEffect: {fileID: 23236528019936637, guid: f7f9b03c8b05e9a4e992149ac5abcd97, type: 3}
+  outEffect: {fileID: 2687185171436682321, guid: 2cdee8111b028a244a63a87a872901eb, type: 3}
   offsetDistance: 0
 --- !u!65 &-4012427602893955211
 BoxCollider:

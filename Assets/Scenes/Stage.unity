@@ -310,6 +310,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   num: 3
   stopDuration: 5
+  clearEffect: {fileID: 8853416141551737632, guid: bdaa3d77dda5ad94a97442f5e48b67b9, type: 3}
+  failureEffect: {fileID: 1784402380412824247, guid: d69b0c32f03e1b24688873a4097866b1, type: 3}
 --- !u!4 &172711530
 Transform:
   m_ObjectHideFlags: 0

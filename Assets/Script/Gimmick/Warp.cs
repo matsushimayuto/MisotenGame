@@ -5,6 +5,10 @@ public class TeleportMirror : MonoBehaviour
     [Header("テレポート先の出口オブジェクト")]
     public Transform teleportExit;
 
+    [Header("エフェクト")]
+    [SerializeField, Tooltip("入る時のエフェクト")] public GameObject inEffect;
+    [SerializeField, Tooltip("出る時のエフェクト")] public GameObject outEffect;
+
     [Header("出口から少し前に出す距離")]
     public float offsetDistance = 0.0f;
 
@@ -49,6 +53,10 @@ public class TeleportMirror : MonoBehaviour
 
         // === テレポート実行 ===
         other.transform.position = targetPos;
+
+        // エフェクト表示
+        Instantiate(inEffect, transform.position, Quaternion.identity);
+        Instantiate(outEffect, teleportExit.position, Quaternion.identity);
 
         Debug.Log($"{other.gameObject.name} がワープA→Bにテレポートしました！");
     }
