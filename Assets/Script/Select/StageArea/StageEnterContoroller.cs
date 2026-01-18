@@ -1,8 +1,11 @@
-using UnityEngine;
 using System.Collections;
+using UnityEditor.SceneManagement;
+using UnityEngine;
 
 public class StageEnterContoroller : MonoBehaviour
 {
+    [SerializeField] StageAreaPromptUI stagePromptUI;
+    [SerializeField] StageLockPromptUI lockPromptUI;
     public SelectPlayer player;
     public SelectCamera camera;
     public float candDistance = 3f;
@@ -11,44 +14,70 @@ public class StageEnterContoroller : MonoBehaviour
     private bool IsEnter = false;
     void Update()
     {
+        // ヌルチェック
         if (candidate == null || IsEnter) return;
 
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Decide"))
+        // ステージがアンロックされているかどうか
+        if ((StageManager.Instance.IsStageUnlocked(candidate.GetWorldNumber(), candidate.GetStageNumber()) == true))
         {
-            IsEnter = true;
-            // プレイヤーの操作ができないようにする
-            player.SetMoveEnabled(false);
-            // プレイヤーを扉の判定から少し離した位置に移動させる
-            CandidateBehind();
-            // プレイヤーがの背後までカメラを移動させる
-            camera.EnterCamera();
+            // ステージエリア内でキーが押されるとステージに入る処理に移行
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Decide"))
+            {
+                // PromptUIをOffにする 
+                stagePromptUI.Hide();
 
-            // 扉のドアの開閉処理
-            candidate.DoorOpen();
+                // 進入フラグをON
+                IsEnter = true;
+                // プレイヤーの操作ができないようにする
+                player.SetMoveEnabled(false);
+                // プレイヤーの当たり判定Off
+                player.SetPlayerIsTrigger(true);
+                // プレイヤーを扉の判定から少し離した位置に移動させる
+                CandidateBehind();
+                // プレイヤーがの背後までカメラを移動させる
+                camera.EnterCamera();
 
-            StartCoroutine(MoveForSeconds(3f));
+                // 扉のドアの開閉処理
+                candidate.DoorOpen();
 
-            StartCoroutine(EnterForSeconds(2f));
-            //AudioManager.Instance.PlaySE("EnterSE");
-            //TryEnter();
+                StartCoroutine(MoveForSeconds(3f));
+
+                StartCoroutine(EnterForSeconds(2f));
+            }
         }
-
-
     }
-
-
 
     public void SetStageCandidate(StageAreaTrigger stage)
     {
         candidate = stage;
+
+        if ((StageManager.Instance.IsStageUnlocked(stage.GetWorldNumber(), stage.GetStageNumber()) == true))
+        {
+            stagePromptUI.Show(transform);
+        }
+        else
+        {
+            //AudioManager.Instance.PlaySE("ロック音");
+            lockPromptUI.Show(transform);
+        }
     }
 
     public void ClearStageCandidate(StageAreaTrigger stage)
     {
         if (candidate == stage && IsEnter == false)
             candidate = null;
+
+        if ((StageManager.Instance.IsStageUnlocked(stage.GetWorldNumber(), stage.GetStageNumber()) == true))
+        {
+            stagePromptUI.Hide();
+        }
+        else
+        {
+            lockPromptUI.Hide();
+        }
     }
 
+    // プレイヤーがステージに入る処理を行う
     void TryEnter()
     {
         int w = candidate.worldNumber;

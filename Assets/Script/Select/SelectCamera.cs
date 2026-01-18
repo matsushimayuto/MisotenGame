@@ -10,7 +10,7 @@ public class SelectCamera : MonoBehaviour
     [SerializeField] private Transform target;   // 追従ターゲット
     [SerializeField] private Vector3 targetOffset = new Vector3(0f, 2f, -5f);  // ターゲット相対位置
     [SerializeField] private float positionSmooth = 6f;    // 位置補間速度
-    [SerializeField] private float rotationSmooth = 6f;    // 角度補間速度
+    //[SerializeField] private float rotationSmooth = 6f;    // 角度補間速度
 
     [Tooltip("ステージ遷移時のカメラ設定")]
     [SerializeField] private float distance = 3f;

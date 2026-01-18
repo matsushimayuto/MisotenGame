@@ -34,6 +34,12 @@ public class StageAreaTrigger : MonoBehaviour
         return stageNumber;
     }
 
+    // TriggerAreaがどこのワールドにあるかを確認する関数
+    public int GetWorldNumber()
+    {
+        return worldNumber;
+    }
+
     // Doorクラスの関数をControllerで使うための関数
     public void DoorOpen()
     {

@@ -1,9 +1,12 @@
+// プレイヤーからUIに
+
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InteractionController : MonoBehaviour
 {
-    [SerializeField] WorldGatePromptUI promptUI;
+    [SerializeField] WorldGatePromptUI worldPromptUI;
     [SerializeField] WorldSelectUI worldSelectUI;
     [SerializeField] SelectPlayer player;
 
@@ -21,9 +24,9 @@ public class InteractionController : MonoBehaviour
 
         if(isSelectUI && Input.GetKeyDown(KeyCode.Escape))
         {
-            CancelWorldSelect();
+            CloseWorldSelect();
             isSelectUI = false;
-            promptUI.Show(transform);
+            worldPromptUI.Show(transform);
         }
     }
 
@@ -31,16 +34,17 @@ public class InteractionController : MonoBehaviour
     public void OnEnterArea()
     {
         isInArea = true;
-        promptUI.Show(transform);
+        worldPromptUI.Show(transform);
     }
 
     // 当たり判定エリアから出たら呼び出す関数
     public void OnExitArea()
     {
         isInArea = false;
-        promptUI.Hide();
+        worldPromptUI.Hide();
     }
 
+    // ワールドセレクトUIを表示する
     void OpenWorldSelect()
     {
         isSelectUI = true;
@@ -48,7 +52,7 @@ public class InteractionController : MonoBehaviour
         // プレイヤー操作を止める
         player.SetMoveEnabled(false);
 
-        promptUI.Hide();
+        worldPromptUI.Hide();
         int currentWorldNumber = StageManager.Instance.GetCurrentWorld();
         Debug.Log(currentWorldNumber);
         worldSelectUI.Show(this, currentWorldNumber);
@@ -65,12 +69,6 @@ public class InteractionController : MonoBehaviour
         // Y座標を worldNumber * 13 だけ上げる
         pos.y = (worldNumber) * 13f;
 
-
-        // -----------------------------
-        // ここにワールド移動処理を書く
-        // （Scene遷移なし・Prefab切替など）
-        // -----------------------------
-
         // フェード兼移動処理
         StartCoroutine(Fadeing(0.5f, pos));
 
@@ -80,18 +78,14 @@ public class InteractionController : MonoBehaviour
         CloseWorldSelect();
     }
 
-    public void CancelWorldSelect()
-    {
-        CloseWorldSelect();
-    }
-
-    void CloseWorldSelect()
+    public void CloseWorldSelect()
     {
         worldSelectUI.Hide();
         player.SetMoveEnabled(true);
         isSelectUI = false;
     }
 
+    // フェード関数
     private IEnumerator Fadeing(float fadeTime, Vector3 newPos)
     {
         // フェードアウト
