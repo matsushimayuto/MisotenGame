@@ -49,6 +49,7 @@ public class StageEnterContoroller : MonoBehaviour
 
     public void SetStageCandidate(StageAreaTrigger stage)
     {
+        if (IsEnter == true) return;
         candidate = stage;
 
         if ((StageManager.Instance.IsStageUnlocked(stage.GetWorldNumber(), stage.GetStageNumber()) == true))

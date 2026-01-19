@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class InteractionController : MonoBehaviour
 {
+    [SerializeField] SelectArrow menuController;
     [SerializeField] WorldGatePromptUI worldPromptUI;
     [SerializeField] WorldSelectUI worldSelectUI;
     [SerializeField] SelectPlayer player;
@@ -52,6 +53,7 @@ public class InteractionController : MonoBehaviour
         // ÉvÉåÉCÉÑÅ[ëÄçÏÇé~ÇﬂÇÈ
         player.SetMoveEnabled(false);
 
+        menuController.Show();
         worldPromptUI.Hide();
         int currentWorldNumber = StageManager.Instance.GetCurrentWorld();
         Debug.Log(currentWorldNumber);
@@ -80,6 +82,7 @@ public class InteractionController : MonoBehaviour
 
     public void CloseWorldSelect()
     {
+        menuController.Hide();
         worldSelectUI.Hide();
         player.SetMoveEnabled(true);
         isSelectUI = false;
