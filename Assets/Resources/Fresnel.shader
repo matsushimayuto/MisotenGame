@@ -62,7 +62,10 @@ Shader "Custom/LitWithFresnel"
                 float fresnel = pow(1.0 - saturate(dot(i.worldNormal, i.viewDir)), _FresnelPower);
                 fresnel = max(fresnel, 0.3);
 
-                baseCol.rgb += _FresnelColor.rgb * fresnel * _FresnelIntensity;
+                float t = _Time.y * 3.0f;
+                float blink = sin(t) * 0.5f + 0.5f;
+
+                baseCol.rgb += _FresnelColor.rgb * fresnel * blink *  _FresnelIntensity;
                 return baseCol;
             }
             ENDCG
