@@ -26,6 +26,8 @@ public class Block : MonoBehaviour
     [SerializeField, Tooltip("プレハブ")] public GameObject[] arrowPrefab = new GameObject[3];    // 矢印のプレハブ
     private GameObject[] arrowInstance = new GameObject[3];
     private Arrow[] arrow = new Arrow[3];
+    private Renderer renderer;
+    private Vector3 worldScale; // ブロックのワールドスケール
 
     [Header("エフェクト")]
     [SerializeField] private GameObject stopEffectPrefab;  // 執事の殴りエフェクト
@@ -89,6 +91,8 @@ public class Block : MonoBehaviour
             arrowInstance[i] = Instantiate(arrowPrefab[i], bPos, Quaternion.identity);
             arrow[i] = arrowInstance[i].GetComponent<Arrow>();
         }
+        renderer = GetComponent<Renderer>();
+        worldScale = renderer.bounds.size;
 
         // 執事(仮)
         butlerPrefab = Instantiate(butlerPrefab, new Vector3(999.0f, 999.0f, 999.0f), Quaternion.identity);
@@ -154,7 +158,7 @@ public class Block : MonoBehaviour
 
             // 矢印の描画
             Debug.Log(Movenum);
-            arrow[Movenum].Draw(pushDir[Movenum], bPos, bScale, Movenum);
+            arrow[Movenum].Draw(pushDir[Movenum], bPos, worldScale, Movenum);
 
             if (Movenum == 0)
             {
@@ -436,7 +440,7 @@ public class Block : MonoBehaviour
     public void SetPushDir(Vector3 _Dir)
     {
         pushDir[Movenum] = -_Dir;
-        arrow[Movenum].Draw(pushDir[Movenum], bPos, bScale, Movenum);
+        arrow[Movenum].Draw(pushDir[Movenum], bPos, worldScale, Movenum);
         addMovenum(false);
     }
 

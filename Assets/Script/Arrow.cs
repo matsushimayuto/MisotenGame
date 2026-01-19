@@ -4,8 +4,8 @@ public class Arrow : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
 
-    const float positionY = 7.3f;   // Y軸の座標
-    const float shiftWidth = 1.0f;  // ブロックの中心からどれだけずらして表示するか
+    const float positionY = 0.0f;   // Y軸の座標
+    const float shiftWidth = 3.596f;  // ブロックの中心からどれだけずらして表示するか
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,7 +29,7 @@ public class Arrow : MonoBehaviour
         {
             case 0: // フェーズ1
                 spriteRenderer.color = Color.blue;
-                break;  // 色を変えないので何もしない
+                break;
             case 1: // フェーズ2
                 spriteRenderer.color = Color.green;
                 break;
@@ -46,17 +46,17 @@ public class Arrow : MonoBehaviour
             if(_pushDir.x > 0.0f)   // 右
             {
                 transform.position = new Vector3(
-                    (_blockPos.x + _blockScale.x) * shiftWidth + AdjustByCameraX(_blockPos.x), 
+                    _blockPos.x + _blockScale.x / 2.0f + shiftWidth, 
                     positionY, 
-                    _blockPos.z + AdjustByCameraZ(_blockPos.z));
+                    _blockPos.z);
                 transform.rotation = Quaternion.Euler(90.0f, 0.0f, -90.0f);
             }
             else                    // 左
             {
                 transform.position = new Vector3(
-                    (_blockPos.x - _blockScale.x) * shiftWidth + AdjustByCameraX(_blockPos.x), 
+                    _blockPos.x - _blockScale.x / 2.0f - shiftWidth, 
                     positionY, 
-                    _blockPos.z + AdjustByCameraZ(_blockPos.z));
+                    _blockPos.z);
                 transform.rotation = Quaternion.Euler(90.0f, 0.0f, 90.0f);
             }
         }
@@ -65,17 +65,17 @@ public class Arrow : MonoBehaviour
             if (_pushDir.z > 0.0f)  // 上
             {
                 transform.position = new Vector3(
-                    _blockPos.x + AdjustByCameraX(_blockPos.x), 
+                    _blockPos.x, 
                     positionY, 
-                    (_blockPos.z + _blockScale.z) * shiftWidth + AdjustByCameraZ(_blockPos.z));
+                    _blockPos.z + _blockScale.z / 2.0f + shiftWidth);
                 transform.rotation = Quaternion.Euler(90.0f, 0.0f, 0.0f);
             }
             else                    // 下
             {
                 transform.position = new Vector3(
-                    _blockPos.x + AdjustByCameraX(_blockPos.x), 
+                    _blockPos.x, 
                     positionY, 
-                    (_blockPos.z - _blockScale.z) * shiftWidth + AdjustByCameraZ(_blockPos.z));
+                    _blockPos.z - _blockScale.z / 2.0f - shiftWidth);
                 transform.rotation = Quaternion.Euler(90.0f, 0.0f, 180.0f);
             }
         }
