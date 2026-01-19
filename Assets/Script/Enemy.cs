@@ -87,7 +87,7 @@ public class Enemy : MonoBehaviour
 
         if (dir.sqrMagnitude > 0.001f)
         {
-           // EnemyAnimator.SetBool("isMoving", true);
+            EnemyAnimator.SetBool("isMoving", true);
             Quaternion targetRot = Quaternion.LookRotation(dir, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
         }
