@@ -10,14 +10,13 @@ public class Title_Butler : MonoBehaviour
     const float settingTime = 7.6f;     // 泥棒の前にセッティングする時間
     const float chaseTime = 9.7f;       // 追いかけ始める時間
     const float stopTime = 11.5f;       // アニメーションを止める時間
-    private bool bOnce = false;
-    private Vector3 startPosition;
+    private bool[] bOnce = new bool[3] { false, false, false };
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();    // アニメーション取得
-        startPosition = gameObject.transform.position;
+        animator.SetTrigger("Newtral");
     }
 
     // Update is called once per frame
@@ -32,24 +31,25 @@ public class Title_Butler : MonoBehaviour
 
         //---アニメーション関連
         // 泥棒の前にセッティング
-        if (timeCount > settingTime && !bOnce)
+        if (timeCount > settingTime && !bOnce[0])
         {
-            animator.SetInteger("n_MoveNum", 1);
+            animator.SetTrigger("Bowing");
+            animator.speed = 1.2f;
             gameObject.transform.position = position;
             gameObject.transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
-            bOnce = true;
+            bOnce[0] = true;
         }
         // 泥棒を追いかける
         if (timeCount > chaseTime && timeCount < stopTime)
         {
-            animator.SetInteger("n_MoveNum", 0);
-            animator.speed = 1.5f;
+            if (!bOnce[1]) { animator.SetTrigger("Newtral"); bOnce[1] = true; }
+            animator.speed = 1.0f;
             gameObject.transform.position += new Vector3(0.0f, 0.0f, -0.08f);
         }
         // ストップ
         if (timeCount > stopTime)
         {
-            animator.speed = 0.0f;
+            if (!bOnce[2]) { animator.SetTrigger("Bowing"); bOnce[2] = true; }
         }
     }
 }

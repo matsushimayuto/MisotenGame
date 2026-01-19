@@ -564,6 +564,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2336625217524878615, guid: 65c7c40fbfbb8b94aae9e3d1820a67d3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 75fb1f4d087779a41b25fd69e3478513, type: 2}
     - target: {fileID: 5623240549253385673, guid: 65c7c40fbfbb8b94aae9e3d1820a67d3, type: 3}
       propertyPath: m_Controller
       value: 
@@ -662,6 +666,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2336625217524878615, guid: 65c7c40fbfbb8b94aae9e3d1820a67d3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 75fb1f4d087779a41b25fd69e3478513, type: 2}
     - target: {fileID: 5623240549253385673, guid: 65c7c40fbfbb8b94aae9e3d1820a67d3, type: 3}
       propertyPath: m_Controller
       value: 
@@ -760,6 +768,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2336625217524878615, guid: 65c7c40fbfbb8b94aae9e3d1820a67d3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 75fb1f4d087779a41b25fd69e3478513, type: 2}
     - target: {fileID: 5623240549253385673, guid: 65c7c40fbfbb8b94aae9e3d1820a67d3, type: 3}
       propertyPath: m_Controller
       value: 
@@ -789,6 +801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae8ff4b9f468c7043bc9bb242afada65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  surprisedEffect: {fileID: 4477082971252876977, guid: a6b340d3aa9c771499a82bf50af5e54f, type: 3}
 --- !u!1 &1733332982
 GameObject:
   m_ObjectHideFlags: 0

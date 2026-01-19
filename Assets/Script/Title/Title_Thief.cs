@@ -1,8 +1,9 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Title_Thief : MonoBehaviour
 {
+    [SerializeField, Tooltip("びっくりエフェクト")] private GameObject surprisedEffect;
+
     private Animator animator;  // アニメーション
     private float timeCount = 0.0f;     // 時間のカウント
     const float reactionTime = 5.0f;    // リアクションさせる時間
@@ -10,14 +11,12 @@ public class Title_Thief : MonoBehaviour
     const float reWalkTime = 9.7f;      // 再び歩き始める時間
     const float stopTime = 11.5f;       // アニメーションを止める時間
     private float walkSpeed = 0.04f;        // 歩くスピード
-    private Vector3 startPosition;
-    private bool bOnce = false;
+    private bool[] bOnce = new bool[4] { false, false, false, false };
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();    // アニメーション取得
-        startPosition = gameObject.transform.position;
         AudioManager.Instance.PlayBGM("WalkBGM");
     }
 
@@ -36,33 +35,34 @@ public class Title_Thief : MonoBehaviour
         if (timeCount < reactionTime)
         {
             gameObject.transform.position += new Vector3(0.0f, 0.0f, walkSpeed);
+            if (!bOnce[0]) { animator.SetTrigger("Walk"); bOnce[0] = true; }
         }
         // リアクション
-        if (timeCount > reactionTime && !bOnce)
+        if (timeCount > reactionTime && !bOnce[1])
         {
             AudioManager.Instance.StopBGM();
             AudioManager.Instance.PlaySE("ReactionSE");
-            animator.SetInteger("n_MoveNum", 1);
-            bOnce = true;
+            animator.SetTrigger("Reaction");
+            Instantiate(surprisedEffect, transform.position + new Vector3(0.0f, 2.0f, 0.0f), Quaternion.identity);
+            bOnce[1] = true;
         }
         // 回り始める
         if (timeCount > rotateTime && timeCount < reWalkTime)
         {
-            animator.SetInteger("n_MoveNum", 0);
+            if (!bOnce[2]) { animator.SetTrigger("Newtral"); bOnce[2] = true; }
             gameObject.transform.Rotate(new Vector3(0.0f, 4.0f, 0.0f));
         }
         // 歩き始める
         if (timeCount > reWalkTime && timeCount < stopTime)
         {
-            animator.SetInteger("n_MoveNum", 0);
-            animator.speed = 2.0f;
+            if (!bOnce[3]) { animator.SetTrigger("Escape"); bOnce[3] = true; }
             gameObject.transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
-            gameObject.transform.position += new Vector3(0.0f, 0.0f, -walkSpeed * 2.0f);
+            gameObject.transform.position += new Vector3(0.0f, 0.0f, -walkSpeed * 3.0f);
         }
         // ストップ
         if (timeCount > stopTime)
         {
-            animator.speed = 0.0f;
+            animator.SetTrigger("Newtral");
         }
     }
 }
