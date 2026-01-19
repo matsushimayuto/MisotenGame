@@ -66,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ea3778ec666fbba409a7e70c5cac32c8, type: 3}
       propertyPath: m_Name
-      value: DoroboDU
+      value: DoroboD
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ea3778ec666fbba409a7e70c5cac32c8, type: 3}
       propertyPath: m_TagString
@@ -75,7 +75,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: ea3778ec666fbba409a7e70c5cac32c8, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: f77d44ac103bde642929a1bf2c2c1c94, type: 2}
+      objectReference: {fileID: 9100000, guid: 08515d5cefdb13548b551518c3972c9a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

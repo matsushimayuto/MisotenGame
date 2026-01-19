@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Title_Princess : MonoBehaviour
 {
@@ -10,23 +9,23 @@ public class Title_Princess : MonoBehaviour
     const float settingTime = reactionTime + 3.1f;  // 泥棒の前にセッティングする時間
     const float chaseTime = 9.7f;       // 追いかけ始める時間
     const float stopTime = 11.5f;       // アニメーションを止める時間
-    private bool bOnce = false;
+    private bool[] bOnce = new bool[5] { false, false, false, false, false };
     private bool isPlaying = false;
-
-    private Vector3 startPosition;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();    // アニメーション取得
         camera = Camera.main;
-        startPosition = gameObject.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Alpha2) && Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            GameManager.Instance.ChangeState(GameState.Title);
+        }
     }
 
     private void FixedUpdate()
@@ -37,21 +36,21 @@ public class Title_Princess : MonoBehaviour
         // 泥棒の後ろ通過
         if (timeCount > reactionTime && timeCount < settingTime)
         {
-            animator.SetInteger("n_MoveNum", 0);
+            if (!bOnce[0]) { animator.SetTrigger("Newtral"); bOnce[0] = true; }
             gameObject.transform.position += new Vector3(0.6f, 0.0f, 0.0f);
         }
         // 泥棒の前にセッティング
-        if (timeCount > settingTime && !bOnce)
+        if (timeCount > settingTime && !bOnce[1])
         {
-            animator.SetInteger("n_MoveNum", 1);
+            animator.SetTrigger("Call");
             gameObject.transform.position = new Vector3(-1.55f, 0.02f, -19.0f);
             gameObject.transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
-            bOnce = true;
+            bOnce[1] = true;
         }
         // 泥棒を追いかける
         if(timeCount > chaseTime && timeCount < stopTime)
         {
-            animator.SetInteger("n_MoveNum", 0);
+            if (!bOnce[2]) { animator.SetTrigger("Walk"); bOnce[2] = true; }
             gameObject.transform.position += new Vector3(0.0f, 0.0f, -0.08f);
             camera.transform.position += new Vector3(-0.002f, 0.005f, 0.015f);
 
@@ -64,7 +63,7 @@ public class Title_Princess : MonoBehaviour
         // ストップ
         if (timeCount > stopTime)
         {
-            animator.speed = 0.0f;
+            if (!bOnce[3]) { animator.SetTrigger("Laugh"); bOnce[3] = true; }
             GameManager.Instance.ChangeState(GameState.Title);
         }
     }
