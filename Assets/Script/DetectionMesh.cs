@@ -10,10 +10,11 @@ public class DetectionMesh : MonoBehaviour
     private Mesh detectionMesh;
     private GameObject detectionObj;
 
-    public bool detected { get;set; }
+    public bool detected { get; set; }
 
     void Start()
     {
+        Transform body = transform.Find("group/Armature/Body");
         // 索敵範囲の子オブジェクトを作成
         detectionObj = new GameObject("DetectionRange");
         detectionObj.transform.parent = transform;
@@ -47,33 +48,49 @@ public class DetectionMesh : MonoBehaviour
     //索敵範囲（扇形メシュ）の生成処理
     private void UpdateDetectionMesh()
     {
-        int segments = 100; // 扇形を細かくするほど滑らか
+        Transform body = transform.Find("group/Armature/Body");
+
+        int segments = 100;
         int vertexCount = segments + 2;
         Vector3[] vertices = new Vector3[vertexCount];
         int[] triangles = new int[segments * 3];
 
-        vertices[0] = Vector3.zero; // 中心点（敵位置）
+        // 中心点（ローカル、y固定）
+        vertices[0] = new Vector3(0f, 0.05f, 0f);
 
         float halfAngle = viewAngle * 0.5f;
         float startAngle = -halfAngle;
         float angleStep = viewAngle / segments;
 
-        // 視界メッシュをRaycastで補正
         for (int i = 0; i <= segments; i++)
         {
-            float currentAngle = startAngle + angleStep * i;
+            float currentAngle = startAngle + angleStep * i + 90f;
+
+            // Bodyの向きを基準に扇形を回転
             Quaternion rot = Quaternion.Euler(0, currentAngle, 0);
-            Vector3 dir = rot * Vector3.forward;
-            // Raycastで障害物に当たったらその地点まで
-            Vector3 rayOrigin = transform.position + Vector3.up * 0.01f; // 少し上から打つ
-            if (Physics.Raycast(rayOrigin, transform.rotation * dir, out RaycastHit hit, viewDistance))
+            Vector3 forward = body.forward;
+            forward.y = 0f;
+            forward.Normalize();
+
+            Vector3 dir = Quaternion.AngleAxis(currentAngle, Vector3.up) * forward;
+
+            Vector3 rayOrigin = body.position + Vector3.up * 0.05f;
+
+            Vector3 localPoint;
+
+            if (Physics.Raycast(rayOrigin, dir, out RaycastHit hit, viewDistance))
             {
-                vertices[i + 1] = detectionObj.transform.InverseTransformPoint(hit.point);
+                localPoint = detectionObj.transform.InverseTransformPoint(hit.point);
             }
             else
             {
-                vertices[i + 1] = Quaternion.Euler(0, currentAngle, 0) * Vector3.forward * viewDistance;
+                Vector3 worldPoint = rayOrigin + dir * viewDistance;
+                localPoint = detectionObj.transform.InverseTransformPoint(worldPoint);
             }
+
+            // yを固定
+            localPoint.y = 0.05f;
+            vertices[i + 1] = localPoint;
         }
 
         for (int i = 0; i < segments; i++)

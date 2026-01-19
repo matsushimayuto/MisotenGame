@@ -173,18 +173,31 @@ public class Enemy : MonoBehaviour
     // スムーズ回転（自然な加減速）
     private IEnumerator SmoothRotateTo(Quaternion targetRot, float duration)
     {
+        //Quaternion startRot = transform.rotation;
+        //float elapsed = 0f;
+
+        //while (elapsed < duration)
+        //{
+        //    elapsed += Time.deltaTime;
+        //    float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / duration));
+
+        //    // 微小揺れで自然さを追加
+        //    float jitter = Mathf.Sin(t * Mathf.PI * 2f) * 0.01f;
+        //    transform.rotation = Quaternion.Slerp(startRot, targetRot, t + jitter);
+
+        //    yield return null;
+        //}
         Quaternion startRot = transform.rotation;
-        float elapsed = 0f;
+        Transform EnemyHead = transform.Find("group/Armature/Body").gameObject.transform;
+        Transform Detection_Transform = Detection.GetComponent<Transform>();
+        bool reached = true;       // 回転中フラグ
 
-        while (elapsed < duration)
+        while (reached)
         {
-            elapsed += Time.deltaTime;
-            float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / duration));
-
-            // 微小揺れで自然さを追加
-            float jitter = Mathf.Sin(t * Mathf.PI * 2f) * 0.01f;
-            transform.rotation = Quaternion.Slerp(startRot, targetRot, t + jitter);
-
+            if (!EnemyAnimator.GetCurrentAnimatorStateInfo(0).IsName("keikai"))
+            {
+                reached = false;
+            }
             yield return null;
         }
     }
