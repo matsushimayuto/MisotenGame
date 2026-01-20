@@ -48,5 +48,18 @@ public class SelectArrow : MonoBehaviour
         return -1; // —LŒø€–Ú‚È‚µ
     } 
 
+
+
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
 }
 
