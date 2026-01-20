@@ -128,10 +128,11 @@ MonoBehaviour:
   - {x: 0, y: 0, z: -6}
   - {x: 0, y: 0, z: 6}
   speed: 3
-  GameMNG: {fileID: 0}
+  gameMNG: {fileID: 0}
   viewAngle: 90
   viewDistance: 10
   hitEffect: {fileID: 1156360773984691119, guid: 151b69cdcaec40a4882246f91bab97d5, type: 3}
+  defeatEffect: {fileID: 5033229361040906559, guid: c3c555e84ffc9a8449542b40d8c19420, type: 3}
 --- !u!114 &5274865895677149378
 MonoBehaviour:
   m_ObjectHideFlags: 0
