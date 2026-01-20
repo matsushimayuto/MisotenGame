@@ -912,12 +912,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: LoadCSV
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: StageCSV
       value: 
-      objectReference: {fileID: 4900000, guid: 25820474c9b4f2342985c387ce633bfe, type: 3}
+      objectReference: {fileID: 4900000, guid: 33ed6add546205647907e8572d6e7bfc, type: 3}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: EnemyPrefabD
       value: 
@@ -977,15 +977,15 @@ PrefabInstance:
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: MirrorBlock1_3
       value: 
-      objectReference: {fileID: 1482092415023605716, guid: cf5a1c2ea3e466a4da29ef5dbc1da8d8, type: 3}
+      objectReference: {fileID: 1482092415023605716, guid: 832212cfee5b6d64488c1b5e2aabd21a, type: 3}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: MirrorBlock2_1
       value: 
-      objectReference: {fileID: 7689065736055001702, guid: 4c2103f01bd05d248895aa4babb92d02, type: 3}
+      objectReference: {fileID: 7689065736055001702, guid: 73ad81b45f2abf549b8f9a6f20dc6f2b, type: 3}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: MirrorBlock3_1
       value: 
-      objectReference: {fileID: 1482092415023605716, guid: cf5a1c2ea3e466a4da29ef5dbc1da8d8, type: 3}
+      objectReference: {fileID: 1482092415023605716, guid: 832212cfee5b6d64488c1b5e2aabd21a, type: 3}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: WarpWallAPrefab1
       value: 

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -2241832923743144050}
   - component: {fileID: 2398490155339081712}
   m_Layer: 7
-  m_Name: "Move2\xD71"
+  m_Name: "MirrorMove2\xD71"
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
