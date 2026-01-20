@@ -10,7 +10,8 @@ public class ResultCamera : MonoBehaviour
     Quaternion startRot;
 
     [SerializeField] float moveTime = 1.0f;
-    Vector3 offset = new Vector3(0, 0f, -5f);
+    [SerializeField] Vector3 offset = new Vector3(0, 4f, -5f);
+    [SerializeField] float angle = -30.0f;
 
     List<GameObject> hiddenObjects = new List<GameObject>();
 
@@ -48,7 +49,7 @@ public class ResultCamera : MonoBehaviour
     {
         Vector3 endPos = target.position + offset;
         Quaternion lookRot = Quaternion.LookRotation(target.position - endPos);
-        Quaternion tiltRot = Quaternion.Euler(-20f, 0f, 0f);
+        Quaternion tiltRot = Quaternion.Euler(angle, 0f, 0f);
         Quaternion endRot = lookRot * tiltRot;
 
         float t = 0f;
