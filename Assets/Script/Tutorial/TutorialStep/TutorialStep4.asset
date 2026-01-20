@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81ecfdfbc5f5e9b41af6bcd338e94623, type: 3}
+  m_Name: TutorialStep4
+  m_EditorClassIdentifier: 
+  message: "\u6483\u9000\u3067\u304D\u305D\u3046\u306A\u3082\u306E\u3092\u898B\u3064\u3051\u305F\u308F\uFF01\n\u305F\u3060\u79C1\u4E00\u4EBA\u3067\u306F\u529B\u4E0D\u8DB3\u306D\u2026"
+  image: {fileID: 21300000, guid: 7b1f1ca063edd644d993157fb131a39f, type: 3}
+  textimage: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  trigger: 1
+  time: 1
