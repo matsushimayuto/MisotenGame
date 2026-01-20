@@ -265,6 +265,14 @@ public class GameMNG : MonoBehaviour
         tr.rotation = targetRot;
     }
 
+    public void RequestGameOver()
+    {
+        if (bFlagCollect) return;
+
+        bFlagCollect = true;
+        StartCoroutine(ResultSequence(ResultType.GameOver));
+    }
+
     // íxâÑä÷êî
     private IEnumerator Delay(float time, System.Action action)
     {

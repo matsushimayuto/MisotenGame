@@ -54,36 +54,22 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Block"))
         {
-            if (collision.rigidbody.isKinematic == false)//ブロックが動いているとき
+            if (collision.rigidbody.isKinematic == false)
             {
-                //Destroy(gameObject);    //破壊
                 Block block = collision.gameObject.GetComponent<Block>();
                 if (block == null) return;
-                // 「ブロックが動いている場合のみ」
+
                 if (block.CheckMove())
                 {
                     block.ForceLockStop();
                 }
-                Time.timeScale = 0.0f;
-                GameManager.Instance.ChangeState(GameState.GameOver);
-                // Start表示中の遅延処理
-                StartCoroutine(Delay(3.0f, () =>
+
+                GameMNG gameMNG = FindFirstObjectByType<GameMNG>();
+                if (gameMNG != null)
                 {
-                    // ゲームを再開
-                    Time.timeScale = 1f;
-                    // StartUIを非表示にする
-                    GameManager.Instance.IsFirstStageEnter = false;
-                    // シーン遷移
-                    SceneLoader.Instance.LoadScene(SceneName.Stage, true, 2.0f);
-                }));
+                    gameMNG.RequestGameOver();
+                }
             }
         }
     }
-
-    private IEnumerator Delay(float time, System.Action action)
-    {
-        yield return new WaitForSecondsRealtime(time);
-        action?.Invoke();
-    }
-
 }
