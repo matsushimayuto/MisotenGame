@@ -78,7 +78,10 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Playing:
                 Time.timeScale = 1f;
-                AudioManager.Instance.PlayBGM("StageBGM", 1f);
+                if (IsFirstStageEnter)
+                {
+                    AudioManager.Instance.PlayBGM("StageBGM", 1f);
+                }
                 break;
             case GameState.Paused:
                 Time.timeScale = 0f;
