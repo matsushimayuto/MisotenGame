@@ -917,7 +917,7 @@ PrefabInstance:
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: StageCSV
       value: 
-      objectReference: {fileID: 4900000, guid: c9241764e60109a42870cb837c909524, type: 3}
+      objectReference: {fileID: 4900000, guid: 25820474c9b4f2342985c387ce633bfe, type: 3}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: EnemyPrefabD
       value: 
@@ -1006,6 +1006,26 @@ PrefabInstance:
       propertyPath: TwoHitEnemyPrefab
       value: 
       objectReference: {fileID: 5903558551129522887, guid: 15d63e3c34ad5694baa9359853178d2a, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: TwoHitEnemyPrefabD
+      value: 
+      objectReference: {fileID: 5903558551129522887, guid: 9269fb580071c144d9c6831a1c3b1f6f, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: TwoHitEnemyPrefabR
+      value: 
+      objectReference: {fileID: 5903558551129522887, guid: a8512c1ccde7067468ff0868c04f4b7b, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: TwoHitEnemyPrefabLD
+      value: 
+      objectReference: {fileID: 5903558551129522887, guid: e8287a89c456bd94d9c865129ea3bca0, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: TwoHitEnemyPrefabLR
+      value: 
+      objectReference: {fileID: 5903558551129522887, guid: b74c72a2a6924674193e46cced23408c, type: 3}
+    - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
+      propertyPath: TwoHitEnemyPrefabRD
+      value: 
+      objectReference: {fileID: 5903558551129522887, guid: cb0e470db64f6074d967dc84439f0c4f, type: 3}
     - target: {fileID: 5723158339499978458, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: m_Name
       value: GameObject
