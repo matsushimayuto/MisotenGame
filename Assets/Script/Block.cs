@@ -127,7 +127,12 @@ public class Block : MonoBehaviour
             if (Input.GetButtonDown("LB")) { MoveReset(); }
         }
 
-        if(Input.GetKeyUp(KeyCode.V))
+        if (Input.GetKeyUp(KeyCode.H))  
+        {
+            MoveReset();
+        }
+
+        if (Input.GetKeyUp(KeyCode.V))
         {
             PhaseSkip();
         }
@@ -693,6 +698,7 @@ public class Block : MonoBehaviour
         for (int i = 0; i < GameMNG.num; i++) {
             pushDir[i] = Vector3.zero;
             arrow[i].gameObject.SetActive(false);
+            butlerPrefab.transform.rotation = Quaternion.Euler(new Vector3(0.0f, 0.0f, 0.0f));
         }
         Movenum = 0;
     }
