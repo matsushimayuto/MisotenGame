@@ -12,12 +12,13 @@ public class Enemy : MonoBehaviour
     private int dir;
 
     [SerializeField, Tooltip("移動速度")] private float speed = 2.0f;   // 移動速度
-    [SerializeField, Tooltip("GameMNG")] private GameMNG GameMNG; // gameMng
+    [SerializeField, Tooltip("GameMNG")] private GameMNG gameMNG; // gameMng
     [Header("視界設定")]
     [SerializeField, Tooltip("視野角")] private float viewAngle = 90.0f;               // 視野角
     [SerializeField, Tooltip("視認距離")] private float viewDistance = 10.0f;          // 視認距離
     //[SerializeField, Tooltip("障害物レイヤー")] private LayerMask obstacleMask;      // 障害物レイヤー
     [SerializeField, Tooltip("エフェクト")] private GameObject hitEffect;    // ヒットエフェクト
+    [SerializeField, Tooltip("撃墜エフェクト")] private GameObject defeatEffect;    // 撃墜エフェクト
     private Transform target;    // プレイヤー
     private Animator EnemyAnimator; // アニメーション切り替え用
     private GameObject EnemyHead; // 敵の頭部
@@ -34,7 +35,7 @@ public class Enemy : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GameMNG = FindFirstObjectByType<GameMNG>();
+        gameMNG = FindFirstObjectByType<GameMNG>();
         target = GameObject.FindWithTag("Player")?.transform;
         PointNum = 0;
         NextPoint = movePoint[PointNum] + transform.position; //次の移動先決定
@@ -55,9 +56,9 @@ public class Enemy : MonoBehaviour
             if (!gameOver)
             {
                 gameOver = true;
-                if (GameMNG != null)
+                if (gameMNG != null)
                 {
-                    GameMNG.RequestGameOver();
+                    gameMNG.RequestGameOver();
                 }
             }
         }
@@ -273,6 +274,7 @@ public class Enemy : MonoBehaviour
 
                     // 吹っ飛びアニメーション
                     EnemyAnimator.SetTrigger("Burst");
+                    Instantiate(defeatEffect, transform.position, Quaternion.Euler(-90.0f, 0.0f, 0.0f));
                     attachedBlock.StopBlock();
                     StartCoroutine(HitStopCoroutine());
 
