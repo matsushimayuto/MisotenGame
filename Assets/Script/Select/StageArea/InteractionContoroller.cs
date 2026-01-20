@@ -98,6 +98,19 @@ public class InteractionController : MonoBehaviour
         // 移動処理反映
         transform.position = newPos;
 
+        switch(StageManager.Instance.CurrentWorld)
+        {
+            case 1:
+                AudioManager.Instance.PlayBGM("SelectBGM1", 1.5f);
+                break;
+            case 2:
+                AudioManager.Instance.PlayBGM("SelectBGM2", 1.5f);
+                break;
+            case 3:
+                AudioManager.Instance.PlayBGM("SelectBGM3", 1.5f);
+                break;
+        }
+
         // フェードイン
         yield return new WaitForSeconds(fadeTime);
         UIManager.Instance.FadeIn(fadeTime);

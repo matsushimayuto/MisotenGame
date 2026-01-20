@@ -6,6 +6,7 @@ public class DebugSceneLoader : MonoBehaviour
     [SerializeField] private SceneName startscene = SceneName.Title;
     [SerializeField] private GameObject AudioManager;
     [SerializeField] private GameObject UIManager;
+    [SerializeField] private GameObject StageManager;
 
     private void Start()
     {
@@ -19,6 +20,7 @@ public class DebugSceneLoader : MonoBehaviour
         {
             Instantiate(AudioManager);
             Instantiate(UIManager);
+            Instantiate(StageManager);
         }
 
         SceneLoader.Instance.LoadScene(startscene);

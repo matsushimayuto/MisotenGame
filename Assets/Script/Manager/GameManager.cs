@@ -71,7 +71,18 @@ public class GameManager : MonoBehaviour
             case GameState.Title:
                 break;
             case GameState.Select:
-                AudioManager.Instance.PlayBGM("SelectBGM", 2.0f);
+                switch(StageManager.Instance.CurrentWorld)
+                {
+                    case 1:
+                        AudioManager.Instance.PlayBGM("SelectBGM1", 2.0f);
+                        break;
+                    case 2:
+                        AudioManager.Instance.PlayBGM("SelectBGM2", 2.0f);
+                        break;
+                    case 3:
+                        AudioManager.Instance.PlayBGM("SelectBGM3", 2.0f);
+                        break;
+                }
                 break;
             case GameState.Start:
                 AudioManager.Instance.StopBGM(0.8f);
@@ -80,7 +91,18 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 1f;
                 if (IsFirstStageEnter)
                 {
-                    AudioManager.Instance.PlayBGM("StageBGM", 1f);
+                    switch(StageManager.Instance.CurrentWorld)
+                    {
+                        case 1:
+                            AudioManager.Instance.PlayBGM("StageBGM1", 1f);
+                            break;
+                        case 2:
+                            AudioManager.Instance.PlayBGM("StageBGM2", 1f);
+                            break;
+                        case 3:
+                            AudioManager.Instance.PlayBGM("StageBGM3", 1f);
+                            break;
+                    }
                 }
                 break;
             case GameState.Paused:

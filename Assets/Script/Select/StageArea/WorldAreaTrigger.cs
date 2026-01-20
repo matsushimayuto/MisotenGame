@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class WorldAreaTrigger : MonoBehaviour
 {
-    
-
 
     private void OnTriggerEnter(Collider other)
     {
