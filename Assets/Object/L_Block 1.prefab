@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7291711847268092431}
   - component: {fileID: 4905161701237358640}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: L_Block 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ MonoBehaviour:
   - {fileID: 8298012018751779566}
   - {fileID: 4341794694221095868}
   transparentMaterial: {fileID: 2100000, guid: ea3781bb63bd6ab4589d414670b6675e, type: 2}
-  indicationMaterial: {fileID: 2100000, guid: 8f6bb5cb95b984d41bf2c538b4dd26f6, type: 2}
+  indicationMaterial: {fileID: 2100000, guid: 59dd5b70b6d96824f80a40b529683c15, type: 2}
 --- !u!1 &3443988419904113077
 GameObject:
   m_ObjectHideFlags: 0
@@ -66,7 +66,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2814868607340135226}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Lblock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1948348528601135385}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Lblock (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 5864313208277551143}
   - component: {fileID: 4849008845450197015}
   - component: {fileID: 5847343080359217022}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Object
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ GameObject:
   - component: {fileID: 861956885374323919}
   - component: {fileID: 7133520707635946214}
   - component: {fileID: 6417216354217537948}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (3)
   m_TagString: Object
   m_Icon: {fileID: 0}
@@ -349,7 +349,7 @@ GameObject:
   - component: {fileID: 9068623385556926416}
   - component: {fileID: 3132171254398272290}
   - component: {fileID: 2173049400740876736}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (2)
   m_TagString: Object
   m_Icon: {fileID: 0}
@@ -457,7 +457,7 @@ GameObject:
   - component: {fileID: 6361397412764180827}
   - component: {fileID: 6541480455807087166}
   - component: {fileID: 6922848434461618072}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (2)
   m_TagString: Object
   m_Icon: {fileID: 0}
@@ -562,7 +562,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3016180523043831349}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Lblock (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -597,7 +597,7 @@ GameObject:
   - component: {fileID: 848745999042309503}
   - component: {fileID: 748763708021282598}
   - component: {fileID: 2659846997689447863}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (2)
   m_TagString: Object
   m_Icon: {fileID: 0}
@@ -702,7 +702,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2942295041685930925}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Lblock (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

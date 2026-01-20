@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 493382735834131272}
   - component: {fileID: 8801537814113263248}
   - component: {fileID: -8530922883840707590}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: "Move1\xD71"
   m_TagString: Block
   m_Icon: {fileID: 0}
