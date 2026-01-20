@@ -38,7 +38,7 @@ public class URPSkyboxRotator : MonoBehaviour
     {
         if (skyboxMaterial == null) return;
 
-        rotation += rotationSpeed * Time.deltaTime;
+        rotation += rotationSpeed * Time.unscaledDeltaTime;
         skyboxMaterial.SetFloat("_Rotation", rotation);
     }
 }

@@ -14,6 +14,7 @@ public class Block : MonoBehaviour
     private bool isHitStopping; // 現在ヒットストップ中かどうか
     private bool hit;
     private bool bMove;
+    private bool isLocked; // 強制停止フラグ
     private int Movenum;
     private Vector3 pPos;   //プレイヤーの位置
     private Vector3 bPos;   //自身の位置
@@ -84,6 +85,8 @@ public class Block : MonoBehaviour
         bMove = false;
         Movenum = 0;
 
+        isLocked = false;
+
 
         // 矢印
         for (int i = 0; i < GameMNG.num; i++)
@@ -104,6 +107,8 @@ public class Block : MonoBehaviour
 
     void Update()
     {
+        if (isLocked) return;
+
         if (hit)
         {
             // 入力検知(入力された時間を記録)
@@ -181,6 +186,8 @@ public class Block : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isLocked) return;
+
         if (bMove && !isHitStopping)
         {
             // 移動中のアニメーション制御
@@ -292,6 +299,7 @@ public class Block : MonoBehaviour
     //このフェーズ中のこのブロックの動き
     public bool ReleaseStoredForce(int i)
     {
+
         Movenum = i;    //初回用必須
         if (pushDir[i] != Vector3.zero)
         {
@@ -320,6 +328,8 @@ public class Block : MonoBehaviour
 
     public void StopMove()
     {
+        if (isLocked) return;
+
         bMove = false;
         rb.isKinematic = true;//ブロック固定
         Debug.Log("とまった");
@@ -748,4 +758,29 @@ public class Block : MonoBehaviour
             }
         }
     }
+
+    public void ForceLockStop()
+    {
+        if (isLocked) return;
+
+        isLocked = true;
+
+        // 移動完全停止
+        bMove = false;
+        isHitStopping = false;
+
+        // 物理停止
+        rb.isKinematic = true;
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        // 入力・予約も無効化
+        for (int i = 0; i < pushDir.Length; i++)
+        {
+            pushDir[i] = Vector3.zero;
+        }
+
+        Debug.Log($"Block {name} locked and stopped");
+    }
+
 }
