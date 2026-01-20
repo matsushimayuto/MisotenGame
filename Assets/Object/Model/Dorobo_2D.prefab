@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: bfbaae531052c054db261efc7b795861, type: 3}
       propertyPath: m_Name
-      value: Dorobo_2
+      value: Dorobo_2D
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: bfbaae531052c054db261efc7b795861, type: 3}
       propertyPath: m_Controller
@@ -123,10 +123,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movePoint:
-  - {x: 0.5, y: 0, z: 0}
-  - {x: -0.5, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0.5}
-  - {x: 0, y: 0, z: -0.5}
+  - {x: 0, y: 0, z: -6}
+  - {x: 0, y: 0, z: 6}
   speed: 3
   GameMNG: {fileID: 0}
   viewAngle: 90

@@ -48,7 +48,7 @@ public class ResultCamera : MonoBehaviour
     {
         Vector3 endPos = target.position + offset;
         Quaternion lookRot = Quaternion.LookRotation(target.position - endPos);
-        Quaternion tiltRot = Quaternion.Euler(-30f, 0f, 0f);
+        Quaternion tiltRot = Quaternion.Euler(-20f, 0f, 0f);
         Quaternion endRot = lookRot * tiltRot;
 
         float t = 0f;
