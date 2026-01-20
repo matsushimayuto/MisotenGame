@@ -55,19 +55,10 @@ public class Enemy : MonoBehaviour
             if (!gameOver)
             {
                 gameOver = true;
-                Time.timeScale = 0.0f;
-                GameManager.Instance.ChangeState(GameState.GameOver);
-                // Start表示中の遅延処理
-                StartCoroutine(Delay(3.0f, () =>
+                if (GameMNG != null)
                 {
-                    // ゲームを再開
-                    Time.timeScale = 1f;
-                    // StartUIを非表示にする
-                    GameManager.Instance.IsFirstStageEnter = false;
-                    // シーン遷移
-                    SceneLoader.Instance.LoadScene(SceneName.Stage, true, 2.0f);
-                }));
-                Debug.Log("プレイヤー発見！ → ゲームオーバー処理へ");
+                    GameMNG.RequestGameOver();
+                }
             }
         }
 
