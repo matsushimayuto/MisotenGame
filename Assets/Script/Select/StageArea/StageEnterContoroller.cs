@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Data.Common;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class StageEnterContoroller : MonoBehaviour
 
     private StageAreaTrigger candidate;
     private bool IsEnter = false;
+
     void Update()
     {
         // ヌルチェック
@@ -95,24 +97,37 @@ public class StageEnterContoroller : MonoBehaviour
     // ステージごとに扉から一定の距離プレイヤーを離しておく関数
     void CandidateBehind()
     {
+        Vector3 candForwad = new Vector3();
         Vector3 candBehind = new Vector3();
 
         // ステージの数字ごとで場合分けしている(書き方が微妙なのであとで変更予定)
         if(candidate.GetStageNumber() == 1 || candidate.GetStageNumber() == 3)
         {
+            candForwad = candidate.transform.right;
             candBehind = candidate.transform.position - Vector3.left * candDistance;
         }
         else if(candidate.GetStageNumber() == 2 || candidate.GetStageNumber() == 4)
         {
+            candForwad = -candidate.transform.right;
             candBehind = candidate.transform.position - Vector3.right * candDistance;
         }
         else if(candidate.GetStageNumber() == 5)
         {
+            candForwad = candidate.transform.right;
             candBehind = candidate.transform.position - Vector3.forward * candDistance;
         }
 
         // 扉からの一定距離にプレイヤーを移動
         player.SetPlayerPos(candBehind);
+
+        if(IsEnter)
+        {
+            player.transform.forward = candForwad;
+        }
+        else
+        {
+            player.transform.forward = candBehind;
+        }
     }
 
     // プレイヤーを一定時間前に移動させるコルーチン
