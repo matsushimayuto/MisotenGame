@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1550498125947062843}
   - component: {fileID: 6483390115342350871}
   m_Layer: 0
-  m_Name: Surprised
+  m_Name: Question
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -287,7 +287,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.19
+      scalar: 0.55
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4883,7 +4883,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 09fdc204934720a4393ea361d7960184, type: 2}
+  - {fileID: 2100000, guid: 1de944f18b5388b41b3a60bced350792, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

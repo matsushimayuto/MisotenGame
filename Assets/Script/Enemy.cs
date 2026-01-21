@@ -274,6 +274,7 @@ public class Enemy : MonoBehaviour
 
                     // 吹っ飛びアニメーション
                     EnemyAnimator.SetTrigger("Burst");
+                    AudioManager.Instance.PlaySE("GekituiSE");
                     Instantiate(defeatEffect, transform.position, Quaternion.Euler(-90.0f, 0.0f, 0.0f));
                     attachedBlock.StopBlock();
                     StartCoroutine(HitStopCoroutine());
