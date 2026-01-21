@@ -17,12 +17,28 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 698b029f2d9fd5f4ca4f337068c5b82e, type: 3}
     loop: 1
     volume: 1
-  - name: SelectBGM
+  - name: SelectBGM1
     clip: {fileID: 8300000, guid: 8c3790706727a8e478e7207c2dff5df7, type: 3}
     loop: 1
     volume: 1
-  - name: StageBGM
+  - name: SelectBGM2
+    clip: {fileID: 8300000, guid: 2ae360b8b13473747aaac8363c050d64, type: 3}
+    loop: 1
+    volume: 1
+  - name: SelectBGM3
+    clip: {fileID: 8300000, guid: 0be7b566b604b184b9094f6153754ef5, type: 3}
+    loop: 1
+    volume: 1
+  - name: StageBGM1
     clip: {fileID: 8300000, guid: b7daed7b0d2db6e47b1c03b9f6b84bb0, type: 3}
+    loop: 1
+    volume: 1
+  - name: StageBGM2
+    clip: {fileID: 8300000, guid: c102b172cd52e5a4d97c301cd89ccd2f, type: 3}
+    loop: 1
+    volume: 1
+  - name: StageBGM3
+    clip: {fileID: 8300000, guid: 014d690971b8e854c9865c74f4b5b940, type: 3}
     loop: 1
     volume: 1
   - name: WalkBGM

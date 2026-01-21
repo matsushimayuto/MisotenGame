@@ -409,6 +409,7 @@ MonoBehaviour:
   startscene: 0
   AudioManager: {fileID: 4937154202235016986, guid: fb6a9987304643c41ba3f844820d0326, type: 3}
   UIManager: {fileID: 8778347783636371982, guid: 7f79f7d39356ec447b6571923b86d58e, type: 3}
+  StageManager: {fileID: 8673400037277834708, guid: 72e5ae2634db07842bfc750c40a9ef0f, type: 3}
 --- !u!4 &1992206754
 Transform:
   m_ObjectHideFlags: 0
