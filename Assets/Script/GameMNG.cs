@@ -22,7 +22,7 @@ public class GameMNG : MonoBehaviour
     bool bAppearButler = false; // 執事を出すフラグ
     const float appearTime = 3.3f;  // フラグが立ってから出すまでの時間
     float timeCount = 0.0f;         // ↑のカウント用
-    private Animator PlayerAnim;    // アニメーション切り替え用(プレイヤー)
+    //private Animator PlayerAnim;    // アニメーション切り替え用(プレイヤー)
 
     void Start()
     {
@@ -45,7 +45,7 @@ public class GameMNG : MonoBehaviour
             GameManager.Instance.ChangeState(GameState.Playing);
         }
 
-        PlayerAnim = GameObject.Find("Player(Clone)").GetComponent<Animator>();
+        //PlayerAnim = GameObject.Find("Player(Clone)").GetComponent<Animator>();
     }
 
     void Update()
@@ -173,12 +173,15 @@ public class GameMNG : MonoBehaviour
     // リザルト演出
     IEnumerator ResultSequence(ResultType type)
     {
+
         // ゲーム進行停止
         Time.timeScale = 0.0f;
 
         // ===== カメラ演出 =====
         ResultCamera resultCam = FindFirstObjectByType<ResultCamera>();
         Player player = FindFirstObjectByType<Player>();
+        Animator anim = player.GetComponentInChildren<Animator>();
+
 
         if (resultCam != null && player != null)
         {
@@ -197,14 +200,14 @@ public class GameMNG : MonoBehaviour
         if (type == ResultType.Clear)
         {
             // クリアモーション
-            PlayerAnim.SetTrigger("Success");
+            anim.SetTrigger("Success");
             // クリアエフェクト
             Instantiate(clearEffect, player.transform.position + new Vector3(0.0f, 6.0f, 0.0f), Quaternion.identity);
         }
         else
         {
             // ゲームオーバーモーション
-            PlayerAnim.SetTrigger("Miss");
+            anim.SetTrigger("Miss");
             // 失敗エフェクト
             Instantiate(failureEffect, player.transform.position + new Vector3(-1.0f, 5.0f, 0.0f), Quaternion.identity);
         }
