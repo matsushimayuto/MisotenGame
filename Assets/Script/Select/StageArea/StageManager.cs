@@ -12,6 +12,8 @@ public class StageManager : MonoBehaviour
     public int CurrentWorld { get; private set; }
     public int CurrentStage { get; private set; }
 
+    // 初めてセレクトシーンに入ったかどうか
+    public static bool isFirstSelect {get; private set;}
 
     private void Awake()
     {
@@ -38,7 +40,11 @@ public class StageManager : MonoBehaviour
             }
         }
 
+        FirstSelect(true);
         SetCurrentWorld(1);
+
+        if (CurrentStage == 0)
+            SetCurrentStage(1);
     }
 
     // ステージをアンロックしているかの確認用関数
@@ -83,6 +89,11 @@ public class StageManager : MonoBehaviour
     public int GetCurrentStage()
     {
         return CurrentStage;
+    }
+
+    public void FirstSelect(bool enabled)
+    {
+        isFirstSelect = enabled;
     }
 
 }
