@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Data.Common;
-using System.Runtime.InteropServices.WindowsRuntime;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class StageEnterContoroller : MonoBehaviour

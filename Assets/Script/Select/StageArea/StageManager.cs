@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
@@ -94,6 +95,18 @@ public class StageManager : MonoBehaviour
     public void FirstSelect(bool enabled)
     {
         isFirstSelect = enabled;
+    }
+
+    public void AllUnlocked()
+    {
+        for (int w = 0; w < selectData.worlds.Count; w++)
+        {
+            for (int s = 0; s < selectData.worlds[w].stages.Count; s++)
+            {
+                unlockedTable[w, s] = true;
+                    //selectData.worlds[w].stages[s].isUnlocked;
+            }
+        }
     }
 
 }

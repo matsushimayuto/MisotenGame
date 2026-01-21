@@ -34,6 +34,12 @@ public class SelectPlayer : MonoBehaviour
     {
         if (!canMove) return;
 
+        // 全ステージ解放デバッグキー
+        if(Input.GetKeyDown(KeyCode.Delete))
+        {
+            StageManager.Instance.AllUnlocked();
+        }
+
         float delta = Vector3.Distance(transform.position, prevPosition);
         moved += delta;
 
