@@ -46,9 +46,7 @@ public class SelectArrow : MonoBehaviour
         }
 
         return -1; // —LŒø€–Ú‚È‚µ
-    } 
-
-
+    }
 
 
     public void Show()

@@ -19,6 +19,7 @@ public class MenuInput : MonoBehaviour
         // ‘I‘ğ‚µ‚½‘ÎÛ‚Ìˆ—‚ğÀs
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            //selector.Current
             selector.Current.Select();
         }
         if(Input.GetKeyDown(KeyCode.Escape))
