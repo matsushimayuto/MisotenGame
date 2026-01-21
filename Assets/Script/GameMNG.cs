@@ -229,6 +229,18 @@ public class GameMNG : MonoBehaviour
         // ===== ‘JˆÚ =====
         if (type == ResultType.Clear)
         {
+            int worldNumber = StageManager.Instance.CurrentWorld;
+            int stageNumber = StageManager.Instance.CurrentStage;
+
+            if (stageNumber < 5)
+            {
+                StageManager.Instance.UnlockStage(worldNumber, stageNumber + 1);
+            }
+            else if (stageNumber == 5 && worldNumber < 3)
+            {
+                StageManager.Instance.UnlockStage(worldNumber + 1, 1);
+            }
+
             SceneLoader.Instance.LoadScene(SceneName.Select, true);
         }
         else
