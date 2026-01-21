@@ -469,7 +469,7 @@ public class StageLoader2D : MonoBehaviour
         if (mirrorBlockB1 == null && CanPair(mirrorBlockA1.cellID, cellID))
         {
             mirrorBlockB1 = entry;
-            LinkMirror(mirrorBlockA1.block, mirrorBlockB1.block);
+            LinkMirror(mirrorBlockA1.block, mirrorBlockB1.block, 1);
             return;
         }
 
@@ -483,7 +483,7 @@ public class StageLoader2D : MonoBehaviour
         if (mirrorBlockB2 == null && CanPair(mirrorBlockA2.cellID, cellID))
         {
             mirrorBlockB2 = entry;
-            LinkMirror(mirrorBlockA2.block, mirrorBlockB2.block);
+            LinkMirror(mirrorBlockA2.block, mirrorBlockB2.block, 2);
             return;
         }
     }
@@ -504,11 +504,40 @@ public class StageLoader2D : MonoBehaviour
         }
     }
 
-    private void LinkMirror(Block a, Block b)
+    private void LinkMirror(Block a, Block b, int pairIndex)
     {
         a.SetMirror(b);
         b.SetMirror(a);
+
+        ApplyPairFresnelColor(a.gameObject, b.gameObject, pairIndex);
     }
+
+    private void ApplyPairFresnelColor(GameObject objA, GameObject objB, int pairIndex)
+    {
+        Renderer ra = objA.GetComponentInChildren<Renderer>();
+        Renderer rb = objB.GetComponentInChildren<Renderer>();
+        if (ra == null || rb == null) return;
+
+        Color fresnelColor = GetPairColor(pairIndex);
+
+        ra.material.SetColor("_FresnelColor", fresnelColor);
+        rb.material.SetColor("_FresnelColor", fresnelColor);
+    }
+
+    private Color GetPairColor(int pairIndex)
+    {
+        switch (pairIndex)
+        {
+            case 1:
+                return Color.red;   // 1ペア目
+            case 2:
+                return Color.green;  // 2ペア目
+            default:
+                return Color.white;
+        }
+    }
+
+
 
     private void SetWarpColor(GameObject warpObj, Color color)
     {

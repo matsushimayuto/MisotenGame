@@ -912,7 +912,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: LoadCSV
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3240095257956735234, guid: 27c73869d7c7f8a4cb127861a2bb1c95, type: 3}
       propertyPath: StageCSV
