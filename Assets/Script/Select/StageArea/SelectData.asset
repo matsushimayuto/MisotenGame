@@ -28,7 +28,7 @@ MonoBehaviour:
   - worldNumber: 2
     stages:
     - StageNumber: 1
-      isUnlocked: 1
+      isUnlocked: 0
     - StageNumber: 2
       isUnlocked: 0
     - StageNumber: 3
@@ -40,7 +40,7 @@ MonoBehaviour:
   - worldNumber: 3
     stages:
     - StageNumber: 1
-      isUnlocked: 1
+      isUnlocked: 0
     - StageNumber: 2
       isUnlocked: 0
     - StageNumber: 3

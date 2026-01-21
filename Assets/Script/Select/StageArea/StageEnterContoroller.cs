@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Data.Common;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -12,7 +13,23 @@ public class StageEnterContoroller : MonoBehaviour
     public float candDistance = 3f;
 
     private StageAreaTrigger candidate;
+    [SerializeField] private StageAreaTrigger[] areaTriggers;
     private bool IsEnter = false;
+
+    private void Start()
+    {
+        int worldNumber = StageManager.Instance.CurrentWorld;
+        int stageNumber = StageManager.Instance.CurrentStage;
+
+        int i = (stageNumber - 1) + ((worldNumber - 1) * 5);
+
+        // 初めてセレクトシーンに入っていなければ
+        if (StageManager.isFirstSelect == false)
+        {
+            //// プレイヤーの位置を前回の箇所に更新
+            CandidateBehind(areaTriggers[i]);
+        }
+    }
 
     void Update()
     {
@@ -35,7 +52,7 @@ public class StageEnterContoroller : MonoBehaviour
                 // プレイヤーの当たり判定Off
                 player.SetPlayerIsTrigger(true);
                 // プレイヤーを扉の判定から少し離した位置に移動させる
-                CandidateBehind();
+                CandidateBehind(candidate);
                 // プレイヤーがの背後までカメラを移動させる
                 camera.EnterCamera();
 
@@ -92,33 +109,42 @@ public class StageEnterContoroller : MonoBehaviour
         GameManager.Instance.IsFirstStageEnter = true;
         StageManager.Instance.SetStage(w, s);
         SceneLoader.Instance.LoadScene(SceneName.Stage, true, 2.0f);
+
+        if (StageManager.isFirstSelect == false)
+            return;
+        StageManager.Instance.FirstSelect(false);
+
     }
 
     // ステージごとに扉から一定の距離プレイヤーを離しておく関数
-    void CandidateBehind()
+    void CandidateBehind(StageAreaTrigger candidate)
     {
         Vector3 candForwad = new Vector3();
         Vector3 candBehind = new Vector3();
+        Vector3 candBehindPos = new Vector3();
 
         // ステージの数字ごとで場合分けしている(書き方が微妙なのであとで変更予定)
         if(candidate.GetStageNumber() == 1 || candidate.GetStageNumber() == 3)
         {
             candForwad = candidate.transform.right;
-            candBehind = candidate.transform.position - Vector3.left * candDistance;
+            candBehind = -candidate.transform.right;
+            candBehindPos = candidate.transform.position - Vector3.left * candDistance;
         }
         else if(candidate.GetStageNumber() == 2 || candidate.GetStageNumber() == 4)
         {
             candForwad = -candidate.transform.right;
-            candBehind = candidate.transform.position - Vector3.right * candDistance;
+            candBehind = candidate.transform.right;
+            candBehindPos = candidate.transform.position - Vector3.right * candDistance;
         }
         else if(candidate.GetStageNumber() == 5)
         {
             candForwad = candidate.transform.right;
-            candBehind = candidate.transform.position - Vector3.forward * candDistance;
+            candBehind = -candidate.transform.right;
+            candBehindPos = candidate.transform.position - Vector3.forward * candDistance;
         }
 
         // 扉からの一定距離にプレイヤーを移動
-        player.SetPlayerPos(candBehind);
+        player.SetPlayerPos(candBehindPos);
 
         if(IsEnter)
         {

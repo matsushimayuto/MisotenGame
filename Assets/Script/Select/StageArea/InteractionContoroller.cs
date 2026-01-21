@@ -13,6 +13,7 @@ public class InteractionController : MonoBehaviour
 
     bool isInArea = false;
     bool isSelectUI = false;
+
     void Update()
     {
         if (!isInArea) return;
