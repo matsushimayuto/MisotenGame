@@ -58,6 +58,14 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: b1004545ef6a53341b61176b13eafa41, type: 3}
     loop: 0
     volume: 1
+  - name: QuestionSE
+    clip: {fileID: 8300000, guid: f543fc468dbf4ef4ebaeb0cfdacb50aa, type: 3}
+    loop: 0
+    volume: 1
+  - name: GekituiSE
+    clip: {fileID: 8300000, guid: dd503dd5d2644af449704030e147a753, type: 3}
+    loop: 0
+    volume: 1
   envClips:
   - name: 
     clip: {fileID: 0}

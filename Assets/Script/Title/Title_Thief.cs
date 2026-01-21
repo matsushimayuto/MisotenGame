@@ -3,6 +3,7 @@ using UnityEngine;
 public class Title_Thief : MonoBehaviour
 {
     [SerializeField, Tooltip("びっくりエフェクト")] private GameObject surprisedEffect;
+    [SerializeField, Tooltip("はてなエフェクト")] private GameObject questionEffect;
 
     private Animator animator;  // アニメーション
     private float timeCount = 0.0f;     // 時間のカウント
@@ -11,7 +12,7 @@ public class Title_Thief : MonoBehaviour
     const float reWalkTime = 9.7f;      // 再び歩き始める時間
     const float stopTime = 11.5f;       // アニメーションを止める時間
     private float walkSpeed = 0.04f;        // 歩くスピード
-    private bool[] bOnce = new bool[4] { false, false, false, false };
+    private bool[] bOnce = new bool[5] { false, false, false, false, false };
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,14 +38,21 @@ public class Title_Thief : MonoBehaviour
             gameObject.transform.position += new Vector3(0.0f, 0.0f, walkSpeed);
             if (!bOnce[0]) { animator.SetTrigger("Walk"); bOnce[0] = true; }
         }
-        // リアクション
+        // ?
         if (timeCount > reactionTime && !bOnce[1])
         {
             AudioManager.Instance.StopBGM();
-            AudioManager.Instance.PlaySE("ReactionSE");
+            AudioManager.Instance.PlaySE("QuestionSE");
             animator.SetTrigger("Reaction");
-            Instantiate(surprisedEffect, transform.position + new Vector3(0.0f, 2.0f, 0.0f), Quaternion.identity);
+            Instantiate(questionEffect, transform.position + new Vector3(0.0f, 2.0f, 0.0f), Quaternion.identity);
             bOnce[1] = true;
+        }
+        // !
+        if (timeCount > reactionTime + 3.1f && !bOnce[4])
+        {
+            AudioManager.Instance.PlaySE("ReactionSE");
+            Instantiate(surprisedEffect, transform.position + new Vector3(0.0f, 2.0f, 0.0f), Quaternion.identity);
+            bOnce[4] = true;
         }
         // 回り始める
         if (timeCount > rotateTime && timeCount < reWalkTime)

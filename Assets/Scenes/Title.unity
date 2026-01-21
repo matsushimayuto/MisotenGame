@@ -802,6 +802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   surprisedEffect: {fileID: 4477082971252876977, guid: a6b340d3aa9c771499a82bf50af5e54f, type: 3}
+  questionEffect: {fileID: 4477082971252876977, guid: ffec1f9159045514094c55b371a1fa02, type: 3}
 --- !u!1 &1733332982
 GameObject:
   m_ObjectHideFlags: 0
