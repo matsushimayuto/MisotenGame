@@ -54,8 +54,6 @@ public class GameMNG : MonoBehaviour
         {
             // いずれかのブロックに方向指定をしているか
             bool isExistMoveBlock = false;
-
-            Time.timeScale = 2.0f;
             
             foreach (Block b in FindObjectsByType<Block>(FindObjectsSortMode.None))
             {
@@ -63,7 +61,11 @@ public class GameMNG : MonoBehaviour
                 {
                     if(b.CheckReserve(i)) { isExistMoveBlock = true; break; }   // 方向指定されている場合は処理を進める
                 }
-                if (isExistMoveBlock) { break; }
+                if (isExistMoveBlock) 
+                {
+                    Time.timeScale = 2.0f;
+                    break;
+                }
             }
 
             if (check && isExistMoveBlock)

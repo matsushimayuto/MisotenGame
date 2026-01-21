@@ -207,6 +207,7 @@ public class Block : MonoBehaviour
                     if (!bStartMove_1)
                     {
                         butlerAnim.SetTrigger("BeforePunch");
+                        AudioManager.Instance.PlaySE("ButlerAttack");
                         bStartMove_1 = true;
                     }
                 }
@@ -334,6 +335,7 @@ public class Block : MonoBehaviour
     public void StopMove()
     {
         if (isLocked) return;
+        AudioManager.Instance.PlaySE("WallSE");
 
         bMove = false;
         rb.isKinematic = true;//�u���b�N�Œ�
