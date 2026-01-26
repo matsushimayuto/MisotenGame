@@ -109,6 +109,8 @@ public class GameMNG : MonoBehaviour
         // ポーズ画面遷移
         if(Input.GetButtonDown("Pause"))
         {
+            SceneLoader.Instance.LoadScene(SceneName.Select, true, 1.5f);
+
             /*ポーズ画面に関するコードを追加*/
             Debug.Log("ポーズ画面遷移");
         }

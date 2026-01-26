@@ -39,13 +39,15 @@ public class StageEnterContoroller : MonoBehaviour
             // ステージエリア内でキーが押されるとステージに入る処理に移行
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Decide"))
             {
+                // プレイヤーの操作ができないようにする
+                player.SetMoveEnabled(false);
+
+
                 // PromptUIをOffにする 
                 stagePromptUI.Hide();
 
                 // 進入フラグをON
                 IsEnter = true;
-                // プレイヤーの操作ができないようにする
-                player.SetMoveEnabled(false);
                 // プレイヤーの当たり判定Off
                 player.SetPlayerIsTrigger(true);
                 // プレイヤーを扉の判定から少し離した位置に移動させる
