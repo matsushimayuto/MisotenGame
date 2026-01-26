@@ -20,27 +20,27 @@ MonoBehaviour:
   - name: SelectBGM1
     clip: {fileID: 8300000, guid: 8c3790706727a8e478e7207c2dff5df7, type: 3}
     loop: 1
-    volume: 1
+    volume: 0.7
   - name: SelectBGM2
     clip: {fileID: 8300000, guid: 2ae360b8b13473747aaac8363c050d64, type: 3}
     loop: 1
-    volume: 1
+    volume: 0.7
   - name: SelectBGM3
     clip: {fileID: 8300000, guid: 0be7b566b604b184b9094f6153754ef5, type: 3}
     loop: 1
-    volume: 1
+    volume: 0.7
   - name: StageBGM1
     clip: {fileID: 8300000, guid: b7daed7b0d2db6e47b1c03b9f6b84bb0, type: 3}
     loop: 1
-    volume: 1
+    volume: 0.7
   - name: StageBGM2
     clip: {fileID: 8300000, guid: c102b172cd52e5a4d97c301cd89ccd2f, type: 3}
     loop: 1
-    volume: 1
+    volume: 0.7
   - name: StageBGM3
     clip: {fileID: 8300000, guid: 014d690971b8e854c9865c74f4b5b940, type: 3}
     loop: 1
-    volume: 1
+    volume: 0.7
   - name: WalkBGM
     clip: {fileID: 8300000, guid: f3a6bae7189026a4a9c2b2f902f5dbd9, type: 3}
     loop: 0
@@ -64,6 +64,14 @@ MonoBehaviour:
     volume: 1
   - name: GekituiSE
     clip: {fileID: 8300000, guid: dd503dd5d2644af449704030e147a753, type: 3}
+    loop: 0
+    volume: 1
+  - name: ButlerAttack
+    clip: {fileID: 8300000, guid: ea69940f3e246524aacf7ad8f72dc101, type: 3}
+    loop: 0
+    volume: 1
+  - name: WallSE
+    clip: {fileID: 8300000, guid: 0e1de278dd1929e418e33860540b29e6, type: 3}
     loop: 0
     volume: 1
   envClips:

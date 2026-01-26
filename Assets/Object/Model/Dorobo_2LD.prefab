@@ -77,10 +77,10 @@ PrefabInstance:
       addedObject: {fileID: 4665053621574801287}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bfbaae531052c054db261efc7b795861, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -4923355923183983524}
+      addedObject: {fileID: 5274865895677149378}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bfbaae531052c054db261efc7b795861, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5274865895677149378}
+      addedObject: {fileID: -1056323799486768615}
   m_SourcePrefab: {fileID: 100100000, guid: bfbaae531052c054db261efc7b795861, type: 3}
 --- !u!1 &5903558551129522887 stripped
 GameObject:
@@ -110,29 +110,6 @@ CapsuleCollider:
   m_Height: 0.7351804
   m_Direction: 1
   m_Center: {x: 0, y: 0.2762284, z: 0}
---- !u!114 &-4923355923183983524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5903558551129522887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddb091838d578b84995106507c864a49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movePoint:
-  - {x: -6, y: 0, z: 0}
-  - {x: 6, y: 0, z: 0}
-  - {x: 0, y: 0, z: -6}
-  - {x: 0, y: 0, z: 6}
-  speed: 3
-  gameMNG: {fileID: 0}
-  viewAngle: 90
-  viewDistance: 10
-  hitEffect: {fileID: 1156360773984691119, guid: 151b69cdcaec40a4882246f91bab97d5, type: 3}
-  defeatEffect: {fileID: 5033229361040906559, guid: c3c555e84ffc9a8449542b40d8c19420, type: 3}
 --- !u!114 &5274865895677149378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,3 +125,27 @@ MonoBehaviour:
   viewAngle: 90
   viewDistance: 10
   detectionMat: {fileID: 2100000, guid: ea3781bb63bd6ab4589d414670b6675e, type: 2}
+--- !u!114 &-1056323799486768615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5903558551129522887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9754ef0a368dbf49bbd3cec59313093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movePoint:
+  - {x: -6, y: 0, z: 0}
+  - {x: 6, y: 0, z: 0}
+  - {x: 0, y: 0, z: -6}
+  - {x: 0, y: 0, z: 6}
+  speed: 3
+  gameMNG: {fileID: 0}
+  viewAngle: 90
+  viewDistance: 10
+  hitEffect: {fileID: 1156360773984691119, guid: 151b69cdcaec40a4882246f91bab97d5, type: 3}
+  defeatEffect: {fileID: 5033229361040906559, guid: c3c555e84ffc9a8449542b40d8c19420, type: 3}
+  pushBackDistance: 0.5

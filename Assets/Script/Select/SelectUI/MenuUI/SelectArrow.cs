@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 public class SelectArrow : MonoBehaviour
@@ -16,6 +17,7 @@ public class SelectArrow : MonoBehaviour
     {
         index = FindNextSelectable(index, +1);
         MoveCursor();
+        Currentindex();
     }
 
     void MoveCursor()
@@ -59,6 +61,18 @@ public class SelectArrow : MonoBehaviour
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public void Currentindex()
+    {
+        if (StageManager.Instance.CurrentWorld == index + 1)
+        {
+            items[index].SetSelectable(false);
+        }
+        else
+        {
+            items[index].SetSelectable(true);
+        }
     }
 
 }

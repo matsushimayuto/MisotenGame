@@ -19,16 +19,15 @@ public class InteractionController : MonoBehaviour
         if (!isInArea) return;
 
         // 表示されているキーを押したら
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            OpenWorldSelect();
-        }
+        //if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("Specific"))
+        //{
+        //}
 
-        if(isSelectUI && Input.GetKeyDown(KeyCode.Escape))
-        {
-            CloseWorldSelect();
+        if(isSelectUI && (Input.GetKeyDown(KeyCode.Escape) || Input.GetButton("Specific")))
+        { 
             isSelectUI = false;
-            worldPromptUI.Show(transform);
+            //worldPromptUI.Show(transform);
+            CloseWorldSelect();
         }
     }
 
@@ -36,14 +35,19 @@ public class InteractionController : MonoBehaviour
     public void OnEnterArea()
     {
         isInArea = true;
-        worldPromptUI.Show(transform);
+        //worldPromptUI.Show(transform);
+        if (StageManager.Instance.IsStageUnlocked(1, 5))
+        {
+            player.ZeroMove();
+            OpenWorldSelect();
+        }
     }
 
     // 当たり判定エリアから出たら呼び出す関数
     public void OnExitArea()
     {
         isInArea = false;
-        worldPromptUI.Hide();
+        //worldPromptUI.Hide();
     }
 
     // ワールドセレクトUIを表示する
@@ -77,6 +81,12 @@ public class InteractionController : MonoBehaviour
 
         // 現在のワールドを更新
         StageManager.Instance.SetCurrentWorld(worldNumber);
+
+
+        for (int i = 0; i < 3; i++)
+            menuController.items[i].SetSelectable(true);
+
+        menuController.Current.SetSelectable(false);
 
         CloseWorldSelect();
     }

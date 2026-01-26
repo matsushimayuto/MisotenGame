@@ -12,7 +12,9 @@ public class SelectPlayer : MonoBehaviour
     private Vector3 prevPosition;
     private float stepDistance = 1.5f;
     private bool canMove = true;
-    float moved = 0;
+
+    private float moveX;
+    private float moveZ;
 
     void Start()
     {
@@ -34,22 +36,26 @@ public class SelectPlayer : MonoBehaviour
     {
         if (!canMove) return;
 
-        float delta = Vector3.Distance(transform.position, prevPosition);
-        moved += delta;
-
-        if(moved >= stepDistance)
+        // 全ステージ解放デバッグキー
+        if(Input.GetKeyDown(KeyCode.Delete))
         {
-            PlayerFootStep();
-            moved = 0;
+            StageManager.Instance.AllUnlocked();
+        }
+
+        if (Input.GetButtonDown("Pause"))
+        {
+            SceneLoader.Instance.LoadScene(SceneName.Title, true, 1.5f);
         }
 
         // 入力取得（WASD / 矢印キー / ゲームパッド）
-        float moveX =
+        moveX =
             Input.GetAxisRaw("Horizontal") + Input.GetAxis("Stick_X") + Input.GetAxis("Cross_X"); // A,D or ←,→
-        float moveZ =
+        moveZ =
             Input.GetAxisRaw("Vertical") + Input.GetAxis("Stick_Y") + Input.GetAxis("Cross_Y");   // W,S or ↑,↓
+    }
 
-
+    private void FixedUpdate()
+    {
         // 移動方向
         Vector3 move = new Vector3(moveX, 0, moveZ);
 
@@ -71,12 +77,7 @@ public class SelectPlayer : MonoBehaviour
         }
         // 過去座標を取得
         prevPosition = transform.position;
-    }
 
-    // プレイヤーの足音を一定間隔で鳴らす用の関数
-    private void PlayerFootStep()
-    {
-        //AudioManager.Instance.PlaySE("MoveSE");
     }
 
     // プレイヤーの座標を設定しなおす用の関数
@@ -85,4 +86,11 @@ public class SelectPlayer : MonoBehaviour
         this.transform.position = newPos;
         return this.transform.position;
     }
+
+    public void ZeroMove()
+    {
+        moveX = 0f;
+        moveZ = 0f;
+    }
+
 }
